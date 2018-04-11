@@ -1,0 +1,24 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Home</title>
+	
+</head>
+<body>
+<h2> HOME</h2>
+  
+<script>
+
+setInterval(poll,5000);  
+
+async function poll() {
+  let response;
+  response = await fetch("/poll");
+  response.text().then(e => console.log(e));
+}
+
+</script>	
+</body>
+</html>
