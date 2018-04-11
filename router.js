@@ -8,7 +8,8 @@ module.exports = function(req) {
   let qparams = /\?(.*)$/.exec(parse(req.url).path);
   let params;
    if(qparams !== null) {
-    params =  new URLSearchParams(qparams[1]);    
+    params =  new URLSearchParams(qparams[1]); 
+       
   }
   return {params,handler}; 
 };

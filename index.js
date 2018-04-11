@@ -13,6 +13,6 @@ if(!handler) {
   handler(req,resp);  
 }  
   
-}).listen();
+}).listen(8000);
 
-console.log("Cohab started listening...");
+console.log(`Cohab started listening on port 8000`);
