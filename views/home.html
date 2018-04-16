@@ -1,6 +1,4 @@
-
-<!doctype html>
-<html lang="en">
+<!doctype html> <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<title>Home</title>
@@ -8,23 +6,52 @@
 </head>
 <body>
 <h2> HOME</h2>
+<h3> SIGNUP FORM</h3>
+<form action="/signup" method="post">
+ <input type="text" name="username"> <br>
+    <input type="text" name="pswd"> <br>
+    
+    <input type="submit">
+  </form>
 
-<form action="/add" method="post"><input type="text" name="note"><input type="submit"></form>
+<h3> login FORM</h3>
+<form action="/login" method="post">
+ <input type="text" name="username"> <br>
+    <input type="text" name="pswd"> <br>
+    
+    <input type="submit">
+  </form>
+ 
   
 <script>
 
 let tag = undefined;
 (async () => {
-	
+	let response;
 	for(;;) {	
-		let response;
-		response = await fetch("/poll", {headers: {"If-None-Match": tag}});
-  		tag = response.headers.get('Etag');
-  		console.log(tag,"tag");
-  		console.log(response.headers.get('Etag'),"Etag");
-  		response.text().then(e => console.log(e));
+		try {
+		response = await fetch("/poll",{headers: tag && {"if-none-match": tag,"prefer": "wait=90"}});		
+		}
+		catch(e) {
+    console.log(e);
+			console.log(response.status,"fetch request failed");
+			await new Promise(resolve => setTimeout(resolve,10000));
+			continue;	
+		}
+		
+		if(response.status == 304) continue;
+		// document.body.innerHTML = "";
+		// let list = await response.json().then();
+		// for (elm of list) {
+		// 	let x = document.createElement("p");
+		// 	let y = document.createTextNode(elm.note);
+		// 	x.appendChild(y);
+		// 	document.body.appendChild(x);
 
-	}
+		// }
+		tag = response.headers.get("etag"); 
+
+}
 })();
 
 </script>	
