@@ -2,6 +2,8 @@ let {createReadStream,createWriteStream,writeFile,open,write } = require("fs");
 const helper = require("./helper");
 const {parse, URLSearchParams} = require("url");
 
+const makeGig = require("./gig");
+
 //this needs to be in DB
 let db = [{note: "Romina"}];
 let version = 0;
@@ -90,13 +92,30 @@ const find = async(user) => {
 return result;
 }
 
+
+const gig = (req,resp) => {
+    //create an event object
+    let gig = makeGig("party","cavendish");
+    console.log(gig.toString());
+   let data = createWriteStream("./users.json",{flags: "a+"});  
+    helper.getBody(req).then(formdata => {
+  data.write((JSON.stringify(helper.formToJson(formdata)) + "\n"));
+  data.end();
+  data.on("finish", () => resp.end("event created!"));
+  });
+ 
+
+
+}
+
 const  handlers = {
   "/poll": poll,
   "/": home,
   "/add": add,
   "/signup": signup,
   "/login": login,
-  "/secret": home
+  "/secret": home,
+    "/event": gig
 };
 
 module.exports = function(path) {
