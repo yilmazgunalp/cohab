@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "test": "mocha",
+    "start": "nodemon app.js"
+  },
+  "dependencies": {
+    "mocha": "^5.1.1",
+    "mongoose": "^5.0.16",
+    "redis": "^2.8.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.3"
+  }
+}

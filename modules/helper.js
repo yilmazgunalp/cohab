@@ -1,4 +1,5 @@
 
+const {parse, URLSearchParams} = require("url");
 let {createReadStream,createWriteStream,writeFile,open,write } = require("fs");
 
 
@@ -43,11 +44,21 @@ const fileToJson = () => {
 	});  
 };
 
+//returns request url parameters
+const qparams = (req)=> {
+    let path = parse(req.url).path;
+    let qparams = /\?(.*)$/.exec(path);
+  let params;
+   if(qparams !== null) {
+    params =  new URLSearchParams(qparams[1]); 
+  }
+    return params;
+    };
+
+const basePath = (path)=> {
+        return /^\/([^\/]*)/.exec(path)[1];
+    };
 
 
-
-
-
-
-module.exports = {getBody,formToJson, fileToJson,cookiesToJson};
+module.exports = {getBody,formToJson, fileToJson,cookiesToJson,qparams,basePath};
 
