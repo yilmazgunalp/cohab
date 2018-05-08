@@ -1,41 +1,51 @@
-const getUser = (req) => {
-console.log(req.headers);
- //   if(!req.headers.cookie) return "no user";
-   return helper.cookiesToJson(req.headers["cookie"]).user;
-}
-
-
-const signup = (req,resp) => {
-   let data = createWriteStream("./users.json",{flags: "a+"});  
-    helper.getBody(req).then(formdata => {
-  data.write((JSON.stringify(helper.formToJson(formdata)) + "\n"));
-  data.end();
-  data.on("finish", () => resp.end("user signed up!!"));
-  });
-    };
-
-const login = (req,resp) => {
-    helper.getBody(req).then((formdata) => {
-    let user =  helper.formToJson(formdata);
-    find(user).then(usr => {
-    if(usr) {
-    resp.writeHead(200,{"Set-Cookie": [`user=${user.username},sessionid=123`]});
-    resp.end(`user: ${user.username} logged in with password: ${user.pswd}`);
-   }
- resp.end(`user not found!!`);
-});    
-}).catch(e => console.log(e));
-}
-
-const find = async(user) => {
-    let result;
-    await helper.fileToJson().then(data => {
-   result =  data.filter(e => e.username == user.username && e.pswd == user.pswd)[0];
+const User = require('../models/users');
+const helper = require('../modules/helper');
+const sessions = require('../modules/session');
+const signup = async (req,resp) => {
+  //get the body of the request and covert it to json
+    let userObject = await helper.getBody(req).then(formdata => helper.formToJson(formdata));
+  // create a new user record
+    let user = new User(userObject);
+  // save the user record to database
+    user.save().then((err,data)=> {
+        if(err) console.log(err);
+      console.log("user saved succefully");
+      resp.end(JSON.stringify(user));
     });
-return result;
+};
+
+const login = async (req,resp) => {
+  //get the body of the request and covert it to json
+    let userObject = await helper.getBody(req).then(formdata => helper.formToJson(formdata));
+  //query database for user
+    let user = await User.findOne({username:userObject.username});
+  //create a session for the user
+    console.log("user");
+    sessions.create({req,resp,user});
+  //render view
+resp.end(user.toString());
+};
+
+
+const auth = async(req,resp)=> {
+        let session_id = req.headers.cookie.split("=")[0];
+        console.log(session_id);
+        let session =  await sessions.retrieve(session_id);
+        console.log(session);
+        resp.end("done");
+    };
+const handlers = {
+  'POST': {signup,login},
+  'GET': {auth}
 }
 
-module.exports = (url)=> {
-        
-        console.log(url);
+const getHandler = (urlObject,method)=> {
+    let path = urlObject.pathname.match(/^\/[^\/]*\/([^\/]*)/)[1];
+    return handlers[method][path];
     };
+module.exports = (urlObject,method)=> {
+    try {return getHandler(urlObject,method)}
+  catch {
+      return null; 
+    };
+ }; 

@@ -31,10 +31,15 @@ const  handlers = {
     "/event": gig
 };
 
-module.exports = function(path) {
-  if(path === '/') return home;
+module.exports = function(path,method) {
+  if(path === '/' && method === 'GET') return home;
     let url = new URL(base+path);
-    return require('./'+helper.basePath(path)+'Handler')(url);
+    try {
+    return require('./'+helper.basePath(path)+'Handler')(url,method);
+        }
+    catch(error) { 
+       console.log(error);
+        return null; }
 };
 
 
