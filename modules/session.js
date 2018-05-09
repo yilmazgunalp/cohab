@@ -7,11 +7,11 @@ const create = ({req,resp,user}) => {
      let token = jwt.createJWT(user);
   //set Cookie for JWT token
   let session_id = jwt.base64UrlEncode(crypto.randomBytes(16).toString('base64'));
-    resp.setHeader('Set-Cookie',[`${session_id}=${token}`]);
+    resp.setHeader('Set-Cookie',`${session_id}=${token};Path=/`);
   //store session in redis 
 let x;
 redis.set(session_id,token,(err,data)=> {
-        console.log(data);
+        console.log(`Session with id ${session_id} saved in redis`);
     });
 };
 
@@ -26,4 +26,16 @@ const retrieve = (session_id)=> {
     };
 
 
-module.exports = {create,retrieve}
+const destroy = (session_id)=> {
+    return new Promise((resolve,reject) => {
+ redis.del(session_id,(err,data) => {
+            if(err) console.log(err);
+            console.log(data);
+            resolve(data);
+        });
+    
+        });
+
+    };
+module.exports = {create,retrieve,destroy};
+

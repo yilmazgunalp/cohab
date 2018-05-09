@@ -34,9 +34,17 @@ const auth = async(req,resp)=> {
         console.log(session);
         resp.end("done");
     };
+
+
+const logout = (req,resp)=> {
+
+        let session_id = req.headers.cookie.split("=")[0];
+        resp.setHeader('Set-Cookie',`${session_id}=; ;Path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`);
+        sessions.destroy(session_id).then(()=>resp.end("You have been logged out"));
+    };
 const handlers = {
   'POST': {signup,login},
-  'GET': {auth}
+  'GET': {auth,logout}
 }
 
 const getHandler = (urlObject,method)=> {
