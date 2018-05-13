@@ -6,6 +6,8 @@ const redis = require('redis').createClient('redis://redis');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
 
+const applyMiddleWare = require('./modules/mw.js')
+
 if (cluster.isMaster) {
   console.log(`Master ${ process.pid} is running`);
   // Fork workers.
@@ -31,7 +33,8 @@ if(!handler) {
   resp.writeHead(404);
   createReadStream("./views/404.html").pipe(resp);
 } else {
-  handler(req,resp);  
+  applyMiddleWare({handler,req,resp});
+  
 }  
   
 }).listen(3000);

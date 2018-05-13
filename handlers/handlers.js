@@ -32,9 +32,11 @@ const  handlers = {
 };
 
 module.exports = function(path,method) {
+  // if root path requested return home handler
   if(path === '/' && method === 'GET') return home;
     let url = new URL(base+path);
     try {
+    // get the first path of the url then return the corresonding handler module  from handlers directory
     return require('./'+helper.basePath(path)+'Handler')(url,method);
         }
     catch(error) { 

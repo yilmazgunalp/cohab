@@ -44,7 +44,6 @@ const signature = (header,payload) => {
 
 const createJWT = (userdata) => {
   
-  console.log(userdata);
 //console.log(secret);
   if (!userdata.username) throw error;
   const header = {

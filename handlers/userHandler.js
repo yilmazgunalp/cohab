@@ -1,6 +1,7 @@
 const User = require('../models/users');
 const helper = require('../modules/helper');
 const sessions = require('../modules/session');
+
 const signup = async (req,resp) => {
   //get the body of the request and covert it to json
     let userObject = await helper.getBody(req).then(formdata => helper.formToJson(formdata));
@@ -14,16 +15,10 @@ const signup = async (req,resp) => {
     });
 };
 
-const login = async (req,resp) => {
-  //get the body of the request and covert it to json
-    let userObject = await helper.getBody(req).then(formdata => helper.formToJson(formdata));
-  //query database for user
-    let user = await User.findOne({username:userObject.username});
-  //create a session for the user
-    console.log("user");
-    sessions.create({req,resp,user});
+const login = (req,resp) => {
+  console.log('caling LOGIN');
   //render view
-resp.end(user.toString());
+resp.end(req.user);
 };
 
 
@@ -48,9 +43,13 @@ const handlers = {
 }
 
 const getHandler = (urlObject,method)=> {
+    //find the second part of the path 
     let path = urlObject.pathname.match(/^\/[^\/]*\/([^\/]*)/)[1];
+    //return the handler that corresponds to request method and path
     return handlers[method][path];
     };
+
+
 module.exports = (urlObject,method)=> {
     try {return getHandler(urlObject,method)}
   catch {
