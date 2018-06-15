@@ -3,10 +3,13 @@ const helper = require('../modules/helper');
 const sessions = require('../modules/session');
 
 const signup = async (req,resp) => {
+  console.log('inside the freaking login functuin')
   //get the body of the request and covert it to json
     let userObject = await helper.getBody(req).then(formdata => helper.formToJson(formdata));
   // create a new user record
+    console.log('before user model');
     let user = new User(userObject);
+    console.log('after user model');
   // save the user record to database
     user.save().then((err,data)=> {
         if(err) console.log(err);
@@ -18,7 +21,7 @@ const signup = async (req,resp) => {
 const login = (req,resp) => {
   console.log('caling LOGIN');
   //render view
-resp.end(req.user);
+resp.end(req.user.toString());
 };
 
 

@@ -1,12 +1,11 @@
 version: '3'
 services:
-    web:
-        build: .
-        ports:
-            - "5000:3000"
-        volumes:
-            - .:/cohab
     mongo:
-        image: "mongodb:latest"
+        image: "mongo"
     redis:
-        image: "redis:latest"
+        image: "redis"
+    web:
+        image: "yilmazgunalp/cohab:0.1"
+        depends_on:
+            - "mongo"
+            - "redis"

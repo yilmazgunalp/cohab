@@ -1,5 +1,6 @@
 const EventEmitter = require('events');
 
+
 class Gig extends EventEmitter {
 
     constructor(name,place) {
@@ -11,7 +12,6 @@ class Gig extends EventEmitter {
     toString() {
         return `${this.name} happens at ${this.place}`
     }
-
 
 
 

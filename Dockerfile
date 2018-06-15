@@ -1,6 +1,5 @@
-FROM nodev10:1.0
+FROM yilmazgunalp/nodev10:2.0
 
 WORKDIR /cohab
 
 CMD npm start
-

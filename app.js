@@ -5,7 +5,7 @@ const redis = require('redis').createClient('redis://redis');
 
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
-
+console.log()
 const applyMiddleWare = require('./modules/mw.js')
 
 if (cluster.isMaster) {

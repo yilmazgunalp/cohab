@@ -1,14 +1,33 @@
 {
   "scripts": {
     "test": "mocha",
-    "start": "nodemon app.js"
+    "start": "nodemon --ignore views app.js",
+    "dev": "webpack-dev-server",
+    "webpack": "webpack --watch",
+    "build": "webpack -d && webpack-dev-server --content-base views/ --inline --hot --port 8000"
   },
   "dependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "file-loader": "^1.1.11",
+    "image-webpack-loader": "^4.3.0",
     "mocha": "^5.1.1",
     "mongoose": "^5.0.16",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
     "redis": "^2.8.0"
   },
   "devDependencies": {
-    "nodemon": "^1.17.3"
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^0.28.11",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "nodemon": "^1.17.3",
+    "style-loader": "^0.21.0",
+    "webpack": "^3.10.0",
+    "webpack-cli": "^2.1.5",
+    "webpack-dev-server": "^2.9.7"
   }
 }
