@@ -7,7 +7,7 @@ const create = ({req,resp,user}) => {
      let token = jwt.createJWT(user);
   //set Cookie for JWT token
   let session_id = jwt.base64UrlEncode(crypto.randomBytes(16).toString('base64'));
-    resp.setHeader('Set-Cookie',`${session_id}=${token};Path=/`);
+ resp.setHeader('Set-Cookie',`${session_id}=${token};Path=/`);
   //store session in redis 
 let x;
 redis.set(session_id,token,(err,data)=> {

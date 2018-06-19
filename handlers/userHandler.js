@@ -26,6 +26,7 @@ resp.end(req.user.toString());
 
 
 const auth = async(req,resp)=> {
+        console.log(req.headers);
         let session_id = req.headers.cookie.split("=")[0];
         console.log(session_id);
         let session =  await sessions.retrieve(session_id);

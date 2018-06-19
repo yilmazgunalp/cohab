@@ -11,9 +11,8 @@ const tester = async ({req,resp})=>{
     return new Promise(resolve => {
         
 setTimeout(()=> {
-    resp.setHeader('Set-Cookie','ninjas=ruya-baba');
    resolve({req,resp});
-        },5000);
+        },1000);
 });
 };
 const drag = async ({req,resp})=> {
