@@ -1,6 +1,7 @@
 const User = require('../models/users');
 const helper = require('../modules/helper');
 const sessions = require('../modules/session');
+const authorize = require('../modules/auth');
 
 const signup = async (req,resp) => {
   console.log('inside the freaking login functuin')
@@ -26,12 +27,7 @@ resp.end(req.user.toString());
 
 
 const auth = async(req,resp)=> {
-        console.log(req.headers);
-        let session_id = req.headers.cookie.split("=")[0];
-        console.log(session_id);
-        let session =  await sessions.retrieve(session_id);
-        console.log(session);
-        resp.end("done");
+       authorize.authorizeUser(req,resp);
     };
 
 

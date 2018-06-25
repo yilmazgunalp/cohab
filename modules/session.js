@@ -19,9 +19,8 @@ const retrieve = (session_id)=> {
     return new Promise((resolve,reject) => {
  redis.get(session_id,(err,data) => {
             if(err) console.log(err);
-            resolve(data);
+            resolve(jwt.verifyToken(data));
         });
-    
         });
     };
 

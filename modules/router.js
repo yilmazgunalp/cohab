@@ -1,8 +1,10 @@
 const {parse, URLSearchParams} = require("url");
-const gethandler = require("./handlers/handlers");
+// My Custom handler module
+const gethandler = require("../handlers/handlers");
 
 module.exports = function(req) {
   let path = parse(req.url).path;
+  // find the handler for http request
   let handler = gethandler(path,req.method);
   console.log(`${(new Date(Date.now()).toLocaleTimeString())} Received a HTTP request @ ${path}`);  
   return handler; 

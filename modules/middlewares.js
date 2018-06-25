@@ -1,3 +1,7 @@
+// This file contains the middlewares to be applied to each handler
+// Middleware functions defined here or elsewhere must return a {req,resp} object.
+// Update the middlwares object in this file,after you define a new middleware
+
 const auth = require('./auth')
 const logger = async ({req,resp})=> {
     if(resp.finished) return {req,resp};
@@ -25,7 +29,6 @@ const drag = async ({req,resp})=> {
 const middlewares = {
     login: [auth.loginUser],
     home: [drag,tester,logger]
-    
     };
 //returns the list of middlewares to apply  for given handler
 const getMw = (handler)=> {

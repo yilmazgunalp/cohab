@@ -2,12 +2,16 @@ const sessions = require('./session');
 const User = require('../models/users');
 const helper = require('../modules/helper');
 
-const authUser = async(req,resp)=> {
+const authorizeUser = async(req,resp)=> {
+        if(!req.headers.cookie) {
+            req.user = null;}
+        else {
         let session_id = req.headers.cookie.split("=")[0];
         console.log(session_id);
         let session =  await sessions.retrieve(session_id);
         console.log(session);
         resp.end("done");
+        };
     };
 
 const loginUser = async ({req,resp}) => {
@@ -24,6 +28,6 @@ const loginUser = async ({req,resp}) => {
 };
 
 
-module.exports ={loginUser,authUser};
+module.exports ={loginUser,authorizeUser};
 
 
