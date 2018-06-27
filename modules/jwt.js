@@ -87,7 +87,7 @@ const verifyToken = (token) => {
   // check permissons
   
 
-  return(message);
+  return(messageobj);
 };
 
 

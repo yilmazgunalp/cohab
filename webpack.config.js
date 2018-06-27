@@ -63,7 +63,7 @@ module.exports = {
           secure: false,
 onProxyReq: function(proxyReq, req, res){
                 proxyReq.headers = req.headers;
-                console.log(req.headers);
+                console.log(proxyReq.headers);
             }
        }
         },

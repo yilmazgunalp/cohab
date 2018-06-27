@@ -6,8 +6,17 @@ class LoginForm  extends React.Component {
   }
 
   handleSubmit(event) {
-    alert('A name was submitted: ' + this.input.value);
     event.preventDefault();
+    let forminfo = {username: this.input.value};
+    console.log(forminfo.username);
+    fetch('http://localhost:8000/user/login',{
+       method: 'POST',
+       body: JSON.stringify(forminfo),
+  headers:{
+    'Content-Type': 'application/json'
+  }
+        
+        }).then(resp => resp.text()).then(data => console.log(data))
   }
 
   render() {

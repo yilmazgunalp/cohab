@@ -27,7 +27,10 @@ resp.end(req.user.toString());
 
 
 const auth = async(req,resp)=> {
-       authorize.authorizeUser(req,resp);
+    if(req.user) {resp.end(req.user)}
+    else {
+       resp.end('guest');
+    }
     };
 
 

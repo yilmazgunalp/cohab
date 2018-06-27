@@ -21,7 +21,7 @@ const retrieve = (session_id)=> {
             if(err) console.log(err);
             resolve(jwt.verifyToken(data));
         });
-        });
+        }).catch(e => console.log('COULD NOT RETRIEVE SESSION FROM REDIS',e));
     };
 
 
