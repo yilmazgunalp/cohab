@@ -22,7 +22,7 @@ const signup = async (req,resp) => {
 const login = (req,resp) => {
   console.log('caling LOGIN');
   //render view
-resp.end(req.user.toString());
+resp.end(req.user.username);
 };
 
 

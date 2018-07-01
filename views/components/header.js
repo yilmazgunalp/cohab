@@ -6,6 +6,7 @@ let LoginForm = require('./loginform');
 
 let Overlay = require('./overlay');
 let ReactDOM = require('react-dom');
+let leform =  React.createRef();
 class  Header extends React.Component  {
 
     constructor(...args) {
@@ -15,6 +16,7 @@ class  Header extends React.Component  {
            showform: false
         }
         this.renderForm = this.renderForm.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
     componentWillMount() {
         
@@ -22,6 +24,18 @@ class  Header extends React.Component  {
          catch(e => console.log('COULD NOT AUTHORIZE USER',e));
     }
 
+  handleSubmit(event)   {
+    event.preventDefault();
+    let forminfo = {username: leform.current.input.value};
+    console.log(forminfo);
+    fetch('http://localhost:8000/user/login',{
+       method: 'POST',
+       body: JSON.stringify(forminfo),
+  headers:{
+    'Content-Type': 'application/json'
+  }
+        }).then(resp => resp.text()).then(data => this.setState({user: data,showform: false}))
+  }
 renderForm() {
   this.setState({showform: true});   
     }
@@ -34,7 +48,7 @@ let loginIcon = Icon({className: 'login-icon',key: 'login-icon',style: {float: '
                 <nav className= 'nav-bar'>
                 {this.state.user != 'guest' ? <div>{WelcomeIcon}{MsgIcon}</div> : <div onClick={this.renderForm}>{loginIcon}</div>}
                 </nav>
-                {this.state.showform ? Overlay() : null}
+                {this.state.showform ? Overlay({leform,handleSubmit: this.handleSubmit}) : null}
             </div>
             )
     }
