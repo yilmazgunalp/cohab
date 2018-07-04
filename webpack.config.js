@@ -62,8 +62,10 @@ module.exports = {
           target: 'http://localhost:3000',
           secure: false,
 onProxyReq: function(proxyReq, req, res){
-                proxyReq.headers = req.headers;
-                console.log(proxyReq.headers);
+                //proxyReq.headers = req.headers;
+            },
+onProxyRes: function(proxyRes, req, res){
+                //res.headers = proxyRes.headers;
             }
        }
         },

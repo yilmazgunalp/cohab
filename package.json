@@ -7,9 +7,6 @@
     "build": "webpack -d && webpack-dev-server --content-base views/ --inline --hot --port 8000"
   },
   "dependencies": {
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "file-loader": "^1.1.11",
-    "image-webpack-loader": "^4.3.0",
     "mocha": "^5.1.1",
     "mongoose": "^5.0.16",
     "react": "^16.4.0",
@@ -17,6 +14,9 @@
     "redis": "^2.8.0"
   },
   "devDependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "file-loader": "^1.1.11",
+    "image-webpack-loader": "^4.3.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",

@@ -10,7 +10,7 @@ class LoginForm  extends React.Component {
       <form  {...this.props}>
         <label>
           Name:
-          <input type="text" ref={(input) => this.input = input} />
+          <input type="text" ref={input => this.input = input} />
         </label>
         <input type="submit" value="Submit" />
       </form>
