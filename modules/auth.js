@@ -23,15 +23,15 @@ const authorizeUser = async(req,resp)=> {
 
 //******MIDDLEWARE FUNCTION******
 //..see comments in modules/middlewares.js file for explanation...
+//expects a JSON string in request body
 const loginUser = async ({req,resp}) => {
-  console.log('calling lohinuserr')
+  console.log('calling auth.LOGINUSER')
   //get the body of the request and covert it to json
-    //let userObject = await helper.getBody(req).then(formdata => helper.formToJson(formdata));
     let userObject = await helper.getBody(req).then(formdata => JSON.parse(formdata));
   //query database for user
     let user = await User.findOne({username:userObject.username});
-  //create a session for the user
-    await sessions.create({req,resp,user});
+  //create a session for the user if user is found
+    if(user) {await sessions.create({req,resp,user})};
   // update request object with user property.
     req.user = user;
     return {req,resp};
