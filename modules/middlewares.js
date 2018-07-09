@@ -7,7 +7,7 @@ const auth = require('./auth')
 //object that holds list of middlewares for each handler
 const middlewares = {
     login: [auth.loginUser],
-    auth: [auth.authorizeUser]
+    auth: [auth.authenticateUser]
 };
     
 //returns the list of middlewares to apply  for given handler

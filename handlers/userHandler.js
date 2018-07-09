@@ -33,7 +33,9 @@ const login = (req,resp) => {
     }
 };
 
+//Uses middlewares: [auth.authenticateUser]
 const auth = async(req,resp)=> {
+    console.log('calling userHandler.AUTH');
     if(req.user) {resp.end(req.user)}
     else {
        resp.end();
@@ -58,8 +60,8 @@ const logout = (req,resp)=> {
 
 //list of handlers for /user path
 const handlers = {
-    'POST': {signup,login},
-    'GET': {auth,logout}
+    'POST': {signup,login,auth},
+    'GET': {logout}
 }
 
 //returns the relavant handler based on HTTP method and path

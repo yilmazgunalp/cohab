@@ -16,24 +16,24 @@ class  Header extends React.Component  {
     this.renderForm = this.renderForm.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
-    this.leform =  React.createRef();
   }
   
   componentWillMount() {
-    fetch('http://localhost:8000/user/auth',{credentials: 'same-origin'})
+    fetch('http://localhost:8000/user/auth',{credentials: 'same-origin',method: 'POST'})
     .then(resp => resp.text()).then(data => this.setState({user: data}))
     .catch(e => console.log('COULD NOT AUTHORIZE USER',e));
   }
 
-  handleLogin(event) {
-    event.preventDefault();
-    let forminfo = {username: this.leform.current.input.value};
+  handleLogin(username,password) {
+    let forminfo = {username};
     console.log(forminfo);
     fetch('http://localhost:8000/user/login',{
           credentials: 'same-origin',
           method: 'POST',
           body: JSON.stringify(forminfo)
-            }).then(resp => resp.json()).then(data => this.setState({user: data.username,showform: false}))
+            })
+    .then(resp => resp.json()).then(data => this.setState({user: data.username,showform: false}))
+    .catch(e => console.log(e))
   }
   
  handleLogout() {
@@ -42,7 +42,7 @@ class  Header extends React.Component  {
   }     
   
   renderForm() {
-      this.setState({showform: true});   
+    this.setState(prevState => ({showform: !prevState.showform}));   
   }
         
   render() {
@@ -52,7 +52,7 @@ class  Header extends React.Component  {
                     onLoginSubmit={this.renderForm} onLogoutSubmit={this.handleLogout}
                     />
                 </nav>
-                {this.state.showform ? Overlay({leform: this.leform,handleSubmit: this.handleLogin}) : null}
+                {this.state.showform ?  <Overlay onclose={this.renderForm}> <LoginForm handleSubmit={this.handleLogin}/> </Overlay> : null}
             </div>
             )
   }

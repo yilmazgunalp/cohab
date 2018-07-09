@@ -31,3 +31,31 @@ height: 36px;
 background: url("components/images/blue.png") no-repeat;
 background-size: contain;
 }
+
+
+.overlay {
+display: flex;
+justify-content: center;
+background: #3b5c78;
+opacity: 0.9;
+position: absolute;
+width: 100%;
+height: 100%;
+}
+
+.login-form {
+align-self: center;
+}
+label {
+display: block;    
+}
+
+.close-button {
+width: 36px;
+height: 36px;
+border-radius: 50%;
+background: black;
+position: absolute;
+right: 10px;
+top: 10px;
+ }
