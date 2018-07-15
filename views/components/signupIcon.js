@@ -1,7 +1,7 @@
 let React = require('react');
 let Icon = require('./icon');
 
-function LoginIcon(props) {
+function SignupIcon(props) {
 
  function handleClick(e) {
     e.preventDefault();
@@ -9,9 +9,9 @@ function LoginIcon(props) {
   } 
 
  return (
-    <Icon className='login-icon'>
-    <button id="login-button" onClick={handleClick}>
-    Log in
+    <Icon className='signup-icon'>
+    <button id='signup-button' onClick={handleClick}>
+    Sign Up!
     </button>
     </Icon>
 
@@ -19,5 +19,5 @@ function LoginIcon(props) {
     
 }
 
-module.exports = LoginIcon;
+module.exports = SignupIcon;
 

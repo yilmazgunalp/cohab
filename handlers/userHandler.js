@@ -1,21 +1,26 @@
 const User = require('../models/users');
 const helper = require('../modules/helper');
 const sessions = require('../modules/session');
-const authorize = require('../modules/auth');
+const nodemailer = require('../modules/nodemailer');
 
 const signup = async (req,resp) => {
-  console.log('inside the freaking login functuin')
+  console.log('calling userHandler.SIGNUP')
   //get the body of the request and covert it to json
-    let userObject = await helper.getBody(req).then(formdata => helper.formToJson(formdata));
+    let userObject = await helper.getBody(req).then(formdata => JSON.parse(formdata));
   // create a new user record
-    console.log('before user model');
-    let user = new User(userObject);
-    console.log('after user model');
+    let user = new User({username: userObject.username});
+  // hash the password before saving to database
+    user.setPassword(userObject.password);
+    nodemailer.sendMail({},(err,info) => {
+      if(err) console.log(err);
+      console.log(info)  ;
+    })
   // save the user record to database
     user.save().then((err,data)=> {
-        if(err) console.log(err);
+      if(err) console.log(err);
       console.log("user saved succefully");
-      resp.end(JSON.stringify(user));
+      resp.writeHead(307, {Location: '/user/login'});
+      resp.end();
     });
 };
 

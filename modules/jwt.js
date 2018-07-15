@@ -5,14 +5,14 @@ const secret = crypto.randomBytes(256).toString('base64');
 
 //not being used at the moment
 const chiper = (data) => {
-let x =  crypto.createCipher('aes192');
-x.update(data,'utf8','base64');
+  let x =  crypto.createCipher('aes192');
+  x.update(data,'utf8','base64');
 return  x.final("base64");
 };
 //not being used at the moment
 const dechiper = (chiper) => {
-   let y = crypto.createDecipher('aes192');
-    y.update(chiper,'base64','utf8');  
+  let y = crypto.createDecipher('aes192');
+  y.update(chiper,'base64','utf8');  
   return y.final('utf8');
 };
 
@@ -25,8 +25,8 @@ const base64Encode = (base64Url) => {
 };
 
 const base64UrlDecode = (base64Url) => {
-    let base64 = base64Encode(base64Url);
-    return Buffer.from(base64Url, 'base64').toString();
+  let base64 = base64Encode(base64Url);
+  return Buffer.from(base64Url, 'base64').toString();
 };
 
 const jsonTobase64 = (json) => {
@@ -43,8 +43,7 @@ const signature = (header,payload) => {
 };
 
 const createJWT = (userdata) => {
-  
-//console.log(secret);
+  //console.log(secret);
   if (!userdata.username) throw error;
   const header = {
     "alg": "HS256",

@@ -4,15 +4,15 @@ const redis = require('redis').createClient('redis://redis');
 
 const create = ({req,resp,user}) => {
   //create a JWT token 
-     let token = jwt.createJWT(user);
+  let token = jwt.createJWT(user);
   //set Cookie for JWT token
   let session_id = jwt.base64UrlEncode(crypto.randomBytes(16).toString('base64'));
- resp.setHeader('Set-Cookie',`${session_id}=${token}`);
+  resp.setHeader('Set-Cookie',`${session_id}=${token}`);
   //store session in redis 
-let x;
-redis.set(session_id,token,(err,data)=> {
-        console.log(`Session with id ${session_id} saved in redis`);
-    });
+  //NO NEED TO STORE SESSION IN REDIS SINCE USING JWT
+  //redis.set(session_id,token,(err,data)=> {
+    //console.log(`Session with id ${session_id} saved in redis`);
+  //});
 };
 
 const retrieve = (session_id)=> {

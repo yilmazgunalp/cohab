@@ -15,18 +15,25 @@ class LoginForm  extends React.Component {
 
   render() {
     return (
-      <form  onSubmit={this.handleSubmit} className='login-form'>
-        <label>
-          Username:
-          <input type="text" ref={this.username} />
-        </label>
-        <label>
-          Password:
-          <input type="text" ref={this.password} />
-        </label>
-        <input type="submit" value="Submit" />
+				<form  onSubmit={this.handleSubmit} className='login-form'>
+          <h2>Login</h2>
+          <div className='form-input'>
+            <label>
+              Username
+              <input type="text" autoComplete="username" ref={this.username} />
+            </label>
+          </div>
+          <div className='form-input'>
+            <label>
+              Password
+              <input type="password" autoComplete="current-password" ref={this.password} />
+            </label>
+          </div>
+       <div className='form-submit'>
+       <input type="submit" value="Submit" />
+       </div>
       </form>
-    );
+      );
   }
 }
 

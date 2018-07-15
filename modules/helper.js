@@ -14,6 +14,7 @@ const getBody = async function(req) {
 
 //converts post form data to JSON
 const formToJson = (formdata) => {
+    console.log(formdata);
     let result = {}; 
     formdata.split("&").forEach(e => {
         let [k,v] = e.split("=");
@@ -24,7 +25,7 @@ return result;
 
 const cookiesToJson = (cookies) => {
     let result = {}; 
-    cookies.split(",").forEach(e => {
+    cookies.split(";").forEach(e => {
         let [k,v] = e.split("=");
         result[k] = v;
     });
