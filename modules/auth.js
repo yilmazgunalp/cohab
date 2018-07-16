@@ -34,12 +34,12 @@ const loginUser = async ({req,resp}) => {
     //query database for user
     let user = await User.findOne({username:userObject.username});
     //create a session for the user if user is found
-    // and password is correct
-    if(user && user.validatePassword(userObject.password)) {
+    // and password is correct and user is activated
+    if(user && user.validatePassword(userObject.password) && user.active) {
         await sessions.create({req,resp,user})
-    };
     // update request object with user property.
-    req.user = user;
+        req.user = user;
+    } else {req.user = null}
     return {req,resp};
 };
 

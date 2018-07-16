@@ -7,9 +7,9 @@ const UserSchema = new Schema({
     email: String,
     hash: String,
     salt: String,
-    active: Boolean,
-    activation_digest: String,
-    activated_at: Date
+    active: {type: Boolean,default: false},
+    activationDigest: String,
+    activatedAt: Date
     });
 
 UserSchema.methods.setPassword = function(password) {
@@ -20,6 +20,14 @@ UserSchema.methods.setPassword = function(password) {
 UserSchema.methods.validatePassword = function(password) {
   const hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
   return this.hash === hash;
+};
+
+UserSchema.methods.setActivationDigest = function() {
+  this.activationDigest = crypto.randomBytes(256).toString('hex');
+};
+
+UserSchema.methods.getActivationLink = function() {
+  return `http://localhost:8000/user/activate?id=${this._id}&activation=${this.activationDigest}`;
 };
 
 mongoose.connect('mongodb://mongo/userdb');

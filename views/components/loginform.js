@@ -1,4 +1,5 @@
 let React = require('react');
+let Error = require('./error');
 
 class LoginForm  extends React.Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class LoginForm  extends React.Component {
   render() {
     return (
 				<form  onSubmit={this.handleSubmit} className='login-form'>
+         <Error message={this.props.errors}/>
           <h2>Login</h2>
           <div className='form-input'>
             <label>

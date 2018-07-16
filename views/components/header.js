@@ -13,7 +13,7 @@ class  Header extends React.Component  {
 
   constructor(...args) {
     super(...args)
-    this.state = { user: null, showform: false,form: null};
+    this.state = { user: null, showform: false,form: null, formErrors: null};
     this.renderForm = this.renderForm.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
@@ -32,7 +32,12 @@ class  Header extends React.Component  {
           method: 'POST',
           body: JSON.stringify({username,password})
             })
-    .then(resp => resp.json()).then(data => this.setState({user: data.username,showform: false}))
+    .then(resp => { 
+    if(resp.status == 401) {
+        resp.json().then(data => this.setState({formErrors: data.errorMessage}));
+    } else {
+    resp.json().then(data => this.setState({user: data.username,showform: false}));}
+    })
     .catch(e => console.log(e))
   }
   
@@ -41,11 +46,11 @@ class  Header extends React.Component  {
     .then(resp => resp.ok ? this.setState({user: null,showform: false}) : null);
   }     
 
-  handleSignup(username,password) {
+  handleSignup(username,email,password) {
     fetch('http://localhost:8000/user/signup',{
           credentials: 'same-origin',
           method: 'POST',
-          body: JSON.stringify({username,password})
+          body: JSON.stringify({username,email,password})
             })
     .then(resp => resp.json()).then(data => this.setState({user: data.username,showform: false}))
     .catch(e => console.log(e))
@@ -54,19 +59,19 @@ class  Header extends React.Component  {
   
   renderForm(e) {
     let form = e.target.id.split('-')[0];
-    this.setState(prevState => ({showform: !prevState.showform, form}));   
+    this.setState(prevState => ({showform: !prevState.showform, form,formErrors: null}));   
   }
         
   render() {
     return ( <div>
                 <nav className= 'nav-bar'>          
-                    <UserBar message={'Hello ' + (this.state.user || 'Guest!')} isLoggedIn={this.state.user} 
+                    <UserBar message={'Hello ' + (this.state.user || 'Stranger!')} isLoggedIn={this.state.user} 
                     onLoginClick={this.renderForm} onLogoutSubmit={this.handleLogout} 
                     />
                 </nav>
                 {this.state.showform ?  <Overlay onclose={this.renderForm}> 
                     {this.state.form === 'login' ?  
-                    <LoginForm handleSubmit={this.handleLogin}/> : 
+                    <LoginForm errors={this.state.formErrors} handleSubmit={this.handleLogin}/> : 
                     <SignupForm handleSubmit={this.handleSignup}/> 
                     }
                 

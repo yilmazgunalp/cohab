@@ -8,14 +8,12 @@ const signup = async (req,resp) => {
   //get the body of the request and covert it to json
     let userObject = await helper.getBody(req).then(formdata => JSON.parse(formdata));
   // create a new user record
-    let user = new User({username: userObject.username});
+    let user = new User({username: userObject.username, email: userObject.email});
   // hash the password before saving to database
     user.setPassword(userObject.password);
-    nodemailer.sendMail({},(err,info) => {
-      if(err) console.log(err);
-      console.log(info)  ;
-    })
+    user.setActivationDigest();
   // save the user record to database
+  nodemailer(user,'Account Activation');
     user.save().then((err,data)=> {
       if(err) console.log(err);
       console.log("user saved succefully");
@@ -34,7 +32,7 @@ const login = (req,resp) => {
     resp.end(JSON.stringify(req.user));
     } else {
     resp.statusCode = 401;   
-    resp.end();
+    resp.end(JSON.stringify({errorMessage: 'Invalid Credentials'}));
     }
 };
 
@@ -63,10 +61,15 @@ const logout = (req,resp)=> {
     }
 };
 
+const activate = (req,resp) => {
+   console.log(helper.qparams(req));
+   resp.end('Well done!!!');
+}
+
 //list of handlers for /user path
 const handlers = {
     'POST': {signup,login,auth},
-    'GET': {logout}
+    'GET': {logout,activate}
 }
 
 //returns the relavant handler based on HTTP method and path

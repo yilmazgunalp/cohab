@@ -6,6 +6,7 @@ class SignupForm  extends React.Component {
     this.state = {formValid: true}
     this.handleSubmit = this.handleSubmit.bind(this);
     this.username = React.createRef();
+    this.email = React.createRef();
     this.password = React.createRef();
     this.confirmPassword = React.createRef();
   }
@@ -16,7 +17,7 @@ class SignupForm  extends React.Component {
         alert('Passwords do not match! Please re-enter password') 
         this.setState({formValid: false});
         }
-    this.props.handleSubmit(this.username.current.value,this.password.current.value,this.confirmPassword.current.value);
+    this.props.handleSubmit(this.username.current.value,this.email.current.value,this.password.current.value);
   }
 
   render() {
@@ -25,20 +26,26 @@ class SignupForm  extends React.Component {
           <h2>Sign Up</h2>
           <div className='form-input'>
             <label>
-              Username
-              <input type="text" ref={this.username} />
+              username
+              <input type="text" autoComplete='username' ref={this.username} />
             </label>
           </div>
           <div className='form-input'>
             <label>
-              Password
-              <input type="password"  ref={this.password} />
+              e-mail
+              <input type="text" autoComplete='email' ref={this.email} />
             </label>
           </div>
           <div className='form-input'>
             <label>
-              Confirm Password
-              <input type="password"  ref={this.confirmPassword} />
+              password
+              <input type="password"  autoComplete='new-password' ref={this.password} />
+            </label>
+          </div>
+          <div className='form-input'>
+            <label>
+              confirm password
+              <input type="password"  autoComplete='new-password' ref={this.confirmPassword} />
             </label>
           </div>
        <div className='form-submit'>
