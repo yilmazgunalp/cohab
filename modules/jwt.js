@@ -1,7 +1,6 @@
 const crypto = require('crypto');
 const assert = require('assert');
 
-const secret = crypto.randomBytes(256).toString('base64');
 
 //not being used at the moment
 const chiper = (data) => {
@@ -37,13 +36,12 @@ const signature = (header,payload) => {
   let first = jsonTobase64(header);
   let second = jsonTobase64(payload);
   let token = base64UrlEncode(first) + "." + base64UrlEncode(second);
-  const hash = crypto.createHmac('sha256',"fcymbals");
+  const hash = crypto.createHmac('sha256',config.SECRET);
   hash.update(token);
   return base64UrlEncode(hash.digest('base64'));
 };
 
 const createJWT = (userdata) => {
-  //console.log(secret);
   if (!userdata.username) throw error;
   const header = {
     "alg": "HS256",
@@ -53,9 +51,8 @@ const createJWT = (userdata) => {
   "iss": "cohab",
   "sub": userdata.username
   };
-return  base64UrlEncode(jsonTobase64(header)) + "." + base64UrlEncode(jsonTobase64(payload)) + 
+  return  base64UrlEncode(jsonTobase64(header)) + "." + base64UrlEncode(jsonTobase64(payload)) + 
 "." + signature(header,payload);
-
 };  
 
 const verifyToken = (token) => {

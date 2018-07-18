@@ -36,7 +36,7 @@ const loginUser = async ({req,resp}) => {
     //create a session for the user if user is found
     // and password is correct and user is activated
     if(user && user.validatePassword(userObject.password) && user.active) {
-        await sessions.create({req,resp,user})
+        sessions.create({req,resp,user});
     // update request object with user property.
         req.user = user;
     } else {req.user = null}

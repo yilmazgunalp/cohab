@@ -1,17 +1,5 @@
 let path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-let httpProxy = require('http-proxy-middleware');
-let proxyOptions = {
-   target:  'http://localhost:3000',
-    
-    onProxyReq: function(proxyReq, req, res){
-                console.log('khkjhkjkjhkjkjhkjhkjh');
-                proxyReq.setHeader('x-added', 'foobar');
-            }
-    
-    
-    }
-let proxy = httpProxy('/user',proxyOptions);
 
 module.exports = {
     entry:  path.resolve(__dirname)+ '/views/index.js',
@@ -53,9 +41,9 @@ module.exports = {
         ]
     },
      devServer: {
+    openPage: 'home.html',
     contentBase: path.join(__dirname,'views/'),
     open: true,
-    index: 'home.htm',
     watchContentBase: true,
     proxy: {
        '/user' : {

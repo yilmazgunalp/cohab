@@ -8,12 +8,13 @@ let UserBar = require('./userStatusBar');
 let LoginForm = require('./loginform');
 let SignupForm = require('./signupform');
 let Overlay = require('./overlay');
+let ConfirmationBox = require('./confirmationBox');
 
 class  Header extends React.Component  {
 
   constructor(...args) {
     super(...args)
-    this.state = { user: null, showform: false,form: null, formErrors: null};
+    this.state = { user: null, showform: false,form: null, formErrors: null, showSignupConfirmation: false};
     this.renderForm = this.renderForm.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
@@ -52,9 +53,8 @@ class  Header extends React.Component  {
           method: 'POST',
           body: JSON.stringify({username,email,password})
             })
-    .then(resp => resp.json()).then(data => this.setState({user: data.username,showform: false}))
+    .then(resp => { if(resp.ok) { this.setState({showform: false, showSignupConfirmation: true}) } })
     .catch(e => console.log(e))
-    
   }
   
   renderForm(e) {
@@ -74,7 +74,9 @@ class  Header extends React.Component  {
                     <LoginForm errors={this.state.formErrors} handleSubmit={this.handleLogin}/> : 
                     <SignupForm handleSubmit={this.handleSignup}/> 
                     }
-                
+                </Overlay> : null}
+                {this.state.showSignupConfirmation ?  <Overlay onclose={() => this.setState({showSignupConfirmation: false}) }> 
+                    <ConfirmationBox className="signup-confirmation"/>
                 </Overlay> : null}
             </div>
             )

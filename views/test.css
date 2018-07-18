@@ -43,9 +43,6 @@ width: 100%;
 height: 100%;
 }
 
-.login-form {
-align-self: center;
-}
 label {
 display: block;    
 }
@@ -61,6 +58,7 @@ top: 10px;
  }
 
 .login-form {
+align-self: center;
 width: 250px;
 background: #325b84;
 }
@@ -98,10 +96,34 @@ justify-content: center;
 
 .form-submit input {
 background: #fff68f;
-
+padding: 5px;
 
 }
 
 .form-submit input:focus {
   background: red;
+}
+
+@keyframes fadein {
+  to { 
+     background: #ffee88; }
+}
+
+.form-error {
+padding: 2px;
+animation: fadein 0.3s ease-in-out  1 running forwards;
+}
+
+.warn-exc {
+color: red;
+font-size: 1.5em;
+}
+
+
+.signup-confirmation {
+background: #ffee88;
+padding: 8px;
+border-radius: 0.5em;
+align-self: center;
+    
 }

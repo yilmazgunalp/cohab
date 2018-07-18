@@ -9,7 +9,7 @@ const UserSchema = new Schema({
     salt: String,
     active: {type: Boolean,default: false},
     activationDigest: String,
-    activatedAt: Date
+    activationSentAt: Date
     });
 
 UserSchema.methods.setPassword = function(password) {
@@ -27,7 +27,7 @@ UserSchema.methods.setActivationDigest = function() {
 };
 
 UserSchema.methods.getActivationLink = function() {
-  return `http://localhost:8000/user/activate?id=${this._id}&activation=${this.activationDigest}`;
+  return `http://localhost:8000/user/activate?id=${this._id}&activationid=${this.activationDigest}`;
 };
 
 mongoose.connect('mongodb://mongo/userdb');
