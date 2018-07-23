@@ -65,7 +65,7 @@ const verifyToken = (token) => {
   if(headerobj.alg != "HS256" || headerobj.typ != "JWT") throw "HEADERS NOT PERMITTED";
   if(headerobj.enc) throw "JWE TOKEN NOT IMPLEMENTED";
   //validate signature
-   const hash = crypto.createHmac('sha256',"fcymbals");
+   const hash = crypto.createHmac('sha256',config.SECRET);
    let signing_input = /(.*\.){2}/.exec(token)[0].slice(0,-1);
    let signature = /[^\.]+$/.exec(token)[0];
    hash.update(signing_input);

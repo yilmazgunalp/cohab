@@ -127,3 +127,12 @@ border-radius: 0.5em;
 align-self: center;
     
 }
+
+.cross {
+height: 2em;
+width: 2em;
+border: 2px solid #e8702a;
+border-style: inset;
+border-radius: 50%;
+}
+

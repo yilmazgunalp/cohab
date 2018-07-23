@@ -10,7 +10,7 @@ let transporter = nodemailer.createTransport({
             pass: config.MAILAPIKEY// generated ethereal password
         }
     });
-const setOptions = (user,subject) => {
+const setActivationOptions = (user,subject) => {
   return {
     from: `account-activation@${config.SENDERHOST}`,
     to: user.email,
@@ -19,12 +19,23 @@ const setOptions = (user,subject) => {
     html: `<div><h2>Hey ${user.username}! </h2><h3>Please click the button below to activate your account</h3><a href=\"${user.getActivationLink()}\" style="background: #fce300; font-size: 16px; text-decoration: none; color: black; display: iniline-block; padding: 5px; border-radius: 3px"> Activate Your Account </a></div>`
   } 
 }
-const sendActivationMail = (user,subject) => {
-  let options = setOptions(user,subject);
+
+const setResetPswdOptions = (user,subject) => {
+  return {
+    from: `reset-password@${config.SENDERHOST}`,
+    to: user.email,
+    subject,
+    text: `Please click on the link below to reset your password\n ${user.getResetPswdLink}`,
+    html: `<div><h2>Hey ${user.username}! </h2><h3>Please click the button below to activate your account</h3><a href=\"${user.getResetPswdLink()}\" style="background: #fce300; font-size: 16px; text-decoration: none; color: black; display: iniline-block; padding: 5px; border-radius: 3px"> Reset Your Password</a></div>`
+  } 
+}
+
+const sendMail = (user,subject) => {
+  let options = subject === 'Account Activation' ? setActivationOptions(user,subject) : setResetPswdOptions(user,subject);
     transporter.sendMail(options,(err,info) => {
       if(err) console.log(err);
       console.log(info)  ;
     })
 }
 
-module.exports = sendActivationMail;
+module.exports = sendMail;

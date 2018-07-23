@@ -25,23 +25,24 @@ const signup = async (req,resp) => {
 };
 
 const activate = async(req,resp) => {
-   //get the url params and find the user with 'id' param
-   let params = helper.qparams(req);
-   let user = await User.findOne({_id: params.get('id')});
-   //check if user exists and activation code matches database
-   if(user && user.activationDigest == params.get('activationid')) {
-       //if activation code has expired return 401
-       if((Date.now() - user.activationSentAt) > 1000*60*2) {
-          resp.statusCode = 401;
-          resp.end('token expired') ;
-          return;
-       }
-      //else activate user and redirect to home page
-      user.set({active: true});
-      user.save();
-      console.log("user activated succefully");
-      resp.writeHead(302, {Location: '/'});
-      resp.end();
+  //get the url params and find the user with 'id' param
+  let params = helper.qparams(req);
+  let user = await User.findOne({_id: params.get('id')});
+  //check if user exists and activation code matches database
+  if(user && user.activationDigest == params.get('activationid')) {
+    //if activation code has expired return 401
+    if((Date.now() - user.activationSentAt) > 1000*60*25) {
+         resp.statusCode = 401;
+         resp.end('token expired') ;
+         return;
+    }
+     //else activate user, create session and redirect to home page
+     user.set({active: true});
+     user.save();
+     console.log("user activated succefully");
+     sessions.create({req,resp,user});
+     resp.writeHead(302, {Location: '/home.html'});
+     resp.end();
    } else {
      resp.statusCode = 401;
      resp.end('not Authorized');
@@ -50,59 +51,73 @@ const activate = async(req,resp) => {
 
 //Uses middlewares: [auth.loginUser]
 const login = (req,resp) => {
-    console.log('calling userHandler.LOGIN');
-    //if req.user property exists send it as json response
-    //else return 401 
-    if(req.user) {
-    resp.setHeader('Content-Type', 'application/json');
-    resp.end(JSON.stringify(req.user));
-    } else {
-    resp.statusCode = 401;   
-    resp.end(JSON.stringify({errorMessage: 'Invalid Credentials'}));
-    }
+  console.log('calling userHandler.LOGIN');
+  //if req.user property exists send it as json response
+  //else return 401 
+  if(req.user) {
+  resp.setHeader('Content-Type', 'application/json');
+  resp.end(JSON.stringify(req.user));
+  } else {
+  resp.statusCode = 401;   
+  resp.end(JSON.stringify({errorMessage: 'Invalid Credentials'}));
+  }
 };
 
 //Uses middlewares: [auth.authenticateUser]
-const auth = async(req,resp)=> {
-    console.log('calling userHandler.AUTH');
-    if(req.user) {resp.end(req.user)}
-    else {
-       resp.end();
+const authenticate = async(req,resp)=> {
+  console.log('calling userHandler.AUTH');
+  if(req.user) {resp.end(req.user)}
+  else {
+     resp.end();
     }
 };
 
 const logout = (req,resp)=> {
-    //get the seesion_id from the req.cookies
-    let session_id = req.headers.cookie ? req.headers.cookie.split("=")[0] : null
-    //if session_id exists set session
-    //else send 409(Conflict) response
-    if(session_id) {
-    //delete the session cookie
-    resp.setHeader('Set-Cookie',`${session_id}=; expires=Thu, 01 Jan 1970 00:00:00 GMT`);
-    //remove the session from redis database then send response
-    sessions.destroy(session_id).then(()=>resp.end("You have been logged out"));
-    } else {
-    resp.statusCode = 409;
-    resp.end();
-    }
+  //get the seesion_id from the req.cookies
+  let session_id = req.headers.cookie ? helper.cookiesToJson(req.headers.cookie).session_id : null
+  //if session_id exists set expire session
+  //else send 409(Conflict) response
+  if(session_id) {
+  //delete the session cookie
+  resp.setHeader('Set-Cookie',`session_id=; expires=Thu, 01 Jan 1970 00:00:00 GMT`);
+  } else {
+  resp.statusCode = 409;
+  }
+  resp.end();
 };
+
+const resetpswd = async(req,resp)=> {
+  console.log('calling USER.RESETPSWD')
+  //get the body of the request and covert it to json
+  let userObject = await helper.getBody(req).then(formdata => JSON.parse(formdata));
+  //query database for user
+  let user = await User.findOne({email:userObject.email});
+  //set resetPswddigest and send reset-email
+  if(user ) {
+    user.setResetPswdDigest();
+    user.set({resetPswdSentAt: Date.now()})
+    nodemailer(user,'Reset-Pswd');
+    resp.end();
+  } else {resp.end('This e-mail is not registered!')}
+        
+}
 
 
 //list of handlers for /user path
 const handlers = {
-    'POST': {signup,login,auth},
-    'GET': {logout,activate}
+  'POST': {signup,login,authenticate,resetpswd},
+  'GET': {logout,activate}
 }
 
 //returns the relavant handler based on HTTP method and path
 const getHandler = (urlObject,method)=> {
-    //find the second part of the path 
-    let path = urlObject.pathname.match(/^\/[^\/]*\/([^\/]*)/)[1];
-    //return the handler that corresponds to request method and path
-    return handlers[method][path];
+  //find the second part of the path 
+  let path = urlObject.pathname.match(/^\/[^\/]*\/([^\/]*)/)[1];
+  //return the handler that corresponds to request method and path
+  return handlers[method][path];
 };
 
 module.exports = (urlObject,method)=> {
-    try {return getHandler(urlObject,method)}
-    catch {return null};
+  try {return getHandler(urlObject,method)}
+  catch {return null};
 }; 

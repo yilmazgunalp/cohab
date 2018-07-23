@@ -9,7 +9,9 @@ const UserSchema = new Schema({
     salt: String,
     active: {type: Boolean,default: false},
     activationDigest: String,
-    activationSentAt: Date
+    activationSentAt: Date,
+    resetPswdDigest: String,
+    resetPswdSentAt: Date
     });
 
 UserSchema.methods.setPassword = function(password) {
@@ -26,8 +28,16 @@ UserSchema.methods.setActivationDigest = function() {
   this.activationDigest = crypto.randomBytes(256).toString('hex');
 };
 
+UserSchema.methods.setResetPswdDigest = function() {
+  this.resetPswdDigest = crypto.randomBytes(256).toString('hex');
+};
+
 UserSchema.methods.getActivationLink = function() {
   return `http://localhost:8000/user/activate?id=${this._id}&activationid=${this.activationDigest}`;
+};
+
+UserSchema.methods.getResetPswdLink = function() {
+  return `http://localhost:8000/user/reset?id=${this._id}&resetid=${this.resetPswdDigest}`;
 };
 
 mongoose.connect('mongodb://mongo/userdb');

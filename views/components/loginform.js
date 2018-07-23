@@ -5,6 +5,7 @@ class LoginForm  extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleResetPswd = this.handleResetPswd.bind(this);
     this.username = React.createRef();
     this.password = React.createRef();
   }
@@ -12,6 +13,10 @@ class LoginForm  extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     this.props.handleSubmit(this.username.current.value,this.password.current.value);
+  }
+
+  handleResetPswd(e) {
+    this.props.handleResetPswd(e);
   }
 
   render() {
@@ -30,6 +35,7 @@ class LoginForm  extends React.Component {
               Password
               <input type="password" autoComplete="current-password" ref={this.password} />
             </label>
+          <span id='resetPswd-form' onClick={this.handleResetPswd} style={{color:"red"}}> Forgot Password?</span>
           </div>
        <div className='form-submit'>
        <input type="submit" value="Submit" />
