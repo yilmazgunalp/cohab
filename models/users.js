@@ -37,7 +37,7 @@ UserSchema.methods.getActivationLink = function() {
 };
 
 UserSchema.methods.getResetPswdLink = function() {
-  return `http://localhost:8000/user/reset?id=${this._id}&resetid=${this.resetPswdDigest}`;
+  return `http://localhost:8000/user/resetform?id=${this._id}&resetid=${this.resetPswdDigest}`;
 };
 
 mongoose.connect('mongodb://mongo/userdb');

@@ -24,6 +24,7 @@ const signup = async (req,resp) => {
   });
 };
 
+//handler for account activation after user signup
 const activate = async(req,resp) => {
   //get the url params and find the user with 'id' param
   let params = helper.qparams(req);
@@ -47,6 +48,36 @@ const activate = async(req,resp) => {
      resp.statusCode = 401;
      resp.end('not Authorized');
    }
+}
+
+//handler for rendering password reset form
+const resetform = async(req,resp)=> {
+  //get the url params and find the user with 'id' param
+  let params = helper.qparams(req);
+  let user = await User.findOne({_id: params.get('id')});
+  console.log(user);
+  //check if user exists and activation code matches database
+  if(user && user.resetPswdDigest == params.get('resetid')) {
+    //if activation code has expired return 401
+    if((Date.now() - user.resetPswdSentAt) > 1000*60*120) {
+         resp.statusCode = 401;
+         resp.end('token expired') ;
+         return;
+    }
+     //else serve the password reset form
+      resp.writeHead(302, {Location: `/reset.html?id=${params.get('id')}`});
+      resp.end();
+    }
+}
+
+//handler for resetting user's password'
+const resetpswd = async(req,resp)=> {
+  console.log('calling USER.RESETPSWD')
+  //get the body of the request and covert it to json
+  //get the body of the request and covert it to json
+  let userObject = await helper.getBody(req).then(formdata => console.log(formdata));
+  console.log(userObject);
+  //TODO RESET PSW
 }
 
 //Uses middlewares: [auth.loginUser]
@@ -86,8 +117,9 @@ const logout = (req,resp)=> {
   resp.end();
 };
 
-const resetpswd = async(req,resp)=> {
-  console.log('calling USER.RESETPSWD')
+//handler for sending password reset e-mail
+const sendresetlink = async(req,resp)=> {
+  console.log('calling USER.SENDRESETLINK')
   //get the body of the request and covert it to json
   let userObject = await helper.getBody(req).then(formdata => JSON.parse(formdata));
   //query database for user
@@ -96,6 +128,7 @@ const resetpswd = async(req,resp)=> {
   if(user ) {
     user.setResetPswdDigest();
     user.set({resetPswdSentAt: Date.now()})
+    user.save();
     nodemailer(user,'Reset-Pswd');
     resp.end();
   } else {resp.end('This e-mail is not registered!')}
@@ -103,10 +136,11 @@ const resetpswd = async(req,resp)=> {
 }
 
 
+
 //list of handlers for /user path
 const handlers = {
-  'POST': {signup,login,authenticate,resetpswd},
-  'GET': {logout,activate}
+  'POST': {signup,login,authenticate,sendresetlink,resetpswd},
+  'GET': {logout,activate,resetform}
 }
 
 //returns the relavant handler based on HTTP method and path

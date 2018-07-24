@@ -24,6 +24,7 @@ class  Header extends React.Component  {
   }
   
   componentWillMount() {
+      console.log(window.location);
     fetch('http://localhost:8000/user/authenticate',{credentials: 'same-origin',method: 'POST'})
     .then(resp => resp.text()).then(data => this.setState({user: data}))
     .catch(e => console.log('COULD NOT AUTHORIZE USER',e));
@@ -66,7 +67,7 @@ class  Header extends React.Component  {
 
 
   handleResetPswd(email) {
-    fetch('http://localhost:8000/user/resetpswd',{
+    fetch('http://localhost:8000/user/sendresetlink',{
           credentials: 'same-origin',
           method: 'POST',
           body: JSON.stringify({email})
@@ -89,13 +90,13 @@ class  Header extends React.Component  {
                     }
                 </Overlay> : null}
                 {this.state.showSignupConfirmation ?  <Overlay onclose={() => this.setState({showSignupConfirmation: false}) }> 
-                    <ConfirmationBox className="signup-confirmation"/>
+                    <ConfirmationBox className="signup"/>
                 </Overlay> : null}
-                {this.state.form === 'resetPswd' ?  <Overlay onclose={() => this.setState({showSignupConfirmation: false}) }> 
+                {this.state.form === 'resetPswd' ?  <Overlay onclose={() => this.setState({form: null}) }> 
                     <ResetPswdForm handleSubmit={this.handleResetPswd}/> : 
                 </Overlay> : null}
                 {this.state.showResetConfirmation ?  <Overlay onclose={() => this.setState({showResetConfirmation: false}) }> 
-                    <ConfirmationBox className="reset-confirmation"/>
+                    <ConfirmationBox className="reset-pswd"/>
                 </Overlay> : null}
             </div>
             )
