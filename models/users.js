@@ -3,7 +3,7 @@ const crypto = require('crypto');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-    username: String,
+    username: {type: String,unique: true},
     email: String,
     hash: String,
     salt: String,

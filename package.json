@@ -1,12 +1,13 @@
 {
   "scripts": {
-    "test": "mocha",
+    "test": "mocha --exit",
     "start": "nodemon --ignore views app.js",
     "dev": "webpack-dev-server",
     "webpack": "webpack --watch",
     "build": "webpack -d && webpack-dev-server --content-base views/ --inline --hot --port 8000"
   },
   "dependencies": {
+    "chai": "^4.1.2",
     "mocha": "^5.1.1",
     "mongoose": "^5.0.16",
     "nodemailer": "^4.6.7",

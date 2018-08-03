@@ -74,10 +74,19 @@ const resetform = async(req,resp)=> {
 const resetpswd = async(req,resp)=> {
   console.log('calling USER.RESETPSWD')
   //get the body of the request and covert it to json
-  //get the body of the request and covert it to json
-  let userObject = await helper.getBody(req).then(formdata => console.log(formdata));
-  console.log(userObject);
-  //TODO RESET PSW
+  let userObject = await helper.getBody(req).then(formdata => helper.formToJson(formdata));
+  //find the user with the id from the hidden field in the form
+  let user = await User.findOne({_id: userObject.user_id});
+  //set user's password
+  user.setPassword(userObject.password);
+  //save user, create session and redirect to home page
+  user.save().then((err,data)=> {
+    if(err) console.log(err);
+    sessions.create({req,resp,user});
+    resp.writeHead(302, {Location: '/home.html'});
+    resp.end();
+  });
+
 }
 
 //Uses middlewares: [auth.loginUser]
