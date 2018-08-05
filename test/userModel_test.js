@@ -5,6 +5,25 @@ const mongoose = require('mongoose');
 
 let expect = chai.expect;
 
+mongoose.Promise = global.Promise;
+
+mongoose.connect("mongodb://localhost/testdb");
+
+
+describe('User Model tests',()=>{
+
+  before(async () => {
+    await User.remove({});
+  });
+    
+  afterEach(async () => {
+    await User.remove({});
+  });
+
+  after(async ()=> {
+    await mongoose.connection.close();
+  });
+
 describe('Saving record to database',()=>{
   it('saves a record',async()=>{
     let user = new User({ username: 'yg', email: 'y@gmail.com' })
@@ -18,6 +37,14 @@ describe('Saving record to database',()=>{
      let dup = [{ username: 'Val'}, { username: 'Val'}]; 
      let result = await User.create(dup).catch(e => e);
      let users = await User.find({username: 'Val'})
+     expect(users.length).to.equal(1);
+     expect(result).to.match(/duplicate key error/);
+     })
+
+    it('enforces unique validation on email',async()=>{
+     let dup = [{ username: 'username1',email: 'email@user.com'}, { username: 'username2',email: 'email@user.com'}]; 
+     let result = await User.create(dup).catch(e => e);
+     let users = await User.find({email: 'email@user.com'})
      expect(users.length).to.equal(1);
      expect(result).to.match(/duplicate key error/);
      })
@@ -57,6 +84,7 @@ describe('Finding records',()=>{
       assert(result.username === 'luigi');
     });
   });
+});
 });
 
 
