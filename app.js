@@ -1,7 +1,7 @@
 const {createServer} = require("http");
 const {createReadStream } = require("fs");
 const redis = require('redis').createClient('redis://redis');
-
+const config = require('./config');
 // to run Node in Cluster Mode
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
@@ -45,4 +45,5 @@ else {
 console.log(`Worker ${ process.pid} started`);
 }
 
-console.log(`Cohab started listening on port 3000`);
+console.log(process.env.NODE_ENV);
+console.log(`Cohab started listening on port 3000 in ${config.NODE_ENV.toUpperCase()}`);

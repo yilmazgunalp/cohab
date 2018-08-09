@@ -40,7 +40,8 @@ UserSchema.methods.getResetPswdLink = function() {
   return `http://localhost:8000/user/resetform?id=${this._id}&resetid=${this.resetPswdDigest}`;
 };
 
-mongoose.connect('mongodb://mongo/userdb');
+const DB = require('../config').NODE_ENV === 'development' ? 'userdb' : 'testdb';
+mongoose.connect(`mongodb://mongo/${DB}`);
 const User = mongoose.model('user',UserSchema);
 
 module.exports = User;
