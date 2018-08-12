@@ -47,14 +47,14 @@ const fileToJson = () => {
 
 //returns request url parameters
 const qparams = (req)=> {
-    let path = parse(req.url).path;
-    let qparams = /\?(.*)$/.exec(path);
+  let path = parse(req.url).path;
+  let qparams = /\?(.*)$/.exec(path);
   let params;
-   if(qparams !== null) {
+  if(qparams !== null) {
     params =  new URLSearchParams(qparams[1]); 
   }
-    return params;
-    };
+  return params;
+};
 
 const basePath = (path)=> {
         return /^\/([^\/]*)/.exec(path)[1];

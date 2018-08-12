@@ -45,49 +45,13 @@ const activate = async(req,resp) => {
      resp.writeHead(302, {Location: '/home.html'});
      resp.end();
    } else {
+     console.log('inside else')
      resp.statusCode = 401;
      resp.end('not Authorized');
    }
 }
 
-//handler for rendering password reset form
-const resetform = async(req,resp)=> {
-  //get the url params and find the user with 'id' param
-  let params = helper.qparams(req);
-  let user = await User.findOne({_id: params.get('id')});
-  console.log(user);
-  //check if user exists and activation code matches database
-  if(user && user.resetPswdDigest == params.get('resetid')) {
-    //if activation code has expired return 401
-    if((Date.now() - user.resetPswdSentAt) > 1000*60*120) {
-         resp.statusCode = 401;
-         resp.end('token expired') ;
-         return;
-    }
-     //else serve the password reset form
-      resp.writeHead(302, {Location: `/reset.html?id=${params.get('id')}`});
-      resp.end();
-    }
-}
 
-//handler for resetting user's password'
-const resetpswd = async(req,resp)=> {
-  console.log('calling USER.RESETPSWD')
-  //get the body of the request and covert it to json
-  let userObject = await helper.getBody(req).then(formdata => helper.formToJson(formdata));
-  //find the user with the id from the hidden field in the form
-  let user = await User.findOne({_id: userObject.user_id});
-  //set user's password
-  user.setPassword(userObject.password);
-  //save user, create session and redirect to home page
-  user.save().then((err,data)=> {
-    if(err) console.log(err);
-    sessions.create({req,resp,user});
-    resp.writeHead(302, {Location: '/home.html'});
-    resp.end();
-  });
-
-}
 
 //Uses middlewares: [auth.loginUser]
 const login = (req,resp) => {
@@ -126,6 +90,26 @@ const logout = (req,resp)=> {
   resp.end();
 };
 
+//handler for rendering password reset form
+const resetform = async(req,resp)=> {
+  //get the url params and find the user with 'id' param
+  let params = helper.qparams(req);
+  let user = await User.findOne({_id: params.get('id')});
+  console.log(user);
+  //check if user exists and activation code matches database
+  if(user && user.resetPswdDigest == params.get('resetid')) {
+    //if activation code has expired return 401
+    if((Date.now() - user.resetPswdSentAt) > 1000*60*120) {
+         resp.statusCode = 401;
+         resp.end('token expired') ;
+         return;
+    }
+     //else serve the password reset form
+      resp.writeHead(302, {Location: `/reset.html?id=${params.get('id')}`});
+      resp.end();
+    }
+}
+
 //handler for sending password reset e-mail
 const sendresetlink = async(req,resp)=> {
   console.log('calling USER.SENDRESETLINK')
@@ -141,9 +125,26 @@ const sendresetlink = async(req,resp)=> {
     nodemailer(user,'Reset-Pswd');
     resp.end();
   } else {resp.end('This e-mail is not registered!')}
-        
 }
 
+//handler for resetting user's password'
+const resetpswd = async(req,resp)=> {
+  console.log('calling USER.RESETPSWD')
+  //get the body of the request and covert it to json
+  let userObject = await helper.getBody(req).then(formdata => JSON.parse(formdata));
+  //find the user with the id from the hidden field in the form
+  let user = await User.findOne({_id: userObject.user_id});
+  console.log(userObject);
+  //set user's password
+  user.setPassword(userObject.password);
+  //save user, create session and redirect to home page
+  user.save().then((err,data)=> {
+    if(err) console.log(err);
+    sessions.create({req,resp,user});
+    resp.writeHead(302, {Location: '/home.html'});
+    resp.end();
+  });
+}
 
 
 //list of handlers for /user path
