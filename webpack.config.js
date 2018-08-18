@@ -3,8 +3,8 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     entry:  {
-        index: path.resolve(__dirname)+ '/views/index.js',
-        reset: path.resolve(__dirname)+ '/views/reset.js'
+        index: path.resolve(__dirname)+ '/frontend/views/home/index.js',
+        reset: path.resolve(__dirname)+ '/frontend/views/reset/reset.js'
         },
     target: 'web',
     output: {
@@ -44,8 +44,8 @@ module.exports = {
         ]
     },
      devServer: {
-    openPage: 'home.html',
-    contentBase: path.join(__dirname,'views/'),
+    openPage: 'views/home/home.html',
+    contentBase: path.join(__dirname,'frontend/'),
     open: true,
     watchContentBase: true,
     proxy: {

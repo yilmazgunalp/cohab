@@ -1,5 +1,5 @@
 let React = require('react');
-let Error = require('./error');
+let Error = require('../visual/error');
 
 class LoginForm  extends React.Component {
   constructor(props) {

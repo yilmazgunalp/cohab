@@ -28,7 +28,7 @@ margin: 8px;
 .message-icon {
 width: 36px;
 height: 36px;
-background: url("components/images/blue.png") no-repeat;
+background: url("../components/images/blue.png") no-repeat;
 background-size: contain;
 }
 

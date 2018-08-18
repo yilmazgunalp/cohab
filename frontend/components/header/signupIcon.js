@@ -1,5 +1,5 @@
 let React = require('react');
-let Icon = require('./icon');
+let Icon = require('../visual/icon');
 
 function SignupIcon(props) {
 

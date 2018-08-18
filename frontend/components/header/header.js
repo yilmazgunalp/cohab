@@ -1,15 +1,15 @@
 let React = require('react');
 let ReactDOM = require('react-dom');
 
-require('../test.css')
+require('../../styles/test.css')
 
 //Imported Components
 let UserBar = require('./userStatusBar');
-let LoginForm = require('./loginform');
-let SignupForm = require('./signupform');
-let Overlay = require('./overlay');
-let ConfirmationBox = require('./confirmationBox');
-let ResetPswdForm = require('./resetPswdForm');
+let LoginForm = require('../forms/loginForm');
+let SignupForm = require('../forms/signupForm');
+let Overlay = require('../visual/overlay');
+let ConfirmationBox = require('../forms/confirmationBox');
+let ResetPswdForm = require('../forms/resetPasswordForm');
 
 class  Header extends React.Component  {
 
