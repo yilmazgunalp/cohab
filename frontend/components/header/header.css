@@ -1,0 +1,39 @@
+.nav-bar {
+background: linear-gradient(to right,#abcdef,#face00);
+padding: 10px;
+min-height: 40px;  
+display: flex;
+justify-content: space-between;
+}
+
+.logo {
+padding: 8px;
+font-size: 20px;
+display: flex;
+align-items: center;
+}
+.user-status-bar {
+}
+
+.nav-icon {
+display: inline-block;    
+vertical-align: middle;
+margin: 8px;
+}
+
+.message-icon {
+width: 30px;
+height: 30px;
+background: url("/components/images/blue.png") no-repeat;
+background-size: contain;
+}
+
+.user-icon {
+width: 32px;
+height: 32px;
+border-radius: 15px;
+background: #fff url("/components/images/user.png") no-repeat;
+padding: 4px;
+background-size: contain;
+}
+

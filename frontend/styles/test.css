@@ -1,37 +1,3 @@
-#test  { 
-background: red;
-padding: 62px;
-
-}
-
-h3 {
-background: pink; 
-}
-
-
-.nav-bar {
-background: linear-gradient(to right,#abcdef,#face00);
-padding: 10px;
-min-height: 40px;  
-}
-
-.user-status-bar {
-float: right;
-}
-
-.nav-icon {
-display: inline-block;    
-vertical-align: middle;
-margin: 8px;
-}
-
-.message-icon {
-width: 36px;
-height: 36px;
-background: url("../components/images/blue.png") no-repeat;
-background-size: contain;
-}
-
 
 .overlay {
 display: flex;

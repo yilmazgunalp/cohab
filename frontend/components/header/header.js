@@ -1,7 +1,7 @@
 let React = require('react');
 let ReactDOM = require('react-dom');
 
-require('../../styles/test.css')
+require('./header.css')
 
 //Imported Components
 let UserBar = require('./userStatusBar');
@@ -10,6 +10,7 @@ let SignupForm = require('../forms/signupForm');
 let Overlay = require('../visual/overlay');
 let ConfirmationBox = require('../forms/confirmationBox');
 let ResetPswdForm = require('../forms/resetPasswordForm');
+let Logo = require('../visual/logo');
 
 class  Header extends React.Component  {
 
@@ -47,7 +48,7 @@ class  Header extends React.Component  {
   
  handleLogout() {
     fetch('http://localhost:8000/user/logout',{ credentials: 'same-origin', })
-    .then(resp => resp.ok ? this.setState({user: null,showform: false}) : null);
+    .then(resp => resp.status === 200  ? this.setState({user: null,showform: false}) : null);
   }     
 
   handleSignup(username,email,password) {
@@ -79,7 +80,8 @@ class  Header extends React.Component  {
   render() {
     return ( <div>
                 <nav className= 'nav-bar'>          
-                    <UserBar message={'Hello ' + (this.state.user || 'Stranger!')} isLoggedIn={this.state.user} 
+                    <Logo/>
+                    <UserBar  user={this.state.user} 
                     onLoginClick={this.renderForm} onLogoutSubmit={this.handleLogout} 
                     />
                 </nav>

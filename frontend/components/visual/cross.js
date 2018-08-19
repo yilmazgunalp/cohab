@@ -1,6 +1,6 @@
 let React = require('react');
 
-function CloseButton(props) {
+function Cross(props) {
   return  (<div className='close-button' onClick={props.onClose}>
           <svg className="cross" viewBox="0 0 100 100">
             <rect width="100" height="100" fill="black" />
@@ -11,4 +11,4 @@ function CloseButton(props) {
         )      
 }
 
-module.exports = CloseButton;
+module.exports = Cross;

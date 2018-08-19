@@ -105,7 +105,7 @@ const resetform = async(req,resp)=> {
          return;
     }
      //else serve the password reset form
-      resp.writeHead(302, {Location: `/reset.html?id=${params.get('id')}`});
+      resp.writeHead(302, {Location: `/views/reset/reset.html?id=${params.get('id')}`});
       resp.end();
     }
 }
@@ -131,7 +131,7 @@ const sendresetlink = async(req,resp)=> {
 const resetpswd = async(req,resp)=> {
   console.log('calling USER.RESETPSWD')
   //get the body of the request and covert it to json
-  let userObject = await helper.getBody(req).then(formdata => JSON.parse(formdata));
+  let userObject = await helper.getBody(req).then(formdata => helper.formToJson(formdata));
   //find the user with the id from the hidden field in the form
   let user = await User.findOne({_id: userObject.user_id});
   console.log(userObject);
@@ -141,7 +141,7 @@ const resetpswd = async(req,resp)=> {
   user.save().then((err,data)=> {
     if(err) console.log(err);
     sessions.create({req,resp,user});
-    resp.writeHead(302, {Location: '/home.html'});
+    resp.writeHead(302, {Location: '/views/home/home.html'});
     resp.end();
   });
 }

@@ -34,7 +34,7 @@ let handler = router(req);
 // if no handler is found return 404
 if(!handler) {
   resp.writeHead(404);
-  createReadStream("./views/404.html").pipe(resp);
+  createReadStream("./frontend/views/public/404.html").pipe(resp);
 } 
 //else apply middleware to the handler
 else {

@@ -1,5 +1,6 @@
 let React = require('react');
 let Icon = require('../visual/icon');
+let Button = require('../visual/button')
 
 function LoginIcon(props) {
 
@@ -10,13 +11,9 @@ function LoginIcon(props) {
 
  return (
     <Icon className='login-icon'>
-    <button id="login-button" onClick={handleClick}>
-    Log in
-    </button>
+    <Button className='enter-button' id="login-button" onClick={handleClick} label='Enter'/>
     </Icon>
-
  );
-    
 }
 
 module.exports = LoginIcon;

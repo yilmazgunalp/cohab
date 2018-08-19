@@ -15,7 +15,7 @@ class ResetForm  extends React.Component {
 
   render() {
     return (
-				<form  action='user/resetpswd' method='POST' className='login-form'>
+				<form  action='/user/resetpswd' method='POST' className='login-form'>
          <Error message={this.props.errors}/>
           <h2>Reset Password</h2>
           <div className='form-input'>

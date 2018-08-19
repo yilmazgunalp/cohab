@@ -1,11 +1,11 @@
 let React = require('react');
-let CloseButton = require('./closeButton');
+let Cross = require('./cross');
 
 
 function Overlay(props) {
  return (
     <div className='overlay' >
-    <CloseButton onClose={props.onclose}/>
+    <Cross  onClose={props.onclose}/>
     {props.children}
     </div>
     );

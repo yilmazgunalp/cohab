@@ -1,0 +1,22 @@
+button.default {
+color: #fff;
+background: #ff8d00;
+font-size: 18px;
+border: 1px solid rgb(255,120,0);
+border-radius: 3em;
+}
+
+button.default:hover {
+border-color: #54536f;
+color: initial;
+}
+
+button.default:focus {
+outline: none;
+}
+
+button.default:disabled {
+background: #f0f7ff;
+border: none;
+color: #e3d6d9;
+}
