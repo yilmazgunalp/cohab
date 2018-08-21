@@ -1,5 +1,4 @@
 let React = require('react');
-let WelcomeIcon = require('./welcomeIcon');
 let MessageIcon = require('./messageIcon');
 let LoginIcon = require('./loginIcon');
 let LogoutIcon = require('./logoutIcon');

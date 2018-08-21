@@ -9,19 +9,18 @@ let LoginForm = require('../forms/loginForm');
 let SignupForm = require('../forms/signupForm');
 let Overlay = require('../visual/overlay');
 let ConfirmationBox = require('../forms/confirmationBox');
-let ResetPswdForm = require('../forms/resetPasswordForm');
 let Logo = require('../visual/logo');
+
 
 class  Header extends React.Component  {
 
   constructor(...args) {
     super(...args)
-    this.state = { user: null, showform: false,form: null, formErrors: null, showSignupConfirmation: false,showResetConfirmation: false};
+    this.state = { user: null, showform: false,form: null, formErrors: null, showSignupConfirmation: false};
     this.renderForm = this.renderForm.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
-    this.handleResetPswd = this.handleResetPswd.bind(this);
   }
   
   componentWillMount() {
@@ -67,38 +66,17 @@ class  Header extends React.Component  {
   }
 
 
-  handleResetPswd(email) {
-    fetch('http://localhost:8000/user/sendresetlink',{
-          credentials: 'same-origin',
-          method: 'POST',
-          body: JSON.stringify({email})
-            })
-    .then(resp => { if(resp.ok) { this.setState({form: null, showResetConfirmation: true}) } })
-    .catch(e => console.log(e))
-  }
-        
   render() {
     return ( <div>
                 <nav className= 'nav-bar'>          
                     <Logo/>
                     <UserBar  user={this.state.user} 
-                    onLoginClick={this.renderForm} onLogoutSubmit={this.handleLogout} 
-                    />
+                    onLoginClick={this.renderForm} onLogoutSubmit={this.handleLogout}/>
                 </nav>
-                {this.state.showform ?  <Overlay onclose={this.renderForm}> 
-                    {this.state.form === 'login' ?  
-                    <LoginForm errors={this.state.formErrors} handleSubmit={this.handleLogin} handleResetPswd={this.renderForm}/> : 
-                    <SignupForm handleSubmit={this.handleSignup}/> 
-                    }
-                </Overlay> : null}
+                {this.state.showform ?  <Overlay onclose={this.renderForm} handleSubmit={this.handleLogin} > 
+                    </Overlay> : null }
                 {this.state.showSignupConfirmation ?  <Overlay onclose={() => this.setState({showSignupConfirmation: false}) }> 
                     <ConfirmationBox className="signup"/>
-                </Overlay> : null}
-                {this.state.form === 'resetPswd' ?  <Overlay onclose={() => this.setState({form: null}) }> 
-                    <ResetPswdForm handleSubmit={this.handleResetPswd}/> : 
-                </Overlay> : null}
-                {this.state.showResetConfirmation ?  <Overlay onclose={() => this.setState({showResetConfirmation: false}) }> 
-                    <ConfirmationBox className="reset-pswd"/>
                 </Overlay> : null}
             </div>
             )

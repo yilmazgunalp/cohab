@@ -115,6 +115,7 @@ const sendresetlink = async(req,resp)=> {
   console.log('calling USER.SENDRESETLINK')
   //get the body of the request and covert it to json
   let userObject = await helper.getBody(req).then(formdata => JSON.parse(formdata));
+  console.log(userObject)
   //query database for user
   let user = await User.findOne({email:userObject.email});
   //set resetPswddigest and send reset-email

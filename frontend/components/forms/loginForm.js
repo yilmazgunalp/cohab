@@ -1,10 +1,13 @@
 let React = require('react');
 let Error = require('../visual/error');
+let Button = require('../visual/button')
+require('./loginForm.css');
 
 class LoginForm  extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSignUp = this.handleSignUp.bind(this);
     this.handleResetPswd = this.handleResetPswd.bind(this);
     this.username = React.createRef();
     this.password = React.createRef();
@@ -16,14 +19,23 @@ class LoginForm  extends React.Component {
   }
 
   handleResetPswd(e) {
+    e.preventDefault();
     this.props.handleResetPswd(e);
+  }
+
+  handleSignUp(e) {
+   e.preventDefault();
+   fetch('user/home');
   }
 
   render() {
     return (
 				<form  onSubmit={this.handleSubmit} className='login-form'>
          <Error message={this.props.errors}/>
+          <header>
           <h2>Login</h2>
+          <Button flat={true} onClick={this.handleSignUp} label='Sign Up'/>
+          </header>
           <div className='form-input'>
             <label>
               Username
