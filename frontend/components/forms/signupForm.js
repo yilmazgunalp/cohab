@@ -1,9 +1,10 @@
 let React = require('react');
+let ConfirmationBox = require('../forms/confirmationBox');
 
 class SignupForm  extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {formValid: true}
+    this.state = {formValid: true, showConfirmation: false}
     this.handleSubmit = this.handleSubmit.bind(this);
     this.username = React.createRef();
     this.email = React.createRef();
@@ -17,11 +18,19 @@ class SignupForm  extends React.Component {
         alert('Passwords do not match! Please re-enter password') 
         this.setState({formValid: false});
         }
-    this.props.handleSubmit(this.username.current.value,this.email.current.value,this.password.current.value);
+    fetch('http://localhost:8000/user/signup',{
+          credentials: 'same-origin',
+          method: 'POST',
+          body: JSON.stringify({username: this.username.current.value,
+          email: this.email.current.value,password: this.password.current.value})
+            })
+    .then(resp => { if(resp.ok) { this.setState({showConfirmation: true}) } })
+    .catch(e => console.log(e))
   }
 
   render() {
     return (
+        this.state.showConfirmation ? <ConfirmationBox className="signup"/> : 
 				<form  onSubmit={this.handleSubmit} className='login-form'>
           <h2>Sign Up</h2>
           <div className='form-input'>

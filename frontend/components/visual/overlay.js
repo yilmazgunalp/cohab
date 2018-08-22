@@ -1,10 +1,9 @@
 let React = require('react');
-let ReactDOM = require('react-dom');
 let Cross = require('./cross');
 let ConfirmationBox = require('../forms/confirmationBox');
 let ResetPswdForm = require('../forms/resetPasswordForm');
 let LoginForm = require('../forms/loginForm');
-let Hoc = require('./hoc')
+let SignupForm = require('../forms/signupForm');
 
 class Overlay extends React.Component {
   constructor(props) {
@@ -17,9 +16,12 @@ class Overlay extends React.Component {
     <div className='overlay' >
       <Cross  onClose={this.props.onclose}/>
       {this.state.form === 'login' ? 
-      <LoginForm handleSubmit={this.props.handleSubmit} handleResetPswd={()=> this.setState({form: 'reset'})}/> : 
+      <LoginForm handleSubmit={this.props.handleSubmit} showResetPswdForm={()=> this.setState({form: 'reset'})} 
+      showSignupForm={()=> this.setState({form: 'signup'})}/> : 
       this.state.form === 'reset' ? 
-      <ResetPswdForm /> : null}
+      <ResetPswdForm /> : 
+      this.state.form === 'signup' ? 
+      <SignupForm/> : null}
     </div>
     );
   }

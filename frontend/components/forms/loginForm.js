@@ -7,8 +7,6 @@ class LoginForm  extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleSignUp = this.handleSignUp.bind(this);
-    this.handleResetPswd = this.handleResetPswd.bind(this);
     this.username = React.createRef();
     this.password = React.createRef();
   }
@@ -18,15 +16,6 @@ class LoginForm  extends React.Component {
     this.props.handleSubmit(this.username.current.value,this.password.current.value);
   }
 
-  handleResetPswd(e) {
-    e.preventDefault();
-    this.props.handleResetPswd(e);
-  }
-
-  handleSignUp(e) {
-   e.preventDefault();
-   fetch('user/home');
-  }
 
   render() {
     return (
@@ -34,7 +23,7 @@ class LoginForm  extends React.Component {
          <Error message={this.props.errors}/>
           <header>
           <h2>Login</h2>
-          <Button flat={true} onClick={this.handleSignUp} label='Sign Up'/>
+          <Button flat={true} onClick={this.props.showSignupForm} label='Sign Up'/>
           </header>
           <div className='form-input'>
             <label>
@@ -47,7 +36,7 @@ class LoginForm  extends React.Component {
               Password
               <input type="password" autoComplete="current-password" ref={this.password} />
             </label>
-          <span id='resetPswd-form' onClick={this.handleResetPswd} style={{color:"red"}}> Forgot Password?</span>
+          <span id='resetPswd-form' onClick={this.props.showResetPswdForm} style={{color:"red"}}> Forgot Password?</span>
           </div>
        <div className='form-submit'>
        <input type="submit" value="Submit" />
