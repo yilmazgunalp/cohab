@@ -125,7 +125,7 @@ const sendresetlink = async(req,resp)=> {
     user.save();
     nodemailer(user,'Reset-Pswd');
     resp.end();
-  } else {resp.end('This e-mail is not registered!')}
+  } else {resp.writeHead(401,{'Content-Type': 'application/json'});resp.end(JSON.stringify({errorMessage: "Email address is not registered"}))}
 }
 
 //handler for resetting user's password'
@@ -147,10 +147,27 @@ const resetpswd = async(req,resp)=> {
   });
 }
 
+//checks if a username already exists.Used by Signup Form
+const checkuser = async(req,resp) => {
+  console.log('calling userHandler.CHECKUSER');
+  //if a username exists return 418 else return 200
+  //else return 401 
+  let userObject = await helper.getBody(req).then(formdata => JSON.parse(formdata));
+  console.log(userObject)
+  let user = await User.findOne(userObject)
+  if(user) {
+  resp.statusCode = 418;
+  resp.end(JSON.stringify(JSON.stringify({errorMessage: 'Username already taken'})));
+  } else {
+    resp.statusCode = 200;   
+  resp.end();
+  }
+};
+
 
 //list of handlers for /user path
 const handlers = {
-  'POST': {signup,login,authenticate,sendresetlink,resetpswd},
+  'POST': {signup,login,authenticate,sendresetlink,resetpswd,checkuser},
   'GET': {logout,activate,resetform}
 }
 

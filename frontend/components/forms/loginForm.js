@@ -9,18 +9,31 @@ class LoginForm  extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.username = React.createRef();
     this.password = React.createRef();
+    this.state = {errors: null}
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    this.props.handleSubmit(this.username.current.value,this.password.current.value);
+    fetch('http://localhost:8000/user/login',{
+          credentials: 'same-origin',
+          method: 'POST',
+          body: JSON.stringify({username: this.username.current.value,
+          password: this.password.current.value})
+            })
+    .then(resp => { 
+    if(resp.status == 401) {
+        resp.json().then(data => this.setState({errors: data.errorMessage}));
+    } else {
+    resp.json().then(data => this.props.handleSubmit({username: data.username}));
+    }})
+    .catch(e => console.log(e))
   }
 
 
   render() {
     return (
 				<form  onSubmit={this.handleSubmit} className='login-form'>
-         <Error message={this.props.errors}/>
+         <Error message={this.state.errors}/>
           <header>
           <h2>Login</h2>
           <Button flat={true} onClick={this.props.showSignupForm} label='Sign Up'/>

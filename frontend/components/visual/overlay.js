@@ -16,7 +16,7 @@ class Overlay extends React.Component {
     <div className='overlay' >
       <Cross  onClose={this.props.onclose}/>
       {this.state.form === 'login' ? 
-      <LoginForm handleSubmit={this.props.handleSubmit} showResetPswdForm={()=> this.setState({form: 'reset'})} 
+      <LoginForm handleSubmit={this.props.handleLogin} showResetPswdForm={()=> this.setState({form: 'reset'})} 
       showSignupForm={()=> this.setState({form: 'signup'})}/> : 
       this.state.form === 'reset' ? 
       <ResetPswdForm /> : 
