@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
 const Schema = mongoose.Schema;
+const config = require('../config/config');
 
 const UserSchema = new Schema({
     username: {type: String,unique: true},
@@ -33,15 +34,14 @@ UserSchema.methods.setResetPswdDigest = function() {
 };
 
 UserSchema.methods.getActivationLink = function() {
-  return `http://localhost:8000/user/activate?id=${this._id}&activationid=${this.activationDigest}`;
+  return `${config.host}/user/activate?id=${this._id}&activationid=${this.activationDigest}`;
 };
 
 UserSchema.methods.getResetPswdLink = function() {
-  return `http://localhost:8000/user/resetform?id=${this._id}&resetid=${this.resetPswdDigest}`;
+  return `${config.host}/user/resetform?id=${this._id}&resetid=${this.resetPswdDigest}`;
 };
 
-const DB = require('../config').NODE_ENV === 'development' ? 'userdb' : 'testdb';
-mongoose.connect(`mongodb://mongo/${DB}`);
+mongoose.connect(config.db);
 const User = mongoose.model('user',UserSchema);
 
 module.exports = User;

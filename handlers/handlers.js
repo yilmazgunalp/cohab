@@ -10,7 +10,7 @@ const base = 'http://localhost:5000';
 
 //root handler
 const home = (req,resp) => {
-  createReadStream("./views/home.html").pipe(resp);
+  createReadStream("./frontend/views/home/home.html").pipe(resp);
 };
 
 const gig = (req,resp) => {

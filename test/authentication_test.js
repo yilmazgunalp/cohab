@@ -3,9 +3,10 @@ const chai = require('chai');
 let request = require('supertest');
 const User = require('../models/users');
 const mongoose = require('mongoose');
+const config = require('../config/config');
 
 mongoose.Promise = global.Promise;
-mongoose.connect("mongodb://localhost/testdb");
+mongoose.connect('mongodb://localhost/testdb');
 
 let expect = chai.expect;
 
