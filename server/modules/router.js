@@ -7,6 +7,6 @@ module.exports = function(req) {
   // find the handler for http request
   let handler = gethandler(path,req.method);
   //log the request to console
-  console.log(`${(new Date(Date.now()).toLocaleTimeString())} Received a HTTP request @ ${path}`);  
+  console.log(`${(new Date(Date.now()).toLocaleTimeString())} Received a HTTP ${req.method} request @ ${path}`);  
   return handler; 
 };

@@ -1,7 +1,7 @@
 {
   "scripts": {
     "test": "mocha --exit",
-    "start": "nodemon --ignore views app.js",
+    "start": "nodemon --ignore ..frontend/ server.js",
     "dev": "webpack-dev-server",
     "webpack": "webpack --watch",
     "build": "webpack -d && webpack-dev-server --content-base views/ --inline --hot --port 8000"
@@ -11,7 +11,8 @@
     "nodemailer": "^4.6.7",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
-    "redis": "^2.8.0"
+    "redis": "^2.8.0",
+    "sinon": "^6.1.5"
   },
   "devDependencies": {
     "chai": "^4.1.2",

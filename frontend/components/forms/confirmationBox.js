@@ -1,5 +1,6 @@
 let React = require('react');
 
+
 function ConfirmationBox(props) {
    return props.className === 'signup' ? 
   <div className={'confirmation '+  props.className}>

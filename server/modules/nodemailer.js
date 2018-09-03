@@ -38,4 +38,4 @@ const sendMail = (user,subject) => {
     })
 }
 
-module.exports = sendMail;
+module.exports = {sendMail};

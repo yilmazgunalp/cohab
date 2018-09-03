@@ -4,6 +4,9 @@ let request = require('supertest');
 const User = require('../models/users');
 const mongoose = require('mongoose');
 const config = require('../config/config');
+const sinon = require('sinon');
+const nodemailer = require('../modules/nodemailer');
+
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/testdb');
@@ -11,12 +14,19 @@ mongoose.connect('mongodb://localhost/testdb');
 let expect = chai.expect;
 
 describe('Authentication tests', ()=>{
-request = request('http://localhost:3000');
+  let sandbox;
+  request = request('http://localhost:3000');
   let agent;
   let user;
   let inactiveuser;
+
   beforeEach(()=>{
   agent = require('supertest').agent('http://localhost:3000');
+  sandbox = sinon;
+  })
+
+  afterEach(()=>{
+    sinon.restore();
   })
 
   before(async()=>{
@@ -28,6 +38,7 @@ request = request('http://localhost:3000');
    await inactiveuser.setPassword('password');
    await inactiveuser.save();
     })
+  
   context('POST user/login endpoint test', ()=>{
     it('returns 401 for empty request',async()=>{
     await request.post('/user/login').send({username: 'test',email: 'test'}).expect(401);
@@ -69,12 +80,14 @@ request = request('http://localhost:3000');
  context.skip('POST user/signup endpoint test', ()=>{
    let newUser = {username: 'signupuser',email: 'signupuseremail@mail.com',password: 'password'};
    it('should return 200 and save user to db ',async()=> {
+       let stub = sinon.spy(nodemailer,'sendMail');
      await agent.post('/user/signup').send(newUser).expect(200)
      .then(()=> User.findOne({username: 'signupuser'}))
      .then(user => {
        expect(user.email).to.equal('signupuseremail@mail.com');
        expect(user.active).to.be.false;
      });
+     expect(stub.calledOnce).to.be.true;
    })    
      
      context('GET user/activate endpoint test',async()=>{

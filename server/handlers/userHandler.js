@@ -19,7 +19,7 @@ const signup = async (req,resp) => {
   user.save().then((err,data)=> {
     if(err) console.log(err);
     console.log("user saved succefully");
-    nodemailer(user,'Account Activation');
+    nodemailer.sendMail(user,'Account Activation');
     resp.end();
   });
 };
@@ -123,7 +123,7 @@ const sendresetlink = async(req,resp)=> {
     user.setResetPswdDigest();
     user.set({resetPswdSentAt: Date.now()})
     user.save();
-    nodemailer(user,'Reset-Pswd');
+    nodemailer.sendMail(user,'Reset-Pswd');
     resp.end();
   } else {resp.writeHead(401,{'Content-Type': 'application/json'});resp.end(JSON.stringify({errorMessage: "Email address is not registered"}))}
 }
