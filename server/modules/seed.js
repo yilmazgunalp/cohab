@@ -1,4 +1,4 @@
-const User = require('../models/users');
+const User = require('../user/user');
 
 let users = [
   {username: 'shelly',email: 'shelly@test.com', active: true},

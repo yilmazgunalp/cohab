@@ -2,5 +2,5 @@
 /dist
 package-lock.json
 /frontend/components/images/
-/config/config.js
+/server/config/config.js
 CHEATSHEET.md

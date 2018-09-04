@@ -5,7 +5,6 @@ const app = require('./server/app');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
 
-//Server Code
 //  if master fork workers.
 if (cluster.isMaster) {
   //seed db for development

@@ -1,5 +1,5 @@
 const sessions = require('./session');
-const User = require('../models/users');
+const User = require('../user/user');
 const helper = require('../modules/helper');
 
 //******MIDDLEWARE FUNCTION******
