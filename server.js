@@ -1,5 +1,7 @@
 const config = require('./server/config/config');
 const app = require('./server/app');
+const mongoose = require('mongoose');
+mongoose.connect(config.db);
 
 // to run Node in Cluster Mode
 const cluster = require('cluster');

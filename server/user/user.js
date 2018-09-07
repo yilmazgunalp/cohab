@@ -41,7 +41,6 @@ UserSchema.methods.getResetPswdLink = function() {
   return `${config.host}/user/resetform?id=${this._id}&resetid=${this.resetPswdDigest}`;
 };
 
-mongoose.connect(config.db);
 const User = mongoose.model('user',UserSchema);
 
 module.exports = User;

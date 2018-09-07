@@ -2,6 +2,7 @@ const User = require('./user');
 const helper = require('../modules/helper');
 const sessions = require('../modules/session');
 const nodemailer = require('../modules/nodemailer');
+const UserService = require('./user.service');
 
 exports.GET = {
 logout:        (req,resp)=> {
