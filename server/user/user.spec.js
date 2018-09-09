@@ -1,6 +1,6 @@
 const assert = require('assert');
 const chai = require('chai');
-const User = require('../models/users');
+const User = require('./user');
 const mongoose = require('mongoose');
 const config = require('../config/config');
 

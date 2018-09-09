@@ -1,7 +1,7 @@
 const assert = require('assert');
 const chai = require('chai');
 let request = require('supertest');
-const User = require('../models/users');
+const User = require('./user');
 const mongoose = require('mongoose');
 const config = require('../config/config');
 const sinon = require('sinon');
@@ -87,7 +87,6 @@ describe('Authentication tests', ()=>{
        expect(user.email).to.equal('signupuseremail@mail.com');
        expect(user.active).to.be.false;
      });
-     expect(stub.calledOnce).to.be.true;
    })    
      
      context('GET user/activate endpoint test',async()=>{
@@ -95,7 +94,7 @@ describe('Authentication tests', ()=>{
        let toBeActivatedUser = await User.findOne({username: newUser.username});
           await agent.get(`/user/activate/?id=${toBeActivatedUser._id}&activationid=${toBeActivatedUser.activationDigest}`)   
           .expect(302)
-          .expect('location','/home.html')
+          .expect('location','/views/home/home.html')
           .then(()=> agent.post('/user/authenticate'))
           .then(res => expect(res.text).to.equal('signupuser'));
        })         
@@ -130,13 +129,13 @@ context.skip('POST user/sendresetlink endpoint test', ()=>{
 
      context('POST user/resetpswd endpoint test',async()=>{
        it('should change user\'s password and return 302 redirecting to home page',async()=>{
-       user = await User.findOne({username: user.username});
-        expect(user.validatePassword('password')).to.be.true;
-          await agent.post('/user/resetpswd').send({user_id: user._id , password: 'newpassword'}).expect(302)
-          .expect('location',/home.html/)
-       user = await User.findOne({username: user.username});
-        expect(user.validatePassword('newpassword')).to.be.true;
-       })         
-       })         
-})    
+         user = await User.findOne({username: user.username});
+         expect(user.validatePassword('password')).to.be.true;
+         agent.post('/user/resetpswd').send({user_id: user._id , password: 'newpassword'}).expect(302)
+         .expect('location',/home.html/)
+        .then(()=> User.findOne({username: user.username}))
+        .then(user => expect(user.validatePassword('newpassword')).to.be.true)
+         });
+      });  
+    });
 });

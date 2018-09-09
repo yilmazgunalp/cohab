@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "test": "mocha --exit",
+    "test": "mocha ./server/**/*.spec.js --exit",
     "start": "nodemon --ignore ..frontend/ server.js",
     "dev": "webpack-dev-server",
     "webpack": "webpack --watch",

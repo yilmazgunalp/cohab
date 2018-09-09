@@ -34,11 +34,11 @@ UserSchema.methods.setResetPswdDigest = function() {
 };
 
 UserSchema.methods.getActivationLink = function() {
-  return `${config.host}/user/activate?id=${this._id}&activationid=${this.activationDigest}`;
+  return `${config.host}/user/activate/?id=${this._id}&activationid=${this.activationDigest}`;
 };
 
 UserSchema.methods.getResetPswdLink = function() {
-  return `${config.host}/user/resetform?id=${this._id}&resetid=${this.resetPswdDigest}`;
+  return `${config.host}/user/resetform/?id=${this._id}&resetid=${this.resetPswdDigest}`;
 };
 
 const User = mongoose.model('user',UserSchema);

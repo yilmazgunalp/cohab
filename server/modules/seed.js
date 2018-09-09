@@ -7,7 +7,7 @@ let users = [
   {username: 'button',email: 'button@test.com', active: true},
   {username: 'flower',email: 'flower@test.com', active: true},
   {username: 'olaf',email: 'olaf@test.com', active: true},
-  {username: 'beatrice',email: 'yilmazgunalp@gmail.com', active: true}
+  {username: 'beatrice',email: 'yyilmazgunalp@gmail.com', active: true}
 ]
 
 User.remove()

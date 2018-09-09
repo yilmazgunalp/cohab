@@ -5,7 +5,7 @@ const {createReadStream } = require("fs");
 const router = require("./modules/router");
 
 // My Custom Middleware module
-const applyMiddleWare = require('./modules/mw.js')
+const applyMiddleWare = require('./modules/middleware')
 
 module.exports = createServer((req,resp) => {
 // get handler from Router Module
