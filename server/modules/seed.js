@@ -11,15 +11,20 @@ let users = [
   {username: 'olaf',email: 'olaf@test.com', active: true},
   {username: 'beatrice',email: 'yyilmazgunalp@gmail.com', active: true}
 ]
-const seed = async() => {
-await User.remove();
-await User.insertMany(users.map(user => new User(user)).map(user => {user.setPassword('123456');return user}));
+const seedusers = async() => {
+  await User.remove();
+  return await User.insertMany(users.map(user => new User(user)).map(user => {user.setPassword('123456');return user}));
 }
 
-seed().then(()=> console.log('Database is seeded!...'))
-.then(()=> User.findOne({username: 'olaf'}))
-.then(user => {
-  Event.create({name: 'first event',organizer: 'baba',postedBy: user})
-  .then(e => console.log(e))
-});
+const seedevents = async(users) => {
+  await Event.remove();
+  let promises =  users.map((user,i)=>{
+   return Event.create({name:`Event-${i}`,organizer: 'baba',postedBy: user})
+  });  
+  return Promise.all(promises);
+}
 
+seedusers()
+.then(seedevents)
+.then(()=> console.log('DATABASE IS SEEDED WITH 7 USERS AND 7 EVENTS'))
+.catch(e => console.log(e));
