@@ -17,9 +17,11 @@ const seedusers = async() => {
 }
 
 const seedevents = async(users) => {
+  let places = ['Newtown', 'Stanmore','Enmore','Redfern', 'Marrickvillel','Petersham','Lewisham'];
   await Event.remove();
   let promises =  users.map((user,i)=>{
-   return Event.create({name:`Event-${i}`,organizer: 'baba',postedBy: user})
+   return Event.create({name:`Event-${i}`,organizer: 'baba',place: places[i], 
+   startTime: ((new Date()) + i*60*60*24).toLocaleString(), description: 'Some awesome event',postedBy: user})
   });  
   return Promise.all(promises);
 }
