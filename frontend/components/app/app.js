@@ -1,6 +1,7 @@
 let React = require('react');
 let Header = require('../header/header');
 let Event = require('../event/event');
+let Feed = require('../feed/feed');
 
 class App extends React.Component {
   constructor(props) {
@@ -8,12 +9,13 @@ class App extends React.Component {
   }  
   
   render() {
-    let eventprops = {name: 'event',place: 'my place',description: 'hkjdhkjshkdsjlhlkhsadhklksahdkdhsakl',
-        startTime: Date.now(),postedBy: 'count olaf'};
     return(
       <div>
         <Header/>
-        <Event {...eventprops}/>
+        <main>
+          <Feed>
+          </Feed>
+        </main>
       </div>
     )  
   }

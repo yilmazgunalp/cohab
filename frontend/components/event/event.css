@@ -1,3 +1,37 @@
 .event-box {
-  
+margin: 5px;
+padding: 8px;  
+border: 1px solid #face00;
+border-radius: 3px;
+box-shadow: 3px 3px 3px #abcdef; 
+}
+
+.event-header {
+display: flex;
+justify-content: space-between;
+margin-bottom: 5px;
+}
+
+.event-content {
+display: flex;
+justify-content: space-between;
+}
+.event-img {
+margin-right: 8px;
+align-self: center;
+}
+
+.event-name {
+font-size: 1.2em;
+}
+
+.event-desc {
+font-size: 0.9em;
+max-height: 80px;
+overflow: hidden;
+}
+
+.event-poster {
+text-align: right;  
+padding-top: 5px;
 }
