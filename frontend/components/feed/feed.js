@@ -3,17 +3,31 @@ let Event = require('../event/event');
 
 class Feed extends React.Component {
   constructor(props) {
-    super(props)   
+    super(props);   
+    this.state = {events: null};
   }  
   
+  componentWillMount() {
+    fetch('http://localhost:8000/event/getAll')
+    .then(resp => resp.json()).then(data => this.setState({events: data}))
+    .catch(e => console.log('couldnt get evsents',e));
+  }
   render() {
-    let eventprops = {name: 'An Awesone Event',place: 'Cavendish Palace',description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.',
-        startTime: new Date(),postedBy: 'count olaf'};
+    console.log(this.state.events);
+    if(this.state.events) {
     return(
       <div className='feed'>
-            <Event {...eventprops}/>
+      {this.state.events.map((event,i)=> 
+        <Event {...event} key={i}/>
+      )}
       </div>
-    )  
+    )}  
+    
+    return(
+      <div className='feed'>
+      Loading...
+      </div>
+      )
   }
 }
 

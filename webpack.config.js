@@ -48,8 +48,8 @@ module.exports = {
     contentBase: path.join(__dirname,'frontend/'),
     open: true,
     watchContentBase: true,
-    proxy: {
-       '/user' : {
+    proxy: [{
+          context: ['/user','/event'],
           target: 'http://localhost:3000',
           secure: false,
 onProxyReq: function(proxyReq, req, res){
@@ -58,8 +58,7 @@ onProxyReq: function(proxyReq, req, res){
 onProxyRes: function(proxyRes, req, res){
                 //res.headers = proxyRes.headers;
             }
-       }
-        },
+          }],
         
     port: 8000,
     overlay:{ 

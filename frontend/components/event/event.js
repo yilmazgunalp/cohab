@@ -11,7 +11,7 @@ class Event extends React.Component {
       <section className='event-box'>
         <div className='event-header'>
           <div className='event-date'>
-            <span>{this.props.startTime.toDateString()}</span>
+            <span>{new Date(this.props.startTime).toDateString()}</span>
           </div>
           <div className='event-place'>
             <span>{this.props.place}</span>
@@ -26,7 +26,7 @@ class Event extends React.Component {
             <p className='event-desc'>{this.props.description}</p>
           </div>
         </div>
-        <div className='event-poster'> posted by: {this.props.postedBy}</div>    
+        <div className='event-poster'> posted by: {this.props.postedBy.username}</div>    
       </section> 
   )  
 }
