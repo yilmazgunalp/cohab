@@ -1,4 +1,6 @@
 let React = require('react');
+import {connect} from 'react-redux';
+import {login,logout} from '../../redux/actions';
 require('./header.css')
 
 //Imported Components
@@ -16,7 +18,7 @@ class  Header extends React.Component  {
   
   componentWillMount() {
     fetch('http://localhost:8000/user/authenticate',{credentials: 'same-origin',method: 'POST'})
-    .then(resp => resp.text()).then(data => this.setState({user: data}))
+    .then(resp => resp.text()).then(data => this.props.login(data))
     .catch(e => console.log('COULD NOT AUTHORIZE USER',e));
   }
 
@@ -33,7 +35,7 @@ class  Header extends React.Component  {
     return ( <div>
                 <nav className= 'nav-bar'>          
                     <Logo/>
-                    <UserBar  user={this.state.user} 
+                    <UserBar  user={this.props.user} 
                     onLoginClick={()=> this.setState({form: 1})} onLogoutSubmit={this.handleLogout}/>
                 </nav>
                 {this.state.form ?  <Overlay onclose={()=> this.setState({form: 0})} handleLogin={this.handleLogin}/> : null }
@@ -42,5 +44,11 @@ class  Header extends React.Component  {
   }
 }
 
-module.exports = Header;
+const mapStateToProps = state => {
+    return { user: state.user }  
+  }
+
+const mapDispatchToProps = {login,logout}  
+
+module.exports = connect(mapStateToProps,mapDispatchToProps)(Header);
 

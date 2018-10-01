@@ -13,7 +13,7 @@ class Feed extends React.Component {
     .catch(e => console.log('couldnt get evsents',e));
   }
   render() {
-    console.log(this.state.events);
+    console.log(this.props)
     if(this.state.events) {
     return(
       <div className='feed'>
