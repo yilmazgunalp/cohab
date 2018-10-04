@@ -1,6 +1,7 @@
 {
   "presets": [
     "react",
+    "es2015",
     [
       "env",
       {
@@ -11,5 +12,6 @@
         "modules": false
       }
     ]
-  ]
+  ],
+  "plugins": ["css-modules-transform"]
 }
