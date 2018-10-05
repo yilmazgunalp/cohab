@@ -14,7 +14,6 @@ class App extends React.Component {
       <div>
         <Header/>
         <main>
-        <div>{this.props.user}</div>
           <Feed>
           </Feed>
         </main>

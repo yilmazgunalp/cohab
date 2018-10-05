@@ -1,5 +1,8 @@
 let React = require('react');
 let Event = require('../event/event');
+let Button  = require('../visual/button');
+import {connect} from 'react-redux';
+import './feed.css';
 
 class Feed extends React.Component {
   constructor(props) {
@@ -17,6 +20,7 @@ class Feed extends React.Component {
     if(this.state.events) {
     return(
       <div className='feed'>
+     {this.props.user && <header><Button label='Post an Event' primary={true}/></header>}
       {this.state.events.map((event,i)=> 
         <Event {...event} key={i}/>
       )}
@@ -31,5 +35,8 @@ class Feed extends React.Component {
   }
 }
 
-module.exports = Feed;
+const mapStateToProps = state => {
+    return { user: state.user }  
+  }
 
+module.exports = connect(mapStateToProps)(Feed);
