@@ -10,3 +10,10 @@ getAll:        async(req,resp)=> {
                }
 }
 
+exports.POST = {
+create:        async(req,resp)=> {
+                resp.setHeader('Content-Type', 'application/json');
+                resp.end(JSON.stringify
+                ({"event": "Hello brand new event"}));
+               }
+}
