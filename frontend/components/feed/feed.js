@@ -1,6 +1,7 @@
 let React = require('react');
 let Event = require('../event/event');
 let Button  = require('../visual/button');
+import EventForm from'../forms/eventForm';
 let Overlay = require('../visual/overlay');
 import {connect} from 'react-redux';
 import './feed.css';
@@ -24,7 +25,7 @@ class Feed extends React.Component {
       {this.state.events.map((event,i)=> 
         <Event {...event} key={i}/>
       )}
-      {this.state.form &&  <Overlay onclose={()=> this.setState({form: 0})}>Hello</Overlay>}
+      {this.state.form &&  <Overlay onclose={()=> this.setState({form: 0})}><EventForm/></Overlay>}
       </div>
     )}  
     
