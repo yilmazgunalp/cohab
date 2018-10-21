@@ -1,11 +1,12 @@
 import React from 'react';
 import ConfirmationBox from '../forms/confirmationBox';
 import Error from '../visual/error';
+import Button  from '../visual/button';
 
 export default class EventForm  extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {errors: null, showConfirmation: false, eventname: "",organizer: "",place: ""}
+    this.state = {errors: null, formStage: 0, showConfirmation: false, eventname: "",organizer: "",place: ""}
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getPlaceId = this.getPlaceId.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -53,6 +54,8 @@ this.setState({place: loc.getPlace()});
 				<form  onSubmit={this.handleSubmit} className='event-form'>
          <Error message={EventForm.formErrors(this.state)}/>
           <h2>Post an Event</h2>
+          {!this.state.formStage ? 
+          <div className='form-stage'>
           <div className='form-input'>
             <label>
               Event Name
@@ -71,6 +74,10 @@ this.setState({place: loc.getPlace()});
               <input id="pac" name='place' type="text" onChange={this.getPlaceId}/>
             </label>
           </div>
+          <Button onClick={()=> this.setState({formStage: 1})} label='Next' secondary={true} className="next-button" />
+          </div>
+          :
+          <div className='form-stage'>
           <div className='form-input'>
             <label>
               Start Time
@@ -79,8 +86,8 @@ this.setState({place: loc.getPlace()});
           </div>
           <div className='form-input'>
             <label>
-              Description
-              <textarea name='description' rows="3" col="33"/>
+              Event Description
+              <textarea name='description' rows="5" col="33"/>
             </label>
           </div>
           <div className='form-input'>
@@ -90,8 +97,10 @@ this.setState({place: loc.getPlace()});
             </label>
           </div>
        <div className='form-submit'>
-       <input type="submit" disabled={EventForm.formErrors(this.state)} value="Submit" />
+       <Button type="submit" disabled={EventForm.formErrors(this.state)} label="Post" className='submit-button' />
        </div>
+       <Button onClick={()=> this.setState({formStage: 0})} label='Back' secondary={true} className="back-button"/>
+       </div> }
       </form>
       );
   } }

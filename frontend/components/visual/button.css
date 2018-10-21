@@ -4,6 +4,8 @@ background: #ff8d00;
 font-size: 18px;
 border: 1px solid rgb(255,120,0);
 border-radius: 3em;
+min-width: 64px;
+padding: 3px;
 }
 
 button.default:hover {
@@ -19,4 +21,15 @@ button.default:disabled {
 background: #f0f7ff;
 border: none;
 color: #e3d6d9;
+}
+
+button.secondary {
+background: #9e0059;  
+}
+
+button.submit-button {
+background: #390099;
+height: 42px;
+border-radius: 13px;
+padding: 8px;
 }

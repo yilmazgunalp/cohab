@@ -6,7 +6,7 @@ require('./header.css')
 
 //Imported Components
 let UserBar = require('./userStatusBar');
-let Overlay = require('../visual/overlay');
+import  Overlay  from '../visual/overlay';
 let Logo = require('../visual/logo');
 
 class  Header extends React.Component  {

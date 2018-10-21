@@ -1,8 +1,8 @@
 let React = require('react');
 let Event = require('../event/event');
 let Button  = require('../visual/button');
-import EventForm from'../forms/eventForm';
-let Overlay = require('../visual/overlay');
+import EventForm from '../forms/eventForm';
+import  Overlay  from '../visual/overlay';
 import {connect} from 'react-redux';
 import './feed.css';
 
