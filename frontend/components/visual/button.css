@@ -1,6 +1,7 @@
+@import '../../styles/constants';
 button.default {
 color: #fff;
-background: #ff8d00;
+background: $secondary-orange;
 font-size: 18px;
 border: 1px solid rgb(255,120,0);
 border-radius: 3em;
@@ -18,17 +19,17 @@ outline: none;
 }
 
 button.default:disabled {
-background: #f0f7ff;
+background: $overlay-pale;
 border: none;
 color: #e3d6d9;
 }
 
 button.secondary {
-background: #9e0059;  
+background: $primary-blue;  
 }
 
 button.submit-button {
-background: #390099;
+background: $primary-red;
 height: 42px;
 border-radius: 13px;
 padding: 8px;

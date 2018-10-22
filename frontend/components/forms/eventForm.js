@@ -2,6 +2,7 @@ import React from 'react';
 import ConfirmationBox from '../forms/confirmationBox';
 import Error from '../visual/error';
 import Button  from '../visual/button';
+import './forms.scss';
 
 export default class EventForm  extends React.Component {
   constructor(props) {
@@ -10,12 +11,15 @@ export default class EventForm  extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getPlaceId = this.getPlaceId.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.loc = React.createRef();
+    this.location;
 }
 
 componentDidMount() {
+console.log('did mount');
 let options = {componentRestrictions: {country: 'au'}}
-let loc = new google.maps.places.Autocomplete(document.getElementById('pac'),options)
-loc.addListener('place_changed', this.getPlaceId);
+this.location = new google.maps.places.Autocomplete(this.loc.current,options)
+this.location.addListener('place_changed', this.getPlaceId);
 }
 
 handleInputChange(event) {
@@ -29,7 +33,7 @@ handleInputChange(event) {
 }
 
 getPlaceId() {
-this.setState({place: loc.getPlace()});
+this.setState({place: this.location.getPlace()});
 }
 
   static formErrors(state) {
@@ -58,6 +62,12 @@ this.setState({place: loc.getPlace()});
           <div className='form-stage'>
           <div className='form-input'>
             <label>
+              Place
+              <input id="pac" name='place' type="text" onChange={this.getPlaceId} ref={this.loc}/>
+            </label>
+          </div>
+          <div className='form-input'>
+            <label>
               Event Name
               <input name='eventname' type="text" onChange={this.handleInputChange}/>
             </label>
@@ -68,26 +78,20 @@ this.setState({place: loc.getPlace()});
               <input name='organizer' type="text" onChange={this.handleInputChange}/>
             </label>
           </div>
-          <div className='form-input'>
-            <label>
-              Place
-              <input id="pac" name='place' type="text" onChange={this.getPlaceId}/>
-            </label>
-          </div>
           <Button onClick={()=> this.setState({formStage: 1})} label='Next' secondary={true} className="next-button" />
           </div>
           :
           <div className='form-stage'>
           <div className='form-input'>
             <label>
-              Start Time
-              <input name='start-time' type="datetime-local"/>
+              Event Description
+              <textarea name='description' rows="5" col="33"/>
             </label>
           </div>
           <div className='form-input'>
             <label>
-              Event Description
-              <textarea name='description' rows="5" col="33"/>
+              Start Time
+              <input name='start-time' type="datetime-local"/>
             </label>
           </div>
           <div className='form-input'>

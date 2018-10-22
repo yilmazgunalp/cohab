@@ -1,5 +1,4 @@
 require('./resets.css');
-require('../../styles/test.css');
 
 let PasswordResetForm = require('../../components/forms/passwordResetForm');
 let Overlay = require('../../components/visual/overlay');

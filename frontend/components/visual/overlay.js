@@ -5,6 +5,8 @@ let SendResetLinkForm = require('../forms/sendResetLinkForm');
 let LoginForm = require('../forms/loginForm');
 let SignupForm = require('../forms/signupForm');
 
+import './overlay.scss';
+
 export default class Overlay extends React.Component {
   constructor(props) {
     super(props);
