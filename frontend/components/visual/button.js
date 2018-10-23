@@ -16,10 +16,10 @@ class Button extends React.Component {
 
   render() {
    return (
-      <button id={this.props.id} onClick={this.handleonClick} className={
+      <div id={this.props.id}   onClick={this.handleonClick} className={
         'default ' + (this.props.primary ? 'primary' : this.props.secondary ? 'secondary' : this.flat ? 'flat' : '') + ' ' + this.props.className } disabled={this.state.disabled}> 
-      {this.props.label}
-      </button>
+      <span>{this.props.label}</span>
+      </div>
    )
   }
 

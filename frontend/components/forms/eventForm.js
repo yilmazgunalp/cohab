@@ -7,25 +7,39 @@ import './forms.scss';
 export default class EventForm  extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {errors: null, formStage: 0, showConfirmation: false, eventname: "",organizer: "",place: ""}
+    this.state = {
+      errors: null, 
+      formStage: 0, 
+      showConfirmation: false, 
+      eventname: "",
+      organizer: "",
+      place: "",
+      startTime: ''
+      }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getPlaceId = this.getPlaceId.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.loc = React.createRef();
-    this.location;
+    this.autocompleteoptions = {componentRestrictions: {country: 'au'}};
 }
 
 componentDidMount() {
-console.log('did mount');
-let options = {componentRestrictions: {country: 'au'}}
-this.location = new google.maps.places.Autocomplete(this.loc.current,options)
+this.location = new google.maps.places.Autocomplete(this.loc.current,this.autocompleteoptions);
 this.location.addListener('place_changed', this.getPlaceId);
+}
+
+componentDidUpdate() {
+    if(!this.state.formStage){
+      this.location = new google.maps.places.Autocomplete(this.loc.current,this.autocompleteoptions);
+      this.location.addListener('place_changed', this.getPlaceId);
+    }
 }
 
 handleInputChange(event) {
     const target = event.target;
     const value = target.value;
     const name = target.name;
+    console.log(value)
 
     this.setState({
       [name]: value,
@@ -33,7 +47,10 @@ handleInputChange(event) {
 }
 
 getPlaceId() {
-this.setState({place: this.location.getPlace()});
+let eventPlace = this.location.getPlace();
+if(eventPlace) {
+this.setState({place: eventPlace.place_id});
+}
 }
 
   static formErrors(state) {
@@ -53,6 +70,7 @@ this.setState({place: this.location.getPlace()});
     }
 
   render() {
+    console.log('inside render')
     return (
         this.state.showConfirmation ? <ConfirmationBox className="signup"/> : 
 				<form  onSubmit={this.handleSubmit} className='event-form'>
@@ -69,13 +87,13 @@ this.setState({place: this.location.getPlace()});
           <div className='form-input'>
             <label>
               Event Name
-              <input name='eventname' type="text" onChange={this.handleInputChange}/>
+              <input name='eventname' type="text" value={this.state.eventname} onChange={this.handleInputChange}/>
             </label>
           </div>
           <div className='form-input'>
             <label>
               Organizer
-              <input name='organizer' type="text" onChange={this.handleInputChange}/>
+              <input name='organizer' type="text" value={this.state.organizer} onChange={this.handleInputChange}/>
             </label>
           </div>
           <Button onClick={()=> this.setState({formStage: 1})} label='Next' secondary={true} className="next-button" />
@@ -85,23 +103,23 @@ this.setState({place: this.location.getPlace()});
           <div className='form-input'>
             <label>
               Event Description
-              <textarea name='description' rows="5" col="33"/>
+              <textarea name='description' rows="5" col="33" onChange={this.handleInputChange}/>
             </label>
           </div>
           <div className='form-input'>
             <label>
               Start Time
-              <input name='start-time' type="datetime-local"/>
+              <input name='startTime' value={this.state.startTime} type="datetime-local" onChange={this.handleInputChange}/>
             </label>
           </div>
           <div className='form-input'>
             <label>
               Finish  Time
-              <input name='finish-time' type="datetime-local"/>
+              <input name='finish-time' type="datetime-local" onChange={this.handleInputChange}/>
             </label>
           </div>
        <div className='form-submit'>
-       <Button type="submit" disabled={EventForm.formErrors(this.state)} label="Post" className='submit-button' />
+       <Button onClick={this.handleSubmit} disabled={EventForm.formErrors(this.state)} label="Post" className='submit-button' />
        </div>
        <Button onClick={()=> this.setState({formStage: 0})} label='Back' secondary={true} className="back-button"/>
        </div> }
