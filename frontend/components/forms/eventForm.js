@@ -13,12 +13,16 @@ export default class EventForm  extends React.Component {
       showConfirmation: false, 
       eventname: "",
       organizer: "",
-      place: "",
-      startTime: ''
+      description: "",
+      placeID: "",
+      placeName: "",
+      startTime: '',
+      finishTime: ''
       }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getPlaceId = this.getPlaceId.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handlePlaceChange = this.handlePlaceChange.bind(this);
     this.loc = React.createRef();
     this.autocompleteoptions = {componentRestrictions: {country: 'au'}};
 }
@@ -39,17 +43,21 @@ handleInputChange(event) {
     const target = event.target;
     const value = target.value;
     const name = target.name;
-    console.log(value)
 
     this.setState({
       [name]: value,
     });
 }
 
+handlePlaceChange(placeName) {
+this.setState({placeName});
+}
+
 getPlaceId() {
 let eventPlace = this.location.getPlace();
 if(eventPlace) {
-this.setState({place: eventPlace.place_id});
+this.setState({placeID: eventPlace.place_id});
+this.handlePlaceChange(eventPlace.formatted_address);
 }
 }
 
@@ -81,7 +89,7 @@ this.setState({place: eventPlace.place_id});
           <div className='form-input'>
             <label>
               Place
-              <input id="pac" name='place' type="text" onChange={this.getPlaceId} ref={this.loc}/>
+              <input id="pac" name='placeName' type="text" defaultValue={this.state.placeName} ref={this.loc}/>
             </label>
           </div>
           <div className='form-input'>
@@ -115,7 +123,7 @@ this.setState({place: eventPlace.place_id});
           <div className='form-input'>
             <label>
               Finish  Time
-              <input name='finish-time' type="datetime-local" onChange={this.handleInputChange}/>
+             <input name='finishTime' value={this.state.finishTime} type="datetime-local" onChange={this.handleInputChange}/>
             </label>
           </div>
        <div className='form-submit'>
