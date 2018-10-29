@@ -7,14 +7,14 @@
     "build": "webpack -d && webpack-dev-server --content-base views/ --inline --hot --port 8000"
   },
   "dependencies": {
+    "folktale": "^2.3.1",
     "mongoose": "^5.0.16",
     "nodemailer": "^4.6.7",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
     "react-redux": "^5.0.7",
     "redis": "^2.8.0",
-    "redux": "^4.0.0",
-    "sinon": "^6.1.5"
+    "redux": "^4.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -33,6 +33,7 @@
     "node-sass": "^4.9.4",
     "nodemon": "^1.17.3",
     "sass-loader": "^7.1.0",
+    "sinon": "^6.1.5",
     "style-loader": "^0.21.0",
     "supertest": "^3.1.0",
     "webpack": "^3.10.0",
