@@ -5,24 +5,31 @@ import Button  from '../visual/button';
 import './forms.scss';
 
 import * as U from '../../utils/utils';
-import { Success, Failure } from 'folktale/validation';
+import {Success,Failure} from 'folktale/validation';
+import Validation from 'folktale/validation';
 
 const notEmpty = (field,value) => 
-  U.isEmpty(value) ? Failure([`${field} cant be empty`])
-	: 								 Success(value);
-const validateForm = data => 
-  Success().concat(notEmpty('place', data.place))
-           .concat(notEmpty('placeName', data.placeName))
-           .concat(notEmpty('eventname', data.eventname))
-           .concat(notEmpty('organizer', data.organizer));
+    U.isEmpty(value) ? Failure([`${field} cant be empty`])
+    : 								 Success(value);
+
+const validateFormStage0 = data => 
+    Success().concat(notEmpty('place', data.place))
+             .concat(notEmpty('placeName', data.placeName))
+             .concat(notEmpty('eventname', data.eventname))
+             .concat(notEmpty('organizer', data.organizer));
+
+const validateFormStage1 = data => 
+    Success().concat(notEmpty('startTime', data.startTime).concat(Validation.fromResult(U.parseDateString(data.startTime))))
+             .concat(notEmpty('finishTime', data.finishTime))
+             .concat(notEmpty('description', data.description))
 
 export default class EventForm  extends React.Component {
-  constructor(props) {
+    constructor(props) {
     super(props);
     this.state = {
       errors: null, 
       formStage: 0, 
-      showConfirmation: false, 
+      showConfirmation: 0, 
       eventname: "",
       organizer: "",
       description: "",
@@ -35,19 +42,17 @@ export default class EventForm  extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getPlaceId = this.getPlaceId.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
-    //this.handlePlaceChange = this.handlePlaceChange.bind(this);
     this.handleErrors = this.handleErrors.bind(this);
     this.loc = React.createRef();
     this.autocompleteoptions = {componentRestrictions: {country: 'au'}};
 }
 
 componentDidMount() {
-this.location = new google.maps.places.Autocomplete(this.loc.current,this.autocompleteoptions);
-this.location.addListener('place_changed', this.getPlaceId);
+    this.location = new google.maps.places.Autocomplete(this.loc.current,this.autocompleteoptions);
+    this.location.addListener('place_changed', this.getPlaceId);
 }
 
 handleInputChange(event) {
-    console.log('inside input change');
     const target = event.target;
     const value = target.value;
     const name = target.name;
@@ -55,31 +60,32 @@ handleInputChange(event) {
 }
 
 getPlaceId(value) {
-  console.log('inside getplace')
-  let eventPlace = this.location.getPlace();
-  if(eventPlace) { this.setState({place: eventPlace.formatted_address,placeID: eventPlace.place_id})}
+    let eventPlace = this.location.getPlace();
+    if(eventPlace) { this.setState({place: eventPlace.formatted_address,placeID: eventPlace.place_id})}
 }
 
 handleErrors() {
- this.setState({errors: null});
- if(!this.state.formStage) {
+   this.setState({errors: null});
+   if(!this.state.formStage) {
       let partState = U.partObj(['place','placeName','organizer','eventname'],this.state);
-      console.log(partState)
-      validateForm(partState).matchWith({
-      Success: (value) => console.log('holy shit you did it!!!',value),
+      validateFormStage0(partState).matchWith({
+      Success: (value) => this.setState({formStage: 1}),
       Failure: ({ value }) => this.setState({errors: value})
       });
-    
-   } else {
+   }else{
+      let partState = U.partObj(['description','startTime','finishTime'],this.state);
+    console.log(Validation.fromResult(U.parseDateString(partState.startTime)))
+      validateFormStage1(partState).matchWith({
+      Success: (value) => console.log(value),
+      Failure: ({ value }) => this.setState({errors: value})
+      });
    
    }
 }
 
-  static formErrors(state) {
-    return  state.errors ? state.errors : null;
-  }
+static formErrors(state) {return  state.errors ? state.errors : null};
 
-  handleSubmit(event) {
+handleSubmit(event) {
     event.preventDefault();
     fetch('http://localhost:8000/event/create',{
           credentials: 'same-origin',
@@ -89,10 +95,9 @@ handleErrors() {
             })
     .then(resp => { if(resp.ok) { this.setState({showConfirmation: true}) } })
     .catch(e => console.log(e))
-    }
+}
 
-  render() {
-    console.log('inside render',this.state.errors)
+render() {
     return (
         this.state.showConfirmation ? <ConfirmationBox className="signup"/> : 
 				<form  onSubmit={this.handleSubmit} className='event-form'>
@@ -147,5 +152,5 @@ handleErrors() {
        </div> }
       </form>
       );
-  } }
+} }
 
