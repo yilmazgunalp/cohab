@@ -23,7 +23,7 @@ class Feed extends React.Component {
       <div className='feed'>
      {this.props.user && <header><Button onClick={()=> this.setState({form: 1})}label='Post an Event' primary={true}/></header>}
       {this.state.events.map((event,i)=> 
-        <Event {...event} key={i}/>
+        <Event {...event} ownEvent={this.props.user === event.postedBy.username} key={i}/>
       )}
       {this.state.form &&  <Overlay onclose={()=> this.setState({form: 0})}><EventForm/></Overlay>}
       </div>

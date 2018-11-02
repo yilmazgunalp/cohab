@@ -1,10 +1,13 @@
 const Event = require('./event');
+const User = require('../user/user');
 const mongoose = require('mongoose');
 mongoose.connect(config.db);
 
 
-const createEvent = Event => eventObject => {
-  //TO DO
+const createEvent = Event => event => {
+ return  User.findOne({username: event.postedBy})
+    .then(user => event.postedBy = user)
+    .then(_ => Event.create(event))
 }
 
 const getEvents = Event => () => {

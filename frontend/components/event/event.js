@@ -26,6 +26,7 @@ class Event extends React.Component {
             <p className='event-desc'>{this.props.description}</p>
           </div>
         </div>
+        {this.props.ownEvent && <button>Delete</button>}
         <div className='event-poster'> posted by: {this.props.postedBy.username}</div>    
       </section> 
   )  

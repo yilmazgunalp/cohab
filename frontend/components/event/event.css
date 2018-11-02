@@ -14,7 +14,6 @@ margin-bottom: 5px;
 
 .event-content {
 display: flex;
-justify-content: space-between;
 }
 .event-img {
 margin-right: 8px;

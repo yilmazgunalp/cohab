@@ -22,8 +22,9 @@ const seedevents = async(users) => {
   await Event.remove();
   let promises =  users.map((user,i)=>{
    return Event.create({name:`Event-${i}`,organizer: 'baba',place: places[i], 
-   startTime: (new Date(`October 2${i}, 2018 1${i}:00`)) , postedBy: user,description})
-  });  
+   startTime: (new Date(`October 2${i}, 2018 1${i}:00`)),
+   endTime: (new Date(`November 2${i}, 2018 1${i}:00`)) , postedBy: user,description,placeID: 'someID'})
+   });
   return Promise.all(promises);
 }
 
