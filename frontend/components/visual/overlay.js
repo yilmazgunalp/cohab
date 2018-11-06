@@ -4,6 +4,8 @@ let ConfirmationBox = require('../forms/confirmationBox');
 let SendResetLinkForm = require('../forms/sendResetLinkForm');
 let LoginForm = require('../forms/loginForm');
 let SignupForm = require('../forms/signupForm');
+import {hideModal} from '../../redux/actions';
+import store from '../../redux/store';
 
 import './overlay.scss';
 
@@ -12,6 +14,7 @@ export default class Overlay extends React.Component {
     super(props);
     this.state = {form: 'login' }
     this.handleScroll = this.handleScroll.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
   componentDidMount() {
@@ -32,18 +35,15 @@ export default class Overlay extends React.Component {
  document.body.style.overflow = 'hidden';
  }
 
+ handleClose() {
+ store.dispatch({type: 'HIDE_MODAL',modal: {show: 0}});
+ }
+
  render() {
    return (
     <div className='overlay' tabIndex="0" onKeyDown={this.handleKeyDown.bind(this)}>
-      <Cross  onClose={this.props.onclose}/>
-      {this.props.children ? this.props.children : 
-      this.state.form === 'login' ? 
-      <LoginForm handleSubmit={this.props.handleLogin} showResetPswdForm={()=> this.setState({form: 'reset'})} 
-      showSignupForm={()=> this.setState({form: 'signup'})}/> : 
-      this.state.form === 'reset' ? 
-      <SendResetLinkForm /> : 
-      this.state.form === 'signup' ? 
-      <SignupForm/> : null}
+      <Cross  onClose={this.handleClose}/>
+      {this.props.content}
     </div>
     );
   }

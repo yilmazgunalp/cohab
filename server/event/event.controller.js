@@ -19,6 +19,14 @@ create:        async(req,resp)=> {
                  resp.end();
                })
                .catch(e => console.log(e));
-               // resp.setHeader('Content-Type', 'application/json');
+               },
+
+delete:        async(req,resp)=> {
+               let event = await util.getBody(req).then(body => JSON.parse(body));
+               EventService.delete(event._id)
+               .then(event => {
+                 resp.end();
+               })
+               .catch(e => console.log(e));
                }
 }

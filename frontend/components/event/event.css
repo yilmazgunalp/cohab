@@ -30,7 +30,12 @@ max-height: 80px;
 overflow: hidden;
 }
 
-.event-poster {
-text-align: right;  
-padding-top: 5px;
+.event-info {
+display: flex;
+justify-content: flex-end;
+align-items: center;
+}
+
+.event-info > div {
+margin-left: 6px;  
 }

@@ -14,10 +14,15 @@ const getEvents = Event => () => {
   return Event.find({}).populate({path: 'postedBy',select: 'username'});
 }
 
+const deleteEvent = Event => (event_id) => {
+  return Event.deleteOne({_id: event_id}).exec();
+}
+
 module.exports = Event => {
   return {
     create: createEvent(Event),
     getAll: getEvents(Event),
+    delete: deleteEvent(Event)
   }
 } 
 

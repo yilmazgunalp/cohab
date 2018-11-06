@@ -1,10 +1,18 @@
-let React = require('react');
+import React  from 'react';
 require('./event.css')
+import Button from '../visual/button';
 
 class Event extends React.Component {
   constructor(props) {
     super(props)  
+    this.handleDelete = this.handleDelete.bind(this);
   }  
+
+ handleDelete() {
+    fetch('http://localhost:8000/event/delete',{credentials: 'same-origin',method: 'POST',body: JSON.stringify({_id: this.props._id}),headers: {'Content-Type': 'application/json'}})
+    .then(resp => resp.json()).then(data => this.props.login(data))
+    .catch(e => console.log('COULD NOT AUTHORIZE USER',e));
+ }
   
   render() {
     return(
@@ -26,8 +34,10 @@ class Event extends React.Component {
             <p className='event-desc'>{this.props.description}</p>
           </div>
         </div>
-        {this.props.ownEvent && <button>Delete</button>}
-        <div className='event-poster'> posted by: {this.props.postedBy.username}</div>    
+          <div className='event-info'>
+          {this.props.ownEvent && <Button label='Delete'className='delete-event'onClick={this.handleDelete}/>}
+          <div className='event-poster'> posted by: {this.props.postedBy.username}</div>    
+        </div>
       </section> 
   )  
 }
