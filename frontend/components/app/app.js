@@ -13,7 +13,7 @@ class App extends React.Component {
   render() {
     return(
       <div>
-        {this.props.modal.show && <Overlay content={this.props.modal.content}/>}
+        {this.props.modal.show ? <Overlay content={this.props.modal.content}/> : null}
         <Header/>
         <main>
           <Feed>

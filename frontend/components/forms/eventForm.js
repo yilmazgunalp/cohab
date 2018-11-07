@@ -53,6 +53,13 @@ componentDidMount() {
     this.location.addListener('place_changed', this.getPlaceId);
 }
 
+componentDidUpdate() {
+    if(!this.state.formStage) {
+    this.location = new google.maps.places.Autocomplete(this.loc.current,this.autocompleteoptions);
+    this.location.addListener('place_changed', this.getPlaceId);
+    }
+}
+
 handleInputChange(event) {
     const target = event.target;
     const value = target.value;
@@ -62,7 +69,7 @@ handleInputChange(event) {
 
 getPlaceId(value) {
     let eventPlace = this.location.getPlace();
-    if(eventPlace) {this.setState({place: eventPlace.formatted_address,placeID: eventPlace.place_id})}
+    if(eventPlace) {this.setState({place: eventPlace.formatted_address,placeID: eventPlace.place_id, placeName: this.loc.current.value})}
 }
 
 handleErrors(event) {
@@ -129,7 +136,7 @@ render() {
           <div className='form-input'>
             <label>
               Event Description
-              <textarea name='description' rows="5" col="33" onChange={this.handleInputChange}/>
+              <textarea name='description' rows="5" col="33" value={this.state.description} onChange={this.handleInputChange}/>
             </label>
           </div>
           <div className='form-input'>
