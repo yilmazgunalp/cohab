@@ -2,25 +2,21 @@ let React = require('react');
 let ReactDOM = require('react-dom');
 let Cross = require('./cross');
 let ConfirmationBox = require('../forms/confirmationBox');
-let SendResetLinkForm = require('../forms/sendResetLinkForm');
-let LoginForm = require('../forms/loginForm');
-let SignupForm = require('../forms/signupForm');
 import {hideModal} from '../../redux/actions';
 import store from '../../redux/store';
-
 import './overlay.scss';
 
 export default class Overlay extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {form: 'login', top: 0 }
+    this.state = {bottom: 0 }
     this.handleScroll = this.handleScroll.bind(this);
     this.handleClose = this.handleClose.bind(this);
   }
 
   componentDidMount() {
     document.addEventListener('scroll', this.handleScroll);
-    this.setState({top: window.scrollY});
+      this.setState({bottom: -(window.scrollY)});
   }
 
   componentWillUnmount() {
@@ -33,8 +29,8 @@ export default class Overlay extends React.Component {
  }
     
  handleScroll(event) {
- this.setState({top: window.scrollY});
- document.body.style.overflow = 'hidden';
+   document.body.style.overflow = 'hidden';
+   this.setState({bottom: -(window.scrollY)});
  }
 
  handleClose() {
@@ -43,11 +39,10 @@ export default class Overlay extends React.Component {
 
  render() {
    return (
-    <div className='overlay' tabIndex="0"  style={{top: this.state.top}} onKeyDown={this.handleKeyDown.bind(this)}>
+    <div className='overlay' tabIndex="0"  onScrollCapture={this.handleScroll} style={{bottom: this.state.bottom}} onKeyDown={this.handleKeyDown.bind(this)}>
       <Cross  onClose={this.handleClose}/>
       {this.props.content}
     </div>
     );
   }
 }
-
