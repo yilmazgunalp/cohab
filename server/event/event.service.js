@@ -1,10 +1,4 @@
-const Event = require('./event');
-const User = require('../user/user');
-const mongoose = require('mongoose');
-mongoose.connect(config.db);
-
-
-const createEvent = Event => event => {
+const createEvent = (Event,User) => event => {
  return  User.findOne({username: event.postedBy})
     .then(user => event.postedBy = user)
     .then(_ => Event.create(event))
@@ -18,9 +12,9 @@ const deleteEvent = Event => (event_id) => {
   return Event.deleteOne({_id: event_id}).exec();
 }
 
-module.exports = Event => {
+module.exports = (Event,User) => {
   return {
-    create: createEvent(Event),
+    create: createEvent(Event,User),
     getAll: getEvents(Event),
     delete: deleteEvent(Event)
   }

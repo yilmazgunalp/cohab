@@ -7,12 +7,13 @@ let expect = chai.expect;
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect('mongodb://localhost/testdb');
 
 
 describe('Event Model tests',()=>{
+  let db;
 
   before(async () => {
+    db = await mongoose.connect('mongodb://localhost/testdb');
     await Event.remove({});
   });
     
@@ -21,13 +22,13 @@ describe('Event Model tests',()=>{
   });
 
   after(async ()=> {
-    await mongoose.connection.close();
+    await db.connection.close();
   });
 
   describe('Saves event into DB',()=>{
     it('saves a record',async()=>{
     let event = new Event({ name: 'test event', place: 'my place',
-    description: 'A crazy event', startTime: new Date() })
+    description: 'A crazy event', startTime: new Date(), endTime: new Date(), placeID: 'kjhkjhkjhkjhkh' })
     await event.save();
     expect(event.isNew).to.be.false;
     });
@@ -36,8 +37,15 @@ describe('Event Model tests',()=>{
     let event = new Event({  place: 'my place',
     description: 'A crazy event', startTime: new Date() })
     await event.save()
+    .then(_ => console.log('Expect not to see this!!!!'))
     .catch(err => expect(err.message).to.match(/validation failed/));
     });
 
   });
+
+  describe('Event model', ()=> {
+    it('defines Event model',async()=>{
+      expect(Event).not.to.be.undefined;
+      })
+    })
 });
