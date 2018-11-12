@@ -1,6 +1,6 @@
 const User = require('./user');
 const mongoose = require('mongoose');
-mongoose.connect(config.db);
+//mongoose.connect(config.db);
 
 
 const createUser = User => userObject => {
