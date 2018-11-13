@@ -13,7 +13,7 @@ describe('Event Model tests',()=>{
   let db;
 
   before(async () => {
-    db = await mongoose.connect('mongodb://localhost/testdb');
+    db = await mongoose.connect('mongodb://localhost/eventmodeltestdb');
     await Event.remove({});
   });
     
@@ -28,7 +28,7 @@ describe('Event Model tests',()=>{
   describe('Saves event into DB',()=>{
     it('saves a record',async()=>{
     let event = new Event({ name: 'test event', place: 'my place',
-    description: 'A crazy event', startTime: new Date(), endTime: new Date(), placeID: 'kjhkjhkjhkjhkh' })
+    description: 'A crazy event', startTime: new Date(), endTime: new Date(), placeID: 'somePlaceId'})
     await event.save();
     expect(event.isNew).to.be.false;
     });

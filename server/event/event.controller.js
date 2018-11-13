@@ -6,7 +6,6 @@ const EventService = require('./event.service')(Event,User);
 exports.GET = {
 getAll:        async(req,resp)=> {
                 let events = await EventService.getAll();
-                console.log(events);
                 resp.setHeader('Content-Type', 'application/json');
                 resp.end(JSON.stringify(events));
                }
@@ -18,7 +17,7 @@ create:        async(req,resp)=> {
                EventService.create(event)
                .then(event => {
                  console.log("event saved succefully");
-                 resp.end();
+                 resp.end(JSON.stringify(event));
                })
                .catch(e => console.log(e));
                },

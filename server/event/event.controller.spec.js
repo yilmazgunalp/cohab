@@ -1,56 +1,41 @@
-const config = require('../config/config');
 const sinon = require('sinon');
 import {expect} from 'chai';
+let request = require('supertest');
 
 describe('Event endpoint tests', ()=>{
   let sandbox;
   let agent;
-
-  beforeEach(()=>{
-  agent = require('supertest').agent('http://localhost:3000');
-  })
-
-  afterEach(()=>{
-    sinon.restore();
-  })
+  request = request('http://localhost:3000');
 
   before(async()=>{
-
+  agent = require('supertest').agent('http://localhost:3000');
     })
   
-  context.skip('POST event/login endpoint test', ()=>{
-    it('returns 401 for empty request',async()=>{
-    await request.post('/event/login').send({eventname: 'test',email: 'test'}).expect(401);
-   }) 
-
-    it('returns 200 for an active event ',async()=>{
-    await request.post('/event/login').send({eventname: event.eventname,password: 'password'}).expect(200);
-   }) 
-
-    it('returns 401 for an inactive event ',async()=>{
-    await request.post('/event/login').send({eventname: inactiveevent.eventname,password: 'password'}).expect(401);
+  context('POST event/create endpoint test', ()=>{
+    it('returns 200 for a valid request',async()=>{
+      const event = {name: 'test',place: 'testplace', description: 'some description',email: 'test',placeID: 'somePlaceId', startTime: new Date(), endTime: new Date()};
+      let response;
+    await request.post('/event/create')
+    .set('Accept', 'application/json')
+    .send(event).expect(200)
+    .then(resp => response = JSON.parse(resp.text))
+    expect(response.description).to.equal('some description')
    }) 
  })
 
  context('GET event/getall endpoint test', ()=>{
    it('should return all events',async()=> {
      await agent.get('/event/getAll').expect(200)
-     .then(resp => console.log(resp.body))
+     .then(resp => (expect(resp.body.length).to.equal(8)))
    })    
  })
 
- context.skip('POST event/authenticate endpoint test', ()=>{
-   it('should return 200 and response should contain event\'s name for a signed-in event',async()=> {
-     await agent.post('/event/login').send({eventname: event.eventname,password: 'password'})
-     .then(()=> agent.post('/event/authenticate').expect(200))
-     .then(res => expect(res.text).to.equal('authtestevent'));
-   })    
-
-   it('should return 200 and empty response body if event is not signed-in',async()=> {
-     await agent.post('/event/login').send({eventname: inactiveevent.eventname,password: 'password'})
-     .then(()=> agent.post('/event/authenticate').expect(200))
-     .then(res => expect(res.text).to.be.empty)
+ context('POST event/delete endpoint test', ()=>{
+   it('should return 200 and delete the event',async()=> {
+     const event = await agent.get('/event/getAll')
+     .then(resp => resp.body[0])
+     await agent.post('/event/delete').send(event)
+     .expect(200)
    })    
  })    
-
 });
