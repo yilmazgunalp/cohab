@@ -1,38 +1,30 @@
-
-.overlay {
-display: flex;
-justify-content: center;
-background: #3b5c78;
-opacity: 0.85;
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-}
+@import '../../styles/constants';
 
 label {
 display: block;    
 }
 
-.close-button {
-width: 36px;
-height: 36px;
-border-radius: 50%;
-background: black;
-position: absolute;
-right: 10px;
-top: 10px;
- }
 
-.login-form {
-align-self: center;
+.login-form, .event-form {
+padding: 6px;
+align-self: flex-start;
 width: 250px;
-background: #325b84;
+background: $secondary-orange;
+border-radius: 6px;
+}
+
+.form-stage {
+  .next-button {
+    float: right;
+  }
+
+ .back-button {
+    float: left;
+  }
 }
 
 .form-input {
-margin: 25px;
+margin: 15px 0;
 
 }
 
@@ -42,13 +34,18 @@ font-weight: bold;
 letter-spacing: 0.05em;
 }
 
-input {
+input, textarea {
 background: #effbfb;
 display: inline-block;
-margin: 12px;
+margin: 6px 4px;
 height: 24px;
 border-radius: 12px;  
 border: none;
+font-size: 18px;
+}
+
+textarea {
+height: initial;  
 }
 
 input:focus {
@@ -93,14 +90,14 @@ background: #ffee88;
 padding: 8px;
 border-radius: 0.5em;
 align-self: center;
+}
+
+@media screen and (max-height: 350px) {
+  .form-input, input,text-area {
+    margin: 5px 0;
+  }
+    input {
+    height: 18px;
     
+    }
 }
-
-.cross {
-height: 2em;
-width: 2em;
-border: 2px solid #e8702a;
-border-style: inset;
-border-radius: 50%;
-}
-

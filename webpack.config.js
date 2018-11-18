@@ -11,60 +11,48 @@ module.exports = {
         filename: '[name].bundle.js',
         path: path.resolve(__dirname) + '/dist/',
     },
+    //LOADERS
     module: {
         rules: [
             {
                 test: /\.js$/,
                 exclude: /(node_modules|bower_components)/,
-                use: { 
-                loader: 'babel-loader',
-                options: {
-                    
-                    presets: ['env','react']
-
-                    }                    }
+                use: { loader: 'babel-loader', options: { presets: ['env','react'] }    }
             },
 
-             { 
-                test: /\.css$/,
-                loader: 'style-loader!css-loader'
+            {
+                test: /\.s?css$/,
+                loader: 'style-loader!css-loader!sass-loader'
             },
+
             {
                 test: /\.(gif|png|jpe?g|svg)/i,
-                use: [
-                    "file-loader",
-                    {
-                        loader: "image-webpack-loader",
-                        options: {
-                        }
-                    }
-                ]
+                use: [ "file-loader", { loader: "image-webpack-loader"}]
             }
-
         ]
     },
-     devServer: {
-    openPage: 'views/home/home.html',
-    contentBase: path.join(__dirname,'frontend/'),
-    open: true,
-    watchContentBase: true,
-    proxy: {
-       '/user' : {
-          target: 'http://localhost:3000',
-          secure: false,
-onProxyReq: function(proxyReq, req, res){
-                //proxyReq.headers = req.headers;
+
+    //DEV-SERVER
+    devServer: {
+        openPage: 'views/home/home.html',
+        contentBase: path.join(__dirname,'frontend/'),
+        open: true,
+        watchContentBase: true,
+        port: 8000,
+        overlay:{ 
+        warnings: true,
+        errors: true },
+        proxy: [{
+            context: ['/user','/event'],
+            target: 'http://localhost:3000',
+            secure: false,
+        onProxyReq: function(proxyReq, req, res){
+                  //proxyReq.headers = req.headers;
             },
-onProxyRes: function(proxyRes, req, res){
+        onProxyRes: function(proxyRes, req, res){
                 //res.headers = proxyRes.headers;
             }
-       }
-        },
-        
-    port: 8000,
-    overlay:{ 
-        warnings: true,
-        errors: true } 
-   },
-};
+          }]
+   }
+}
 

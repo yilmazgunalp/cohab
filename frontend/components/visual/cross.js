@@ -1,4 +1,5 @@
 let React = require('react');
+import './cross.scss';
 
 function Cross(props) {
   return  (<div className='close-button' onClick={props.onClose}>

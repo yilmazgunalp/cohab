@@ -49,7 +49,7 @@ resetform:    async(req,resp)=> {
 exports.POST = {
 //Uses middlewares: [auth.authenticateUser]
 authenticate:   async(req,resp)=> {
-                if(req.user) {resp.end(req.user)}
+                if(req.user) {resp.end(JSON.stringify(req.user))}
                 else { resp.end(); }
                 },
 //Uses middlewares: [auth.loginUser]

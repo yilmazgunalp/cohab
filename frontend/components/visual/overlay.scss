@@ -1,0 +1,23 @@
+@import '../../styles/constants';
+
+.overlay {
+display: flex;
+justify-content: center;
+background: $overlay-navy;
+opacity: 0.95;
+position: absolute;
+width: 100%;
+height: auto;
+min-height: 100vh;
+overscroll-behavior: none;
+overflow: scroll;
+padding: 10px;
+}
+
+
+@media screen and (max-height: 350px) {
+.overlay {
+height: 100vh;
+}
+}
+

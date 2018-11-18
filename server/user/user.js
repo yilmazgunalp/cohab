@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
-const Schema = mongoose.Schema;
 const config = require('../config/config');
 
-const UserSchema = new Schema({
+const UserSchema = new mongoose.Schema({
     username: {type: String,unique: true},
     email: {type: String,unique: true},
     hash: String,

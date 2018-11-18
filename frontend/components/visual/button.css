@@ -1,22 +1,37 @@
-button.default {
+@import '../../styles/constants';
+.default {
 color: #fff;
-background: #ff8d00;
+background: $secondary-orange;
 font-size: 18px;
 border: 1px solid rgb(255,120,0);
 border-radius: 3em;
+min-width: 64px;
+padding: 3px;
+text-align: center;
 }
 
-button.default:hover {
+.default:hover {
 border-color: #54536f;
 color: initial;
 }
 
-button.default:focus {
+.default:focus {
 outline: none;
 }
 
-button.default:disabled {
-background: #f0f7ff;
+.default:disabled {
+background: $overlay-pale;
 border: none;
 color: #e3d6d9;
+}
+
+.secondary {
+background: $primary-blue;  
+}
+
+.submit- {
+background: $primary-red;
+height: 42px;
+border-radius: 13px;
+padding: 8px;
 }
