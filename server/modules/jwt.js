@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const assert = require('assert');
+const config = require('../config/config');
 
 
 //not being used at the moment

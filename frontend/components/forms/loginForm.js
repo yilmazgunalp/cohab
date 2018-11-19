@@ -1,12 +1,17 @@
 let React = require('react');
 let Error = require('../visual/error');
 let Button = require('../visual/button')
+import SignupForm from './loginForm.js';
+import ResetForm from './sendResetLinkForm.js';
+import {login,logout} from '../../redux/actions';
+import store  from '../../redux/store';
 require('./loginForm.css');
 
 class LoginForm  extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.showForm = this.showForm.bind(this);
     this.username = React.createRef();
     this.password = React.createRef();
     this.state = {errors: null}
@@ -24,9 +29,17 @@ class LoginForm  extends React.Component {
     if(resp.status == 401) {
         resp.json().then(data => this.setState({errors: data.errorMessage}));
     } else {
-    resp.json().then(data => this.props.handleSubmit({username: data.username}));
+    resp.json().then(data => {
+    store.dispatch(login(data.username))
+    store.dispatch({type: 'HIDE_MODAL',modal: {show: 0}});
+      });
     }})
     .catch(e => console.log(e))
+  }
+
+  showForm(formToShow) {
+    let content = formToShow === 'signup' ? <SignupForm/> : <ResetForm/>;
+    store.dispatch({type: 'SHOW_MODAL', modal: {show: 1, content}})    
   }
 
 
@@ -36,7 +49,7 @@ class LoginForm  extends React.Component {
          <Error message={this.state.errors}/>
           <header>
           <h2>Login</h2>
-          <Button flat={true} onClick={this.props.showSignupForm} label='Sign Up'/>
+          <Button flat={true} onClick={this.showForm('signup')} label='Sign Up'/>
           </header>
           <div className='form-input'>
             <label>
@@ -49,7 +62,7 @@ class LoginForm  extends React.Component {
               Password
               <input type="password" autoComplete="current-password" ref={this.password} />
             </label>
-          <span id='resetPswd-form' onClick={this.props.showResetPswdForm} style={{color:"red"}}> Forgot Password?</span>
+          <span id='resetPswd-form' onClick={this.showForm('reset')} style={{color:"red"}}> Forgot Password?</span>
           </div>
        <div className='form-submit'>
        <input type="submit" value="Submit" />
