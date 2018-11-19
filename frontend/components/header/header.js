@@ -6,14 +6,13 @@ require('./header.css')
 
 //Imported Components
 let UserBar = require('./userStatusBar');
-import  Overlay  from '../visual/overlay';
 let Logo = require('../visual/logo');
+import LoginForm from '../forms/loginForm.js';
 
 class  Header extends React.Component  {
   constructor(...args) {
     super(...args)
     this.state = {form: 0};
-    this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
   }
   
@@ -23,25 +22,23 @@ class  Header extends React.Component  {
     .catch(e => console.log('COULD NOT AUTHORIZE USER',e));
   }
 
-  handleLogin(user) {
-    this.setState({form: 0});
-    store.dispatch(login(user.username));
-  }
-  
  handleLogout() {
     fetch('http://localhost:8000/user/logout',{ credentials: 'same-origin', })
     .then(resp => resp.status === 200  ? this.setState({form: 0}) : null)
     .then(() => store.dispatch(logout()))
   }     
 
+  showForm() {
+    store.dispatch({type: 'SHOW_MODAL', modal: {show: 1, content: <LoginForm/>}})    
+  }
+  
   render() {
     return ( <div>
                 <nav className= 'nav-bar'>          
                     <Logo/>
                     <UserBar  user={this.props.user} 
-                    onLoginClick={()=> this.setState({form: 1})} onLogoutSubmit={this.handleLogout}/>
+                    onLoginClick={this.showForm} onLogoutSubmit={this.handleLogout}/>
                 </nav>
-                {this.state.form ?  <Overlay onclose={()=> this.setState({form: 0})} handleLogin={this.handleLogin}/> : null }
             </div>
             )
   }

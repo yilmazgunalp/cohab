@@ -8,10 +8,9 @@
         "targets": {
           "browsers": ["last 2 versions"]
         },
-        "debug": true,
+        "debug": false,
         "modules": false
       }
     ]
   ],
-  "plugins": ["css-modules-transform"]
 }
