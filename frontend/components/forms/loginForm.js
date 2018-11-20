@@ -49,7 +49,6 @@ class LoginForm  extends React.Component {
          <Error message={this.state.errors}/>
           <header>
           <h2>Login</h2>
-          <Button flat={true} onClick={this.showForm('signup')} label='Sign Up'/>
           </header>
           <div className='form-input'>
             <label>
@@ -62,7 +61,6 @@ class LoginForm  extends React.Component {
               Password
               <input type="password" autoComplete="current-password" ref={this.password} />
             </label>
-          <span id='resetPswd-form' onClick={this.showForm('reset')} style={{color:"red"}}> Forgot Password?</span>
           </div>
        <div className='form-submit'>
        <input type="submit" value="Submit" />

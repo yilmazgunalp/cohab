@@ -7,7 +7,7 @@ require('./header.css')
 //Imported Components
 let UserBar = require('./userStatusBar');
 let Logo = require('../visual/logo');
-import LoginForm from '../forms/loginForm.js';
+import UserForm from '../forms/userForm.js';
 
 class  Header extends React.Component  {
   constructor(...args) {
@@ -29,7 +29,7 @@ class  Header extends React.Component  {
   }     
 
   showForm() {
-    store.dispatch({type: 'SHOW_MODAL', modal: {show: 1, content: <LoginForm/>}})    
+    store.dispatch({type: 'SHOW_MODAL', modal: {show: 1, content: <UserForm/>}})    
   }
   
   render() {
