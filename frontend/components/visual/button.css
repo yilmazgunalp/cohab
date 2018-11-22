@@ -35,3 +35,8 @@ height: 42px;
 border-radius: 13px;
 padding: 8px;
 }
+
+.signup-button {
+max-width: 72px;
+float: right;
+}
