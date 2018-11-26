@@ -69,6 +69,7 @@ handleInputChange(event) {
 
 getPlaceId(value) {
     let eventPlace = this.location.getPlace();
+    console.log(eventPlace)
     if(eventPlace) {this.setState({place: eventPlace.formatted_address,placeID: eventPlace.place_id, placeName: this.loc.current.value})}
 }
 

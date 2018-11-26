@@ -1,6 +1,6 @@
 module.exports = {
 seed: true,
-db: 'mongodb://mongo/testdb' ,
+db: 'mongodb://localhost/testdb' ,
 host: 'http://localhost:3000'
 }
 

@@ -1,5 +1,4 @@
 const jwt = require('./jwt');
-const redis = require('redis').createClient('redis://redis');
 
 const create = ({req,resp,user}) => {
   //create a JWT token 

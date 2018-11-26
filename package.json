@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "test": "mocha --require babel-core/register ./server/user/*.spec.js --exit",
+    "test": "mocha --require babel-core/register ./server/**/*.spec.js -t 5000 --exit",
     "start": "nodemon --ignore './frontend/' server.js",
     "dev": "webpack-dev-server",
     "webpack": "webpack --watch",

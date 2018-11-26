@@ -30,7 +30,8 @@ class LoginForm  extends React.Component {
         resp.json().then(data => this.setState({errors: data.errorMessage}));
     } else {
     resp.json().then(data => {
-    store.dispatch(login(data.username))
+      console.log(data);
+    store.dispatch(login(data))
     store.dispatch({type: 'HIDE_MODAL',modal: {show: 0}});
       });
     }})

@@ -1,19 +1,31 @@
 const sinon = require('sinon');
 import {expect} from 'chai';
 let request = require('supertest');
+const mongoose = require('mongoose');
+const config = require('../config/config');
+import app from '../app.js';
+
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/eventtestdb');
 
 describe('Event endpoint tests', ()=>{
   let sandbox;
   let agent;
-  request = request('http://localhost:3000');
 
   before(async()=>{
-  agent = require('supertest').agent('http://localhost:3000');
+    await app.listen(3003)
+    request = request(app);
+    agent = require('supertest').agent('http://localhost:3003');
+    })
+
+  after(async()=>{
+    await app.close();
     })
   
   context('POST event/create endpoint test', ()=>{
     it('returns 200 for a valid request',async()=>{
-      const event = {name: 'test',place: 'testplace', description: 'some description',email: 'test',placeID: 'somePlaceId', startTime: new Date(), endTime: new Date()};
+      const event = {name: 'test',place: 'testplace', description: 'some description',email: 'test',
+        placeID: 'somePlaceId', startTime: new Date(), endTime: new Date()};
       let response;
     await request.post('/event/create')
     .set('Accept', 'application/json')
@@ -26,7 +38,7 @@ describe('Event endpoint tests', ()=>{
  context('GET event/getall endpoint test', ()=>{
    it('should return all events',async()=> {
      await agent.get('/event/getAll').expect(200)
-     .then(resp => (expect(resp.body.length).to.equal(8)))
+     .then(resp => (expect(resp.body.length).to.equal(1)))
    })    
  })
 

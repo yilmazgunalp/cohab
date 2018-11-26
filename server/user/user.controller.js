@@ -58,7 +58,7 @@ login:          (req,resp) => {
                 //else return 401 
                 if(req.user) {
                     resp.setHeader('Content-Type', 'application/json');
-                    resp.end(JSON.stringify(req.user));
+                    resp.end(JSON.stringify(req.user.username));
                 } else {
                     resp.statusCode = 401;   
                     resp.end(JSON.stringify({errorMessage: 'Invalid Credentials'}));
@@ -90,7 +90,6 @@ resetpswd:    async(req,resp)=> {
               //get the body of the request and covert it to json
               let userObject = await util.getBody(req).then(formdata => util.formToJson(formdata));
               let user = await UserService.resetPassword(userObject);
-               console.log(userObject.password)
                if(user){
                sessions.create({req,resp,user});
                resp.writeHead(302, {Location: '/views/home/home.html'});

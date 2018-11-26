@@ -2,18 +2,15 @@ const assert = require('assert');
 const chai = require('chai');
 const User = require('./user');
 const mongoose = require('mongoose');
-const config = require('../config/config');
 
 let expect = chai.expect;
 
 mongoose.Promise = global.Promise;
-
-mongoose.connect('mongodb://localhost/testdb');
-
+mongoose.connect('mongodb://localhost/usertestdb');
 
 describe('User Model tests',()=>{
 
-  before(async () => {
+  before(async() => {
     await User.remove({});
   });
     

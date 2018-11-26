@@ -3,33 +3,39 @@ const chai = require('chai');
 let request = require('supertest');
 const User = require('./user');
 const mongoose = require('mongoose');
-const config = require('../config/config');
 const sinon = require('sinon');
 const nodemailer = require('../modules/nodemailer');
+import app from '../app.js';
+const config = require('../config/config');
 
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/testdb');
+mongoose.connect('mongodb://localhost/usertestdb');
 
 let expect = chai.expect;
 
-describe('Authentication tests', ()=>{
+describe('User endpoint tests', ()=>{
   let sandbox;
-  request = request('http://localhost:3000');
   let agent;
   let user;
   let inactiveuser;
-
-  beforeEach(()=>{
-  agent = require('supertest').agent('http://localhost:3000');
-  sandbox = sinon;
-  })
-
-  afterEach(()=>{
-    sinon.restore();
-  })
+  let nodemailerStub; 
 
   before(async()=>{
+    request = request(app);
+    await app.listen(3003)
+    await User.remove({})
+    })
+  
+  after(async()=>{
+    await app.close();
+    await User.remove({})
+    })
+
+  beforeEach(async()=>{
+    agent = require('supertest').agent('http://localhost:3003');
+  sandbox = sinon;
+  nodemailerStub = sinon.stub(nodemailer,'sendMail');
    user =  await User.create({username: 'authtestuser',email: 'authusermeail@email.com',active: true})
    await user.setPassword('password');
    await user.save();
@@ -37,7 +43,14 @@ describe('Authentication tests', ()=>{
    inactiveuser =  await User.create({username: 'inactiveuser',email: 'inactiveuser@email.com'})
    await inactiveuser.setPassword('password');
    await inactiveuser.save();
-    })
+  })
+
+  afterEach(async()=>{
+    sinon.restore();
+    await User.deleteOne({username: 'authtestuser'})
+    await User.deleteOne({username: 'inactiveuser'})
+  })
+
   
   context('POST user/login endpoint test', ()=>{
     it('returns 401 for empty request',async()=>{
@@ -65,9 +78,10 @@ describe('Authentication tests', ()=>{
 
  context('POST user/authenticate endpoint test', ()=>{
    it('should return 200 and response should contain user\'s name for a signed-in user',async()=> {
+     const expected = '"authtestuser"'; //so weird
      await agent.post('/user/login').send({username: user.username,password: 'password'})
      .then(()=> agent.post('/user/authenticate').expect(200))
-     .then(res => expect(res.text).to.equal('authtestuser'));
+     .then(res => expect(res.text).to.equal(expected));
    })    
 
    it('should return 200 and empty response body if user is not signed-in',async()=> {
@@ -77,16 +91,16 @@ describe('Authentication tests', ()=>{
    })    
  })    
 
- context.skip('POST user/signup endpoint test', ()=>{
+ context('POST user/signup endpoint test', ()=>{
    let newUser = {username: 'signupuser',email: 'signupuseremail@mail.com',password: 'password'};
    it('should return 200 and save user to db ',async()=> {
-       let stub = sinon.spy(nodemailer,'sendMail');
      await agent.post('/user/signup').send(newUser).expect(200)
      .then(()=> User.findOne({username: 'signupuser'}))
      .then(user => {
        expect(user.email).to.equal('signupuseremail@mail.com');
        expect(user.active).to.be.false;
      });
+    sinon.assert.calledOnce(nodemailerStub);
    })    
      
      context('GET user/activate endpoint test',async()=>{
@@ -96,12 +110,12 @@ describe('Authentication tests', ()=>{
           .expect(302)
           .expect('location','/views/home/home.html')
           .then(()=> agent.post('/user/authenticate'))
-          .then(res => expect(res.text).to.equal('signupuser'));
+          .then(res => expect(res.text).to.equal('"signupuser"'));
        })         
     })
 })    
 
-context.skip('POST user/sendresetlink endpoint test', ()=>{
+context('POST user/sendresetlink endpoint test', ()=>{
    let user;
    before(async()=>{
    user =  await User.create({username: 'resetuser',email: 'resetuser@email.com',active: true})
@@ -109,11 +123,16 @@ context.skip('POST user/sendresetlink endpoint test', ()=>{
    await user.save();
    })
 
+  after(async()=>{
+    await User.deleteOne({username: 'resetuser'})
+  })
+
    it('should return 200 and update user with password reset digest',async()=> {
      expect(user.resetPswdDigest).to.be.undefined;
      await agent.post('/user/sendresetlink').send({email: user.email}).expect(200)
      .then(()=> User.findOne({email: user.email}))
      .then(user => expect(user.resetPswdDigest).to.not.be.undefined);
+    sinon.assert.calledOnce(nodemailerStub);
    })    
 
      context('GET user/resetform endpoint test',async()=>{

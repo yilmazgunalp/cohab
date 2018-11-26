@@ -1,6 +1,7 @@
 const sessions = require('./session');
 const User = require('../user/user');
 const util = require('../modules/util');
+const nodemailer = require('../modules/nodemailer');
 
 //******MIDDLEWARE FUNCTION******
 //..see comments in modules/middleware.js file for explanation...

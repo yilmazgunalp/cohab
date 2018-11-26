@@ -62,7 +62,7 @@ const verifyToken = (token) => {
   let header = /^[^\.]+/.exec(token)[0];
   header = base64UrlDecode(header);
   if(/[\n\s]/.test(header)) throw "Not Valid JWT Header";
-  headerobj = JSON.parse(header);
+  let headerobj = JSON.parse(header);
   if(headerobj.alg != "HS256" || headerobj.typ != "JWT") throw "HEADERS NOT PERMITTED";
   if(headerobj.enc) throw "JWE TOKEN NOT IMPLEMENTED";
   //validate signature

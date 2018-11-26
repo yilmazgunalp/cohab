@@ -2,19 +2,14 @@ const chai = require('chai');
 const Event = require('./event');
 const mongoose = require('mongoose');
 const config = require('../config/config');
-
 let expect = chai.expect;
-
 mongoose.Promise = global.Promise;
-
-
 
 describe('Event Model tests',()=>{
   let db;
 
   before(async () => {
-    db = await mongoose.connect('mongodb://localhost/eventmodeltestdb');
-    await Event.remove({});
+    db = await mongoose.createConnection('mongodb://localhost/testdb');
   });
     
   afterEach(async () => {
@@ -22,7 +17,8 @@ describe('Event Model tests',()=>{
   });
 
   after(async ()=> {
-    await db.connection.close();
+    await db.dropDatabase();
+    await db.close();
   });
 
   describe('Saves event into DB',()=>{
