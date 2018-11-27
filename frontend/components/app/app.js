@@ -4,6 +4,7 @@ let Event = require('../event/event');
 let Feed = require('../feed/feed');
 import {connect} from 'react-redux';
 import Overlay from '../visual/overlay';
+import WS from '../../socket/websocket.js';
 
 class App extends React.Component {
   constructor(props) {
