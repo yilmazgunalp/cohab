@@ -1,5 +1,6 @@
 const {createServer} = require("http");
 const {createReadStream } = require("fs");
+const {websocket}  = require('./message/socket.js');
 
 // My Custom Router
 const router = require("./modules/router");
@@ -7,7 +8,7 @@ const router = require("./modules/router");
 // My Custom Middleware module
 const applyMiddleWare = require('./modules/middleware')
 
-module.exports = createServer((req,resp) => {
+const app = createServer((req,resp) => {
 // get handler from Router Module
   let handler = router(req);
 
@@ -22,3 +23,5 @@ module.exports = createServer((req,resp) => {
   }  
 })
 
+app.on('upgrade', websocket);
+module.exports = app;
