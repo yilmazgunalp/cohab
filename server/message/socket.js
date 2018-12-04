@@ -26,6 +26,11 @@ exports.websocket = (req, socket, head) => {
 
 //socket.write(Buffer.from([0x89,0x0]));
 socket.write(Buffer.from([0x81,0x0d,0x68,0x65,0x6c,0x6c,0x6f,0x20,0x43,0x6c,0x69,0x65,0x6e,0x74,0x21]));
+let message = Buffer.from('hello again Client!');
+let head = Buffer.from([0x81,0xf3]);
+let frame = Buffer.concat()
+console.log(message.length)
+//socket.write();
 //socket.write(Buffer.from([0x89,0x05,0x48,0x65,0x6c,0x6c,0x6f]));
   socket.on('data',(data,start,end) => {
       var message = data.slice(start, end);
