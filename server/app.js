@@ -1,6 +1,5 @@
 const {createServer} = require("http");
 const {createReadStream } = require("fs");
-const {websocket}  = require('./message/socket.js');
 
 // My Custom Router
 const router = require("./modules/router");
@@ -23,5 +22,4 @@ const app = createServer((req,resp) => {
   }  
 })
 
-app.on('upgrade', websocket);
 module.exports = app;

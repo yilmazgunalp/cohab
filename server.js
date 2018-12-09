@@ -23,6 +23,7 @@ if (cluster.isMaster) {
 else {
   console.log(`Worker No: ${ cluster.worker.id} with PID: ${process.pid} started a server`);
   app.listen(config.port);
+require('./server/websocket/server.js')
 }
 
 console.log(`Cohab started listening on port 3000 in ${config.env.toUpperCase()}`);
