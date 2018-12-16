@@ -1,34 +1,27 @@
 const net = require('net');
 const crypto = require('crypto');
-  let heaaad;
+const {readFrame} = require('./socket.js')
 
 const sockets = new Set();
+
 exports.handleConnection = (socket) => {
-  socket.isNew = 
+  socket.isNew = !sockets.has(socket.remoteAddress); 
+  console.log(sockets)
   console.log('client connected');
     
-  socket.on('data',(data) => {heaaad  = (data.toString().split('\r\n')
-      .slice(0,-2)
-      .map(line => {
-       let [k,v] = line.split(': ');
-       return {[k]:  v};
-      })
-      .reduce((acc,cur)=> {
-      acc[Object.keys(cur)[0]] = (Object.values(cur)[0]);
-      return acc;
-      },{}));
-   if( sockets.has(socket.remoteAddress))
-    {      console.log('Socket already connetcd') }
-            else { 
-                console.log('lets handshake')
-             sockets.add(socket.remoteAddress);
-  socket.write('HTTP/1.1 101 Web Socket Protocol Handshake\r\n' +
-               'Upgrade: WebSocket\r\n' +
-               'Connection: Upgrade\r\n' +
-               `Sec-WebSocket-Accept: ${SecWSHeader(heaaad['Sec-WebSocket-Key'])}\r\n` +
-               '\r\n');
-      };
-})
+  socket.on('data',(data) => {   
+    if(socket.isNew) {
+      console.log('lets handshake')
+      let head = readHttpHeader(data);
+      handShake(socket,head);
+      sockets.add(socket.remoteAddress);
+    }
+    else { 
+      console.log('Socket already connetcd') 
+      readFrame(data);
+    };
+  })
+
   socket.on('end', () => {
    sockets.delete(socket.remoteAddress)
    console.log('socket ended')
@@ -44,7 +37,7 @@ const SecWSAcceptHeader = SecWSKey => {
 
 // Hex -> Object
 const readHttpHeader = socketData =>{
-      socketData.toString().split('\r\n')
+      return socketData.toString().split('\r\n')
       .slice(0,-2)
       .map(line => {
        let [k,v] = line.split(': ');
@@ -53,5 +46,16 @@ const readHttpHeader = socketData =>{
       .reduce((acc,cur)=> {
       acc[Object.keys(cur)[0]] = (Object.values(cur)[0]);
       return acc;
-      },{})
+      },{});
 }
+
+// TODO this is not pure needs refactoring
+const handShake = (socket,head) => {
+  socket.write('HTTP/1.1 101 Web Socket Protocol Handshake\r\n' +
+               'Upgrade: WebSocket\r\n' +
+               'Connection: Upgrade\r\n' +
+               `Sec-WebSocket-Accept: ${SecWSAcceptHeader(head['Sec-WebSocket-Key'])}\r\n` +
+               '\r\n');
+}
+
+
