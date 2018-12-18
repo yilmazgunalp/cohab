@@ -1,29 +1,31 @@
 const net = require('net');
 const crypto = require('crypto');
-const {readFrame} = require('./socket.js')
+const {readFrame} = require('./reader.js')
 
-const sockets = new Set();
-
+const clients = new Set();
+let counter = 0;
 exports.handleConnection = (socket) => {
-  socket.isNew = !sockets.has(socket.remoteAddress); 
-  console.log(sockets)
   console.log('client connected');
-    
+  socket.isNew = true;
+  console.log(++counter)
   socket.on('data',(data) => {   
     if(socket.isNew) {
       console.log('lets handshake')
       let head = readHttpHeader(data);
       handShake(socket,head);
-      sockets.add(socket.remoteAddress);
+      socket.isNew = false;
+      console.log('after handshake')
     }
     else { 
-      console.log('Socket already connetcd') 
+      console.log('Socket already connected') 
       readFrame(data);
     };
   })
 
+  socket.on('close', (hadError) => {
+   console.log('socket closed',hadError)
+  });
   socket.on('end', () => {
-   sockets.delete(socket.remoteAddress)
    console.log('socket ended')
   });
 }

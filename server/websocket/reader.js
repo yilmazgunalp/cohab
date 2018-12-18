@@ -1,10 +1,3 @@
-//socket.write(Buffer.from([0x81,0x0d,0x68,0x65,0x6c,0x6c,0x6f,0x20,0x43,0x6c,0x69,0x65,0x6e,0x74,0x21]));
-//let data = Buffer.from('hello again Client!');
-//let header = Buffer.from([0x81,0x13]);
-//  let frame = Buffer.concat([header,data]);
-//socket.write(frame);
-
-
 exports.readFrame = data => {
   let fin = (data[0] & 0x80) === 0x80;
   let rsv1 = (data[0] & 0x40);
@@ -22,7 +15,6 @@ exports.readFrame = data => {
     console.error('No Implementation for 64bit Integers')
     nextByte += 8;
   }
-  console.log(length)
   let maskingKey = null;
   if (mask){
     maskingKey = data.slice(nextByte, nextByte + 4);
@@ -35,6 +27,6 @@ exports.readFrame = data => {
       payload[i] = payload[i] ^ maskingKey[i % 4];
     }
   }
-console.log('j;ajl;saljas;l',payload.toString())
+console.log('MESSAGE FROM CLIENT',payload.toString())
 }
 
