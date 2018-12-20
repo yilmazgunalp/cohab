@@ -1,9 +1,11 @@
 const net = require('net');
 const crypto = require('crypto');
 const {readFrame} = require('./reader.js')
+const {createFrame} = require('./writer.js')
 
 const clients = new Set();
 let counter = 0;
+
 exports.handleConnection = (socket) => {
   console.log('client connected');
   socket.isNew = true;
@@ -19,6 +21,7 @@ exports.handleConnection = (socket) => {
     else { 
       console.log('Socket already connected') 
       readFrame(data);
+      socket.write(createFrame('You are not the devil.just a practise'));
     };
   })
 

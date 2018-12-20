@@ -1,11 +1,6 @@
 // Create WebSocket connection.
 const socket = new WebSocket('ws://localhost:4040');
 
-// Connection opened
-socket.addEventListener('open', function (event) {
-    socket.send('Hello Server!');
-});
-
 // Listen for messages
 socket.addEventListener('message', function (event) {
     console.log('Message from server ', event.data);
@@ -15,3 +10,5 @@ socket.onopen = function (event) {
 };
 socket.onerror = e => console.log('Socket Error',e)
 console.log(socket)
+
+setTimeout(() => socket.send('I was born in Darkness'),500)
