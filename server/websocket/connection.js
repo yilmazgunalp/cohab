@@ -1,9 +1,11 @@
 const net = require('net');
+const sessions = require('../modules/session');
 const crypto = require('crypto');
 const {readFrame} = require('./reader.js')
 const {createFrame} = require('./writer.js')
+const util = require('../modules/util');
 
-const clients = new Set();
+const clients = new Map();
 let counter = 0;
 
 exports.handleConnection = (socket) => {
@@ -11,6 +13,7 @@ exports.handleConnection = (socket) => {
   socket.isNew = true;
   console.log(++counter)
   socket.on('data',(data) => {   
+      console.log('clients size:', clients.size)
     if(socket.isNew) {
       console.log('lets handshake')
       let head = readHttpHeader(data);
@@ -29,7 +32,11 @@ exports.handleConnection = (socket) => {
    console.log('socket closed',hadError)
   });
   socket.on('end', () => {
+  console.log('user',socket.user) 
+  console.log('before',clients.size) 
+   clients.delete(socket.user);
    console.log('socket ended')
+  console.log('after',clients.size) 
   });
 }
 
@@ -55,7 +62,13 @@ const readHttpHeader = socketData =>{
 }
 
 // TODO this is not pure needs refactoring
-const handShake = (socket,head) => {
+const handShake = async(socket,head) => {
+  let session_id = util.cookiesToJson(head.Cookie).session_id;
+    console.log(session_id)
+  let user =  await sessions.retrieve(session_id);
+    console.log(user)
+    clients.set(user.sub,socket);
+    console.log(head)
   socket.write('HTTP/1.1 101 Web Socket Protocol Handshake\r\n' +
                'Upgrade: WebSocket\r\n' +
                'Connection: Upgrade\r\n' +

@@ -12,3 +12,14 @@ socket.onerror = e => console.log('Socket Error',e)
 console.log(socket)
 
 setTimeout(() => socket.send('I was born in Darkness'),500)
+
+export default class Socket {
+    constructor(url) {
+      this._socket = new WebSocket(url);
+    }
+
+    send(message) {
+      this._socket.send(message)
+    }
+
+} 
