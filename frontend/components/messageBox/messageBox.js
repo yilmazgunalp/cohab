@@ -7,6 +7,8 @@ import store from '../../redux/store';
 
 export default class MessageBox  extends React.Component {
   constructor(props) {
+    console.log('constructor')
+
     super(props)  
     this.handleSend = this.handleSend.bind(this);
     this.websocket = new Socket('ws://localhost:4040');
@@ -15,10 +17,10 @@ export default class MessageBox  extends React.Component {
  handleSend(body) {
      let message = {type: 'chat',to: this.props.to,from: store.getState().user,body}
     this.websocket.send(JSON.stringify(message));
+    //this.websocket.send('h');
  }
   
   render() {
-      console.log(store.getState().user)
     return(
       <section className='message-box'>
         <header>

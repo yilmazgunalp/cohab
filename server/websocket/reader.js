@@ -1,4 +1,5 @@
 exports.readFrame = data => {
+  console.log('Hello from READER')
   let fin = (data[0] & 0x80) === 0x80;
   let rsv1 = (data[0] & 0x40);
   let rsv2 = (data[0] & 0x20);
@@ -28,5 +29,6 @@ exports.readFrame = data => {
     }
   }
 console.log('MESSAGE FROM CLIENT',payload.toString())
+  return payload.toString();
 }
 

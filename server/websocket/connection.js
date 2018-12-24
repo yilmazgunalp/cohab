@@ -13,6 +13,7 @@ exports.handleConnection = (socket) => {
   socket.isNew = true;
   console.log(++counter)
   socket.on('data',(data) => {   
+      console.log('hello from DATAAAAAAA')
       console.log('clients size:', clients.size)
     if(socket.isNew) {
       console.log('lets handshake')
@@ -23,8 +24,16 @@ exports.handleConnection = (socket) => {
     }
     else { 
       console.log('Socket already connected') 
-      readFrame(data);
-      socket.write(createFrame('You are not the devil.just a practise'));
+      //console.log('frame data',readFrame(data));
+      let message = JSON.parse(readFrame(data));
+      console.log(message);
+      if(message.type === 'chat' && clients.has(message.to)) {
+        clients.get(message.to).write(createFrame(message.body));
+        console.log('shouldnt see this')
+      } else {
+
+      }
+      //socket.write(createFrame('You are not the devil.just a practise'));
     };
   })
 
@@ -32,9 +41,8 @@ exports.handleConnection = (socket) => {
    console.log('socket closed',hadError)
   });
   socket.on('end', () => {
-  console.log('user',socket.user) 
   console.log('before',clients.size) 
-   clients.delete(socket.user);
+  clients.delete(socket.user);
    console.log('socket ended')
   console.log('after',clients.size) 
   });
@@ -64,11 +72,9 @@ const readHttpHeader = socketData =>{
 // TODO this is not pure needs refactoring
 const handShake = async(socket,head) => {
   let session_id = util.cookiesToJson(head.Cookie).session_id;
-    console.log(session_id)
   let user =  await sessions.retrieve(session_id);
-    console.log(user)
+    socket.user = user.sub;
     clients.set(user.sub,socket);
-    console.log(head)
   socket.write('HTTP/1.1 101 Web Socket Protocol Handshake\r\n' +
                'Upgrade: WebSocket\r\n' +
                'Connection: Upgrade\r\n' +

@@ -14,7 +14,6 @@ export default class MessageForm  extends React.Component {
 
   handleSubmit(event) {
   event.preventDefault();
-     console.log(this.message.current.value) 
      this.props.handleSubmit(this.message.current.value);
   }
 
