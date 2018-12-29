@@ -16,3 +16,7 @@ export const hideModal = () => ({
   type: 'HIDE_MODAL',
   modal: {show: 0}
   });
+
+export const renderInbox = () => ({
+  type: 'RENDER_INBOX'
+  });

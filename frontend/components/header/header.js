@@ -5,7 +5,7 @@ import store  from '../../redux/store';
 require('./header.css')
 
 //Imported Components
-let UserBar = require('./userStatusBar');
+import UserStatusBar from './userStatusBar';
 let Logo = require('../visual/logo');
 import UserForm from '../forms/userForm.js';
 
@@ -14,6 +14,7 @@ class  Header extends React.Component  {
     super(...args)
     this.state = {form: 0};
     this.handleLogout = this.handleLogout.bind(this);
+    this.showInbox = this.showInbox.bind(this);
   }
   
   componentDidMount() {
@@ -32,11 +33,18 @@ class  Header extends React.Component  {
     store.dispatch({type: 'SHOW_MODAL', modal: {show: 1, content: <UserForm/>}})    
   }
   
+  showForm() {
+    store.dispatch({type: 'SHOW_MODAL', modal: {show: 1, content: <UserForm/>}})    
+  }
+  showInbox() {
+    store.dispatch({type: 'RENDER_INBOX'})    
+  }
+
   render() {
     return ( <div>
                 <nav className= 'nav-bar'>          
                     <Logo/>
-                    <UserBar  user={this.props.user} 
+                    <UserStatusBar  user={this.props.user} onMessageClick={this.showInbox} 
                     onLoginClick={this.showForm} onLogoutSubmit={this.handleLogout}/>
                 </nav>
             </div>

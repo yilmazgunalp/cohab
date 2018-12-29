@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const {readFrame} = require('./reader.js')
 const {createFrame} = require('./writer.js')
 const util = require('../modules/util');
+const {safeJSONParse} = require('../modules/util.js')
 
 const clients = new Map();
 let counter = 0;
@@ -12,25 +13,29 @@ exports.handleConnection = (socket) => {
   console.log('client connected');
   socket.isNew = true;
   console.log(++counter)
-  socket.on('data',(data) => {   
+
+  socket.on('closing',() => console.log('EMITTED CLOSING EVENT'))
+
+  socket.on('data',(data, skt = socket) => {   
       console.log('hello from DATAAAAAAA')
       console.log('clients size:', clients.size)
-    if(socket.isNew) {
+    if(skt.isNew) {
       console.log('lets handshake')
       let head = readHttpHeader(data);
       handShake(socket,head);
-      socket.isNew = false;
+      skt.isNew = false;
       console.log('after handshake')
     }
     else { 
       console.log('Socket already connected') 
       //console.log('frame data',readFrame(data));
-      let message = JSON.parse(readFrame(data));
+      let message = safeJSONParse(readFrame(data,skt));
       console.log(message);
-      if(message.type === 'chat' && clients.has(message.to)) {
+      if(message && message.type === 'chat' && clients.has(message.to)) {
         clients.get(message.to).write(createFrame(message.body));
         console.log('shouldnt see this')
       } else {
+      // write the message to DB
 
       }
       //socket.write(createFrame('You are not the devil.just a practise'));

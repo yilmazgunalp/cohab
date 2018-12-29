@@ -6,7 +6,7 @@ const server = net.createServer()
 server.on('connection',handleConnection)
 
 server.on('error', (err) => {
-  console.error(err);
+  console.error('WEBSOCKET SERVER ERROR: ',err);
   throw err;
 });
 

@@ -7,5 +7,4 @@ function Error(props) {
   {props.message}
   </div>)
 }
-
 module.exports = Error;

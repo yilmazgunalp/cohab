@@ -40,7 +40,8 @@ class Event extends React.Component {
           {this.props.ownEvent && <Button label='Delete'className='delete-event'onClick={this.handleDelete}/>}
           <div className='event-poster' onClick={() => this.setState({showMessageBox: true})}> posted by: {this.props.postedBy.username}</div>    
         </div>
-        {this.state.showMessageBox && <MessageBox to={this.props.postedBy.username}/>}
+        {this.state.showMessageBox && <MessageBox to={this.props.postedBy.username} 
+        close={() => this.setState({showMessageBox: false})}/>}
       </section> 
   )  
 }

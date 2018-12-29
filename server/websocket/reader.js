@@ -1,4 +1,4 @@
-exports.readFrame = data => {
+exports.readFrame = (data,socket) => {
   console.log('Hello from READER')
   let fin = (data[0] & 0x80) === 0x80;
   let rsv1 = (data[0] & 0x40);
@@ -8,6 +8,7 @@ exports.readFrame = data => {
   let mask = (data[1] & 0x80);
   let length = (data[1] & 0x7F); // reads the last seven digits of the second byte
 
+  if(opcode === 8) {socket.emit('closing');return}
   let nextByte = 2;
   if (length === 126) {
      length = data.readUInt16BE(2)
@@ -28,7 +29,7 @@ exports.readFrame = data => {
       payload[i] = payload[i] ^ maskingKey[i % 4];
     }
   }
-console.log('MESSAGE FROM CLIENT',payload.toString())
+console.log('MESSAGE FROM CLIENT',payload)
   return payload.toString();
 }
 

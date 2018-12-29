@@ -5,21 +5,25 @@ let LogoutIcon = require('./logoutIcon');
 let SignupIcon = require('./signupIcon');
 let UserIcon = require('./userIcon');
 
-function UserStatusBar(props) {
-  const user = props.user;
-   if (user) {
+export default class UserStatusBar extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+   if (this.props.user) {
   return (
     <div className='user-status-bar'>
-    <MessageIcon/>
-    <UserIcon onClick={props.onLogoutSubmit}/>
+      <MessageIcon onClick={this.props.onMessageClick}/>
+    <UserIcon onClick={this.props.onLogoutSubmit}/>
     </div>
   );} else {
     return ( 
     <div className='user-status-bar'>
-    <LoginIcon onClick={props.onLoginClick}/>
+    <LoginIcon onClick={this.props.onLoginClick}/>
     </div>
     );
   }
+  }
 }
 
-module.exports = UserStatusBar;

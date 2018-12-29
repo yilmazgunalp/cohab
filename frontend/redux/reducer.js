@@ -1,4 +1,4 @@
-const reducer = (state={user: null,modal: {show: 0}},action) => {
+const reducer = (state={user: null,modal: {show: 0},renderInbox: 0},action) => {
   switch (action.type) {
     case 'LOG_OUT':
       return Object.assign({},state,{user: null})
@@ -8,6 +8,8 @@ const reducer = (state={user: null,modal: {show: 0}},action) => {
       return Object.assign({},state,{modal: action.modal})
     case 'HIDE_MODAL':
       return Object.assign({},state,{modal: action.modal})
+    case 'RENDER_INBOX':
+      return Object.assign({},state,{renderInbox: !state.renderInbox})
     default:
       return state
     }
