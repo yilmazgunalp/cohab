@@ -1,14 +1,12 @@
 import React  from 'react';
-require('./inbox.scss');
+require('./conversation.scss');
 import MessageBox from '../messageBox/messageBox.js';
-import Socket from '../../socket/websocket.js';
-import store from '../../redux/store';
 import Message from './message.js';
 
-export default class Inbox  extends React.Component {
+export default class Conversation  extends React.Component {
   constructor(props) {
     super(props)  
-    this.state = {conversations: []};
+    this.state = {messages: []};
     this.newMessage = this.newMessage.bind(this);
     this.websocket = new Socket('ws://localhost:4040');
     this.websocket.addMessageListener(this.newMessage)
@@ -21,21 +19,16 @@ export default class Inbox  extends React.Component {
   render() {
     console.log(this.state.messages)
     return(
-      <div className='inbox'>
+      <div className='conversation'>
         <header>
-          Messages
+          {this.props.from}
         </header>
-        <div className='conversation-list'>
-        {this.state.conversations.map((e,i) => new Conversation({key: i, ...e}))}
+        <div className='message-list'>
+        {this.state.messages.map((e,i) => Message({key: i, ...e}))}
         </div>
+        <MessageBox to={this.props.to}/>        
       </div> 
   )  
 }
-
-  updateConversations(message) {
-    let conversation = this.state.conversations.filter(c => c.from === message.from)[0];
-   conversation ?  
-  } 
-
 }
 

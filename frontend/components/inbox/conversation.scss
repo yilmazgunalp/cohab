@@ -8,7 +8,7 @@ import Message from './message.js';
 export default class Inbox  extends React.Component {
   constructor(props) {
     super(props)  
-    this.state = {conversations: []};
+    this.state = {messages: []};
     this.newMessage = this.newMessage.bind(this);
     this.websocket = new Socket('ws://localhost:4040');
     this.websocket.addMessageListener(this.newMessage)
@@ -25,17 +25,12 @@ export default class Inbox  extends React.Component {
         <header>
           Messages
         </header>
-        <div className='conversation-list'>
-        {this.state.conversations.map((e,i) => new Conversation({key: i, ...e}))}
+        <div className='message-list'>
+        {this.state.messages.map((e,i) => Message({key: i, ...e}))}
         </div>
+        <MessageBox/>        
       </div> 
   )  
 }
-
-  updateConversations(message) {
-    let conversation = this.state.conversations.filter(c => c.from === message.from)[0];
-   conversation ?  
-  } 
-
 }
 
