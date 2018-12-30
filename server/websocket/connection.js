@@ -32,7 +32,8 @@ exports.handleConnection = (socket) => {
       let message = safeJSONParse(readFrame(data,skt));
       console.log(message);
       if(message && message.type === 'chat' && clients.has(message.to)) {
-        clients.get(message.to).write(createFrame(message.body));
+        clients.get(message.to).write(createFrame(JSON.stringify(message)));
+
         console.log('shouldnt see this')
       } else {
       // write the message to DB

@@ -20,3 +20,8 @@ export const hideModal = () => ({
 export const renderInbox = () => ({
   type: 'RENDER_INBOX'
   });
+
+export const createSocket = (socket) => ({
+  type: 'CREATE_SOCKET',
+  socket
+  });
