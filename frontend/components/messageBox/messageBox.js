@@ -17,11 +17,14 @@ export default class MessageBox  extends React.Component {
  handleSend(body) {
    let message = {type: 'chat',to: this.props.to,from: store.getState().user,body}
    this.websocket.send(JSON.stringify(message));
+  if(this.props.temp){
    this.setState({showSuccess: true})   
-   setTimeout(this.props.close,3000);
+  setTimeout(this.props.close,3000);
+ }   
  }
   
   render() {
+    console.log( this.props,'MessageBox')
     return(
       <section className='message-box'>
         <header>
