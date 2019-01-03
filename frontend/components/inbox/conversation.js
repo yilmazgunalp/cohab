@@ -1,26 +1,35 @@
 import React  from 'react';
+import { useState } from 'react';
+
 require('./conversation.scss');
 import MessageBox from '../messageBox/messageBox.js';
 import Message from './message.js';
+import {MessagesContext} from './messagesContext.js';
 
-export default class Conversation  extends React.Component {
-  constructor(props) {
-    super(props)  
-  }  
+export default function ConversationList({con,test}) {
 
-  render() {
-    console.log('INSIDE RENDER',this.state)
+    console.log('CONVERSATIONLIST', con)
     return(
-      <div className='conversation' key={this.props.from}>
-        <header>
-          {this.props.from}
-        </header>
-        <div className='message-list'>
-        {this.props.m.map((e,i) => Message({key: i, ...e}))}
+      <div className='conversation-list' >
+      {Array.from(con).map((c,i) => <Conversation messages={c[1].messages} key={c[0] +'conv'} from={c[0]}/> )}
         </div>
-        <MessageBox to={this.props.from}/>        
-      </div> 
+      
   )  
-  }
 }
 
+
+function Conversation(props) {
+  const [form,showForm] = useState(false)
+  return(
+      <div className='conversation' >
+        <header onClick={() => showForm(!form)}>
+          {props.from}
+        </header>
+        <div className='message-list'>
+          {props.messages.map(({from,body}) => <Message from={from} body={body} key={from + 'message'}/>)}
+        </div>
+    {form && <MessageBox to={props.from}/>}
+      </div> 
+  )
+
+}

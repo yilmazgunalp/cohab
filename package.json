@@ -11,13 +11,14 @@
     "folktale": "2.3.1",
     "mongoose": "5.0.16",
     "nodemailer": "4.6.7",
-    "react": "16.4.0",
-    "react-dom": "16.4.0",
+    "react": "^16.7.0-alpha.0",
+    "react-dom": "^16.7.0-alpha.0",
     "react-redux": "5.0.7",
     "redis": "2.8.0",
     "redux": "4.0.0"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "7.2.3",
     "@babel/preset-env": "7.1.5",
     "babel-cli": "6.26.0",
     "babel-core": "6.26.3",
