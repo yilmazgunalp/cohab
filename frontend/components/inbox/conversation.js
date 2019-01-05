@@ -7,11 +7,18 @@ import Message from './message.js';
 import {MessagesContext} from './messagesContext.js';
 
 export default function ConversationList({con,test}) {
-
+  const [convo,showOne] = useState()
+ console.log( convo,'CONCO')
     console.log('CONVERSATIONLIST', con)
     return(
       <div className='conversation-list' >
-      {Array.from(con).map((c,i) => <Conversation messages={c[1].messages} key={c[0] +'conv'} from={c[0]}/> )}
+      <header onClick={() => showOne(0)}>
+      Conversations
+      </header>
+      {convo ? 
+        <Conversation messages={con.get(convo).messages} from={convo} showMe={showOne} form={1}/> 
+      :
+      Array.from(con).map((c,i) => <Conversation messages={c[1].messages} key={c[0] +'conv'} from={c[0]} showMe={showOne}/> )}
         </div>
       
   )  
@@ -19,17 +26,24 @@ export default function ConversationList({con,test}) {
 
 
 function Conversation(props) {
-  const [form,showForm] = useState(false)
+  console.log(props,'FORMMMM')
   return(
-      <div className='conversation' >
-        <header onClick={() => showForm(!form)}>
+      <MessagesContext.Consumer>
+      {({_,addMessage}) => (
+      <div className='conversation' onClick={() => props.showMe(props.from)} > 
+        <header>
           {props.from}
         </header>
         <div className='message-list'>
-          {props.messages.map(({from,body}) => <Message from={from} body={body} key={from + 'message'}/>)}
+          { props.form ? 
+          props.messages.map((m,i) => <Message from={m.from} body={m.body} key={i}/>)
+            :
+            <Message from={props.from} body={props.messages[props.messages.length-1].body}/>
+          }
         </div>
-    {form && <MessageBox to={props.from}/>}
+    {props.form && <MessageBox to={props.from} addMessage={addMessage}/>}
       </div> 
+  )}
+      </MessagesContext.Consumer>
   )
-
 }

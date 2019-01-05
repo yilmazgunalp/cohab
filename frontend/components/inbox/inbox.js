@@ -11,27 +11,39 @@ export default class Inbox  extends React.Component {
 
   constructor(props) {
     super(props)  
-    this.state = {conversations: new Map(), test: 'testcontext string'};
     this.newMessage = this.newMessage.bind(this);
     this.updateConversations = this.updateConversations.bind(this);
     this.websocket = new Socket('ws://localhost:4040');
     this.websocket.addMessageListener(this.newMessage)
+
+    this.addMessage = message => {
+      console.log('ADDMESSAGE',message )
+    this.setState(state => ({ conversations: 
+      state.conversations.set(message.to,{messages: state.conversations.get(message.to).messages.concat([message])})
+    
+    }))
+    }
+    this.state = {conversations: store.getState().conversations || new Map(), addMessage: this.addMessage};
   }  
 
   newMessage(socketMessage) {
    console.log(socketMessage.data);
    this.updateConversations(JSON.parse(socketMessage.data));
   }
+
+  componentWillUnmount() {
+    store.dispatch({type: 'SAVE_CONVERSATIONS',conversations: this.state.conversations}) }
+
   render() {
     console.log( this.state,'Inbox STATE')
     return(
       <MessagesContext.Provider value={this.state}>
       <div className='inbox'>
         <header>
-          Messages
+          Inbox
         </header>
       <MessagesContext.Consumer>
-      {({conversations,test}) => <ConversationList con={conversations} test={test}/>}
+      {({conversations,addMessage}) => <ConversationList con={conversations}/>}
       </MessagesContext.Consumer>
       </div> 
       </MessagesContext.Provider>

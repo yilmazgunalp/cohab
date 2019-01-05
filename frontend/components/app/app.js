@@ -17,9 +17,7 @@ class App extends React.Component {
         {this.props.modal.show ? <Overlay content={this.props.modal.content}/> : null}
         <Header/>
         <main>
-          {this.props.renderInbox ? <Inbox/> : 
-          <Feed/>
-          }
+          {this.props.renderInbox ? <Inbox/> : <Feed/> }
         </main>
       </div>
     )  

@@ -12,6 +12,8 @@ const reducer = (state={user: null,modal: {show: 0},renderInbox: 0},action) => {
       return Object.assign({},state,{renderInbox: !state.renderInbox})
     case 'CREATE_SOCKET':
       return Object.assign({},state,{socket: action.socket})
+    case 'SAVE_CONVERSATIONS':
+      return Object.assign({},state,{socket: action.socket})
     default:
       return state
     }
