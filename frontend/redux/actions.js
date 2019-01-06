@@ -25,3 +25,13 @@ export const createSocket = (socket) => ({
   type: 'CREATE_SOCKET',
   socket
   });
+
+export const newMessage = (message) => ({
+  type: 'NEW_MESSAGE',
+  message
+  });
+
+export const addMessage = (message) => ({
+  type: 'ADD_MESSAGE',
+  message
+  });

@@ -6,10 +6,8 @@ import MessageBox from '../messageBox/messageBox.js';
 import Message from './message.js';
 import {MessagesContext} from './messagesContext.js';
 
-export default function ConversationList({con,test}) {
+export default function ConversationList({con}) {
   const [convo,showOne] = useState()
- console.log( convo,'CONCO')
-    console.log('CONVERSATIONLIST', con)
     return(
       <div className='conversation-list' >
       <header onClick={() => showOne(0)}>
@@ -26,10 +24,7 @@ export default function ConversationList({con,test}) {
 
 
 function Conversation(props) {
-  console.log(props,'FORMMMM')
   return(
-      <MessagesContext.Consumer>
-      {({_,addMessage}) => (
       <div className='conversation' onClick={() => props.showMe(props.from)} > 
         <header>
           {props.from}
@@ -41,9 +36,7 @@ function Conversation(props) {
             <Message from={props.from} body={props.messages[props.messages.length-1].body}/>
           }
         </div>
-    {props.form && <MessageBox to={props.from} addMessage={addMessage}/>}
+    {props.form && <MessageBox to={props.from}/>}
       </div> 
-  )}
-      </MessagesContext.Consumer>
   )
 }

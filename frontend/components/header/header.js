@@ -1,7 +1,8 @@
 let React = require('react');
 import {connect} from 'react-redux';
-import {login,logout} from '../../redux/actions';
+import {login,logout,renderInbox,newMessage} from '../../redux/actions';
 import store  from '../../redux/store';
+import Socket from '../../socket/websocket.js';
 require('./header.css')
 
 //Imported Components
@@ -14,7 +15,9 @@ class  Header extends React.Component  {
     super(...args)
     this.state = {form: 0};
     this.handleLogout = this.handleLogout.bind(this);
-    this.showInbox = this.showInbox.bind(this);
+    this.handleNewMessage = this.handleNewMessage.bind(this);
+    this.websocket = new Socket('ws://localhost:4040');
+    this.websocket.addMessageListener(this.handleNewMessage)
   }
   
   componentDidMount() {
@@ -29,23 +32,20 @@ class  Header extends React.Component  {
     .then(() => store.dispatch(logout()))
   }     
 
+  handleNewMessage(socketMessage) {
+   this.props.newMessage(JSON.parse(socketMessage.data));
+  }
+
   showForm() {
     store.dispatch({type: 'SHOW_MODAL', modal: {show: 1, content: <UserForm/>}})    
   }
   
-  showForm() {
-    store.dispatch({type: 'SHOW_MODAL', modal: {show: 1, content: <UserForm/>}})    
-  }
-  showInbox() {
-    store.dispatch({type: 'RENDER_INBOX'})    
-  }
-
   render() {
     return ( <div>
                 <nav className= 'nav-bar'>          
                     <Logo/>
-                    <UserStatusBar  user={this.props.user} onMessageClick={this.showInbox} 
-                    onLoginClick={this.showForm} onLogoutSubmit={this.handleLogout}/>
+                    <UserStatusBar  user={this.props.user} onMessageClick={this.props.renderInbox} 
+                    onLoginClick={this.showForm} onLogoutSubmit={this.handleLogout} unreadMessages={this.props.unreadMessages}/>
                 </nav>
             </div>
             )
@@ -53,10 +53,11 @@ class  Header extends React.Component  {
 }
 
 const mapStateToProps = state => {
-    return { user: state.user }  
+  console.log( state.unreadMessages.size,'header')
+    return { user: state.user,unreadMessages: state.unreadMessages.size }  
   }
 
-const mapDispatchToProps = {login,logout}  
+const mapDispatchToProps = {login,logout,renderInbox,newMessage}  
 
 module.exports = connect(mapStateToProps,mapDispatchToProps)(Header);
 

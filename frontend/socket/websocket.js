@@ -9,7 +9,6 @@ export default class Socket {
     constructor(url) {
       let storeSocket = store.getState().socket;
       if(storeSocket){ 
-        console.log('socket from store')
       this._socket = storeSocket;
       }
       else

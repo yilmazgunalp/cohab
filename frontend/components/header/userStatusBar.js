@@ -11,10 +11,11 @@ export default class UserStatusBar extends React.Component {
   }
 
   render() {
-   if (this.props.user) {
+    console.log( this.props,'UserStatusBar')
+   if (this.props) {
   return (
     <div className='user-status-bar'>
-      <MessageIcon onClick={this.props.onMessageClick}/>
+      <MessageIcon onClick={this.props.onMessageClick} unreadMessages={this.props.unreadMessages}/>
     <UserIcon onClick={this.props.onLogoutSubmit}/>
     </div>
   );} else {
