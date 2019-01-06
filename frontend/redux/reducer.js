@@ -16,6 +16,8 @@ const reducer = (state={user: null,modal: {show: 0},renderInbox: 0,conversations
       return updateConversations(state,action.message);
     case 'ADD_MESSAGE':
       return addNewMessage(state,action.message);
+    case 'MESSAGE_READ':
+      return updateUnreaMessages(state,action.from);
     default:
       return state
     }
@@ -35,6 +37,16 @@ const reducer = (state={user: null,modal: {show: 0},renderInbox: 0,conversations
 
   const checkUnreaMessages = (state,message) => {
    return state.unreadMessages.has(message.from) ? state.unreadMessages : state.unreadMessages.add(message.from);
+  }
+
+
+  const updateUnreaMessages = (state,from) => {
+   if(state.unreadMessages.has(from)) {
+     state.unreadMessages.delete(from);
+     return Object.assign({},state,{unreadMessages: state.unreadMessages})
+   } else {
+     return Object.assign({},state)
+   } 
   }
 
   const addNewMessage = (state,message) => {

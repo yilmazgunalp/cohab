@@ -35,3 +35,8 @@ export const addMessage = (message) => ({
   type: 'ADD_MESSAGE',
   message
   });
+
+export const readMessage = (from) => ({
+  type: 'MESSAGE_READ',
+  from
+  });

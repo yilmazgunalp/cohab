@@ -5,7 +5,7 @@ let {createReadStream,createWriteStream,writeFile,open,write } = require("fs");
 // String -> Result null String
   const safeJSONParse = string => {
     try {return JSON.parse(string)} 
-    catch {return null}
+    catch(e) {return null}
    } 
 
 // retrieves the body of a request. Asynchronous so has to be 'then'ed with a callback

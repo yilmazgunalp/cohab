@@ -1,5 +1,7 @@
 import React  from 'react';
 import { useState } from 'react';
+import store from '../../redux/store';
+import {readMessage} from '../../redux/actions';
 
 require('./conversation.scss');
 import MessageBox from '../messageBox/messageBox.js';
@@ -24,8 +26,12 @@ export default function ConversationList({con}) {
 
 
 function Conversation(props) {
+  const showMe = (from) => {
+    store.dispatch(readMessage(from));
+    props.showMe(from);
+  }
   return(
-      <div className='conversation' onClick={() => props.showMe(props.from)} > 
+      <div className='conversation' onClick={() => showMe(props.from)} > 
         <header>
           {props.from}
         </header>
