@@ -1,6 +1,7 @@
 const User = require('../user/user');
 const config = require('../config/config');
 const Event = require('../event/event');
+const Conversation = require('../message/message');
 
 let users = [
   {username: 'shelly',email: 'shelly@test.com', active: true},
@@ -28,7 +29,12 @@ const seedevents = async(users) => {
   return Promise.all(promises);
 }
 
+const seedmessages = async() => {
+  await Conversation.remove();
+}
+
 seedusers()
 .then(seedevents)
+.then(() => seedmessages())
 .then(()=> console.log('DATABASE IS SEEDED WITH 7 USERS AND 7 EVENTS'))
 .catch(e => console.log(e));

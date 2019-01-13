@@ -5,8 +5,8 @@ const createConversation = (Conversation) => async(message) => {
 return convo ? convo.messages.push(message) : Conversation.create({between,messages: [message]}) 
 }
 
-const getConversations = Conversation => (user) => {
-  return Conversation.find({between: new RegExp(user)});
+const getConversations = Conversation => () => {
+  return Conversation.find({}).populate({path: 'postedBy',select: 'username'});
 }
 
 const deleteConversation = Conversation => (message_id) => {
@@ -15,8 +15,8 @@ const deleteConversation = Conversation => (message_id) => {
 
 module.exports = (Conversation,User) => {
   return {
-    create: createConversation(Conversation,User),
-    getAll: getConversations(Conversation),
+    create: createConversation(Conversation),
+    getAll: getConversations(Conversation,User),
     delete: deleteConversation(Conversation)
   }
 } 

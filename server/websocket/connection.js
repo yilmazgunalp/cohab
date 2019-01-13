@@ -5,6 +5,8 @@ const {readFrame} = require('./reader.js')
 const {createFrame} = require('./writer.js')
 const util = require('../modules/util');
 const {safeJSONParse} = require('../modules/util.js')
+const Conversation = require('./message/message');
+const ConversationService = require('./message/message.service')(Conversation);
 
 const clients = new Map();
 let counter = 0;
@@ -30,10 +32,10 @@ exports.handleConnection = (socket) => {
       console.log('Socket already connected') 
       //console.log('frame data',readFrame(data));
       let message = safeJSONParse(readFrame(data,skt));
+        ConversationService.create(message).then(message => console.log( message,'FROM WEBSOCKET SERVER CREATED MESSAGE'))
       console.log(message);
       if(message && message.type === 'chat' && clients.has(message.to)) {
         clients.get(message.to).write(createFrame(JSON.stringify(message)));
-
         console.log('shouldnt see this')
       } else {
       // write the message to DB

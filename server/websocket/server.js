@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+mongoose.connect(config.db);
 const net = require('net');
 const {handleConnection} = require('./connection')
 
