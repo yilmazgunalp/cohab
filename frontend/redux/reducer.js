@@ -18,6 +18,8 @@ const reducer = (state={user: null,modal: {show: 0},renderInbox: 0,conversations
       return addNewMessage(state,action.message);
     case 'MESSAGE_READ':
       return updateUnreaMessages(state,action.from);
+    case 'INITIALIZE_INBOX':
+      return Object.assign({},state,{conversations: action.conversations})
     default:
       return state
     }

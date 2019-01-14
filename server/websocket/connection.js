@@ -5,7 +5,7 @@ const {readFrame} = require('./reader.js')
 const {createFrame} = require('./writer.js')
 const util = require('../modules/util');
 const {safeJSONParse} = require('../modules/util.js')
-const Conversation = require('./message/message');
+const Conversation = require('../message/message');
 const ConversationService = require('./message/message.service')(Conversation);
 
 const clients = new Map();

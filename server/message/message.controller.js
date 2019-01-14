@@ -6,6 +6,7 @@ const ConversationService = require('./message.service')(Conversation,User);
 exports.GET = {
 getAll:        async(req,resp)=> {
                 let messages = await ConversationService.getAll(req.user);
+                console.log( req.user,messages)
                 resp.setHeader('Content-Type', 'application/json');
                 resp.end(JSON.stringify(messages));
                }

@@ -40,3 +40,8 @@ export const readMessage = (from) => ({
   type: 'MESSAGE_READ',
   from
   });
+
+export const initializeInbox = (from) => ({
+  type: 'INITIALIZE_INBOX',
+  conversations
+  });

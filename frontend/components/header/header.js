@@ -28,7 +28,11 @@ class  Header extends React.Component  {
     fetch('http://localhost:8000/message/getAll',{
           credentials: 'same-origin',
           })
-    .then(resp => resp.json()).then(data => console.log( data))
+    .then(resp => resp.json())
+    .then(data => {
+      store.dispatch({type:  'INITIALIZE_INBOX',conversations: mapConversationsFromBackend(data,this.props.user)})
+    })
+    .catch(e => console.log('COULD NOT GET CONVERSATIONS',e));
   }
 
  handleLogout() {
@@ -66,3 +70,13 @@ const mapDispatchToProps = {login,logout,renderInbox,newMessage}
 
 module.exports = connect(mapStateToProps,mapDispatchToProps)(Header);
 
+
+
+const mapConversationsFromBackend = (conversations,user) => {
+    return conversations.reduce((acc,convo) => {
+     let from = convo.between.split('_')
+                .filter(e => e !== user)[0];
+      acc.set(from,{messages: convo.messages})
+      return acc;
+    },new Map())  
+}
