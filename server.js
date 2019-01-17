@@ -9,7 +9,6 @@ const numCPUs = require('os').cpus().length;
 
 //  if master fork workers.
 if (cluster.isMaster) {
-require('./server/websocket/server.js')
   //seed db for development
   if(config.seed) { require('./server/modules/seed.js')}
   console.log(`Master ${ process.pid} is running`);

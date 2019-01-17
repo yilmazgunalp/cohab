@@ -17,6 +17,7 @@ class  Header extends React.Component  {
     this.handleLogout = this.handleLogout.bind(this);
     this.handleNewMessage = this.handleNewMessage.bind(this);
     this.websocket = new Socket('ws://localhost:4040');
+
     this.websocket.addMessageListener(this.handleNewMessage)
   }
   
