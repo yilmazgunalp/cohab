@@ -6,7 +6,6 @@ const ConversationService = require('./message.service')(Conversation,User);
 exports.GET = {
 getAll:        async(req,resp)=> {
                 let messages = await ConversationService.getAll(req.user);
-                console.log( req.user,messages)
                 resp.setHeader('Content-Type', 'application/json');
                 resp.end(JSON.stringify(messages));
                }
@@ -24,12 +23,7 @@ create:        async(req,resp)=> {
                },
 
 delete:        async(req,resp)=> {
-               let message = await util.getBody(req).then(body => JSON.parse(body));
-               ConversationService.delete(message._id)
-               .then(message => {
-                 resp.end();
-               })
-               .catch(e => console.log(e));
+               // TODO
                }
 }
 

@@ -1,26 +1,27 @@
-
+// Probably dont need User Model:)
 const createConversation = (Conversation) => async(message) => {
   let between = setBetweenKey(message.from,message.to);
-  let convo = await Conversation.findOne({between}) 
+  let convo = await Conversation.findOne({between})
 return convo ? convo.messages.push(message) : Conversation.create({between,messages: [message]}) 
 }
 
 const getConversations = Conversation => (user) => {
-  return Conversation.find({between: new RegExp(user)});
+  return user ? Conversation.find({between: new RegExp(user)})
+                : null
 }
 
 const deleteConversation = Conversation => (message_id) => {
-  return Conversation.deleteOne({_id: message_id}).exec();
+  //TODO
 }
 
 module.exports = (Conversation,User) => {
   return {
-    create: createConversation(Conversation,User),
+    create: createConversation(Conversation),
     getAll: getConversations(Conversation),
     delete: deleteConversation(Conversation)
   }
 } 
 
 const setBetweenKey = (from,to) => {
-    return [from,to].sort().join('_');
+    return [from,to].sort().join('_').toLowerCase();
 }
