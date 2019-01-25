@@ -8,6 +8,8 @@ const auth = require('./auth')
 const middlewareList = {
     login: [auth.loginUser],
     authenticate: [auth.authenticateUser],
+    //TODO getAll is defined in multiple places!!!!!
+    getAll: [auth.authenticateUser],
     activate: [auth.activateUser]
 };
     

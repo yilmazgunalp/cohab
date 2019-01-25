@@ -29,7 +29,7 @@ module.exports = {
         warnings: true,
         errors: true },
         proxy: [{
-            context: ['/user','/event'],
+            context: ['/user','/event','/message'],
             target: 'http://localhost:3000',
             secure: false,
         onProxyReq: function(proxyReq, req, res){

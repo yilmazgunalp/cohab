@@ -1,7 +1,12 @@
-
 const {parse, URLSearchParams} = require("url");
 let {createReadStream,createWriteStream,writeFile,open,write } = require("fs");
 
+
+// String -> Result null String
+  const safeJSONParse = string => {
+    try {return JSON.parse(string)} 
+    catch(e) {return null}
+   } 
 
 // retrieves the body of a request. Asynchronous so has to be 'then'ed with a callback
 const getBody = async function(req) {
@@ -60,5 +65,5 @@ const basePath = (path)=> {
     };
 
 
-module.exports = {getBody,formToJson, fileToJson,cookiesToJson,qparams,basePath};
+module.exports = {safeJSONParse,getBody,formToJson, fileToJson,cookiesToJson,qparams,basePath};
 

@@ -13,6 +13,8 @@ display: flex;
 align-items: center;
 }
 .user-status-bar {
+display: flex;
+align-items: center;
 }
 
 .nav-icon {
@@ -26,6 +28,16 @@ width: 30px;
 height: 30px;
 background: url("/components/images/blue.png") no-repeat;
 background-size: contain;
+display: flex;
+flex-direction: row-reverse;
+}
+
+.message-icon > .red-dot {
+background: red;
+width: 10px;
+height: 10px;
+border-radius: 5px;
+
 }
 
 .user-icon {

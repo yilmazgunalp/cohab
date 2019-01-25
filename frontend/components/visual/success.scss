@@ -1,0 +1,12 @@
+.success-tick {
+animation: disappear 3s ease-in-out 0s 1 forwards;
+@keyframes disappear {
+from {background: blue;}
+to {background: green;}
+}
+
+img {
+width:64px;
+height: 64px;
+}
+}

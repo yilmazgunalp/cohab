@@ -1,4 +1,4 @@
-.feed header {
+.feed >  header {
 flex-direction: row-reverse;
 margin: 6px auto; 
 padding: 6px;

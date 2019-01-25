@@ -1,11 +1,13 @@
 import React  from 'react';
 require('./event.css')
 import Button from '../visual/button';
+import MessageBox from '../messageBox/messageBox.js';
 
 class Event extends React.Component {
   constructor(props) {
     super(props)  
     this.handleDelete = this.handleDelete.bind(this);
+    this.state = {showMessageBox: false}
   }  
 
  handleDelete() {
@@ -36,8 +38,10 @@ class Event extends React.Component {
         </div>
           <div className='event-info'>
           {this.props.ownEvent && <Button label='Delete'className='delete-event'onClick={this.handleDelete}/>}
-          <div className='event-poster'> posted by: {this.props.postedBy.username}</div>    
+          <div className='event-poster' onClick={() => this.setState({showMessageBox: true})}> posted by: {this.props.postedBy.username}</div>    
         </div>
+        {this.state.showMessageBox && <MessageBox temp={true} to={this.props.postedBy.username} 
+        close={() => this.setState({showMessageBox: false})}/>}
       </section> 
   )  
 }
