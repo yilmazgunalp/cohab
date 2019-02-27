@@ -10,7 +10,10 @@ let users = [
   {username: 'button',email: 'button@test.com', active: true},
   {username: 'flower',email: 'flower@test.com', active: true},
   {username: 'olaf',email: 'olaf@test.com', active: true},
-  {username: 'beatrice',email: 'yyilmazgunalp@gmail.com', active: true}
+  {username: 'beatrice',email: 'yyilmazgunalp@gmail.com', active: true},
+  {username: 'carmeil',email: 'carmeil@test.com', active: true},
+  {username: 'fedji',email: 'fedji@test.com', active: true},
+  {username: 'moonshine',email: 'moonshine@test.com', active: true}
 ]
 const seedusers = async() => {
   await User.remove();
@@ -19,7 +22,7 @@ const seedusers = async() => {
 
 const seedevents = async(users) => {
   let description =  'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.'
-  let places = ['Newtown', 'Stanmore','Enmore','Redfern', 'Marrickvillel','Petersham','Lewisham'];
+  let places = ['Newtown', 'Stanmore','Enmore','Redfern', 'Marrickvillel','Petersham','Lewisham','Antartica','Bowral','Gold Coast'];
   await Event.remove();
   let promises =  users.map((user,i)=>{
    return Event.create({name:`Event-${i}`,organizer: 'baba',place: places[i], 

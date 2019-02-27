@@ -6,12 +6,18 @@ const home = (req,resp) => {
   createReadStream("./frontend/views/home/home.html").pipe(resp);
 };
 
+const dist = (req,resp) => {
+  createReadStream("./dist/index.bundle.js").pipe(resp);
+}
+
 module.exports = function(req) {
   let path = parse(req.url).path;
   //log the request to console
   console.log(`${(new Date(Date.now()).toLocaleTimeString())} Received a HTTP ${req.method} request @ ${path}`);  
   // if root path requested return home handler
   if(path === '/' && req.method === 'GET') return home;
+  if(/dist/.test(path)) return dist;
+  if(!/styles/.test(path)) {
   // find the handler for http request
   try {
     let rootPath = 	path.match(/^\/([^\/]*)\/([^\/]*)/)[1];
@@ -21,4 +27,5 @@ module.exports = function(req) {
   catch(error) { 
     console.log(error);
     return null; }
+  }
 };

@@ -4,7 +4,7 @@
     "start": "nodemon --ignore './frontend/' server.js",
     "dev": "webpack-dev-server",
     "webpack": "webpack --watch",
-    "build": "webpack -d && webpack-dev-server --content-base views/ --inline --hot --port 8000"
+    "build": "webpack"
   },
   "dependencies": {
     "@babel/preset-react": "7.0.0",

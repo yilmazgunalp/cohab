@@ -4,7 +4,8 @@ services:
         build: .
         environment:
           - NODE_ENV
+          - PORT=80
         volumes:
             - ".:/cohab"
         ports:
-            - "3000:3000"
+            - "80:3000"

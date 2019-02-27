@@ -21,9 +21,6 @@ class Inbox  extends React.Component {
     return(
       <MessagesContext.Provider value={{conversations}}>
       <div className='inbox'>
-        <header>
-          Inbox
-        </header>
       <MessagesContext.Consumer>
       {({conversations}) => <ConversationList con={conversations}/>}
       </MessagesContext.Consumer>

@@ -6,16 +6,6 @@ services:
      - "27017:27017"
     volumes: 
         - 'cohabdata:/data/db'
-  redis:
-    image: redis
-    volumes:
-        - 'cohabdata:/data'
-    ports:
-        - '6379:6379'
-    deploy:
-      placement:
-        constraints: [node.role == manager]
-    command: redis-server --appendonly yes
   web:
     image: yilmazgunalp/cohab:0.1
     deploy:
@@ -25,13 +15,6 @@ services:
       - "3000:3000"
     depends_on:
       - 'mongo' 
-      - 'redis'
-  nginx:
-    image: yilmazgunalp/nginx:9.1
-    ports:
-      - '80:80'
-      - '443:443'
-    tty: true
   visualizer:
     image: dockersamples/visualizer:stable
     ports:

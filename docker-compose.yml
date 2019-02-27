@@ -4,10 +4,7 @@ services:
         image: "mongo"
         ports:
             - "27017:27017"
-    redis:
-        image: "redis"
     web:
         image: "yilmazgunalp/cohab:0.1"
         depends_on:
             - "mongo"
-            - "redis"

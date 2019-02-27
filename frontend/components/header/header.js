@@ -22,11 +22,11 @@ class  Header extends React.Component  {
   }
   
   componentDidMount() {
-    fetch('http://localhost:8000/user/authenticate',{credentials: 'same-origin',method: 'POST'})
+    fetch('http://localhost:3000/user/authenticate',{credentials: 'same-origin',method: 'POST'})
     .then(resp => resp.json()).then(data => this.props.login(data))
     .catch(e => console.log('COULD NOT AUTHORIZE USER',e));
 
-    fetch('http://localhost:8000/message/getAll',{
+    fetch('http://localhost:3000/message/getAll',{
           credentials: 'same-origin',
           })
     .then(resp => resp.json())
@@ -37,7 +37,7 @@ class  Header extends React.Component  {
   }
 
  handleLogout() {
-    fetch('http://localhost:8000/user/logout',{ credentials: 'same-origin', })
+    fetch('http://localhost:3000/user/logout',{ credentials: 'same-origin', })
     .then(resp => resp.status === 200  ? this.setState({form: 0}) : null)
     .then(() => store.dispatch(logout()))
   }     
