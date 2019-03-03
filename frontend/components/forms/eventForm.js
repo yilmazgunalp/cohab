@@ -95,7 +95,7 @@ static formErrors(state) {return  state.errors ? state.errors : null};
 handleSubmit(event) {
     event.preventDefault();
     let formData = U.partObj(['name','place','description','startTime','endTime','placeID'],this.state);
-    fetch('http://localhost:8000/event/create',{
+    fetch('/event/create',{
           credentials: 'same-origin',
           method: 'POST',
           body: JSON.stringify(Object.assign(formData,{postedBy: this.props.user}))

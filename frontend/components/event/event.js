@@ -11,7 +11,7 @@ class Event extends React.Component {
   }  
 
  handleDelete() {
-    fetch('http://localhost:8000/event/delete',{credentials: 'same-origin',method: 'POST',body: JSON.stringify({_id: this.props._id}),headers: {'Content-Type': 'application/json'}})
+    fetch('/event/delete',{credentials: 'same-origin',method: 'POST',body: JSON.stringify({_id: this.props._id}),headers: {'Content-Type': 'application/json'}})
     .then(resp => resp.json()).then(data => this.props.login(data))
     .catch(e => console.log('COULD NOT AUTHORIZE USER',e));
  }

@@ -27,4 +27,4 @@ else {
   app.listen(config.port);
 }
 
-console.log(`Cohab started listening on port 3000 in ${config.env.toUpperCase()}`);
+console.log(`Cohab started listening on port ${config.port} in ${config.env.toUpperCase()}`);

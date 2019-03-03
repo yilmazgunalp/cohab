@@ -5,6 +5,14 @@ services:
         ports:
             - "27017:27017"
     web:
-        image: "yilmazgunalp/cohab:0.1"
+        image: "node"
+        environment:
+          - NODE_ENV
+        volumes:
+            - ".:/cohab"
+        ports:
+            - "3000:3000"
+        command: "npm start"
+        working_dir: /cohab
         depends_on:
             - "mongo"

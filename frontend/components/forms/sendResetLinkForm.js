@@ -13,7 +13,7 @@ class ResetPswdForm  extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     console.log(this.email.current.value)
-    fetch('http://localhost:8000/user/sendresetlink',{
+    fetch('/user/sendresetlink',{
           credentials: 'same-origin',
           method: 'POST',
           body: JSON.stringify({email: this.email.current.value})

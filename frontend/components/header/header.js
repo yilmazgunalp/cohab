@@ -4,7 +4,6 @@ import {login,logout,renderInbox,newMessage} from '../../redux/actions';
 import store  from '../../redux/store';
 import Socket from '../../socket/websocket.js';
 require('./header.css')
-
 //Imported Components
 import UserStatusBar from './userStatusBar';
 let Logo = require('../visual/logo');
@@ -22,11 +21,11 @@ class  Header extends React.Component  {
   }
   
   componentDidMount() {
-    fetch('http://localhost:3000/user/authenticate',{credentials: 'same-origin',method: 'POST'})
+    fetch('/user/authenticate',{credentials: 'same-origin',method: 'POST'})
     .then(resp => resp.json()).then(data => this.props.login(data))
     .catch(e => console.log('COULD NOT AUTHORIZE USER',e));
 
-    fetch('http://localhost:3000/message/getAll',{
+    fetch('/message/getAll',{
           credentials: 'same-origin',
           })
     .then(resp => resp.json())
@@ -37,7 +36,7 @@ class  Header extends React.Component  {
   }
 
  handleLogout() {
-    fetch('http://localhost:3000/user/logout',{ credentials: 'same-origin', })
+    fetch('/user/logout',{ credentials: 'same-origin', })
     .then(resp => resp.status === 200  ? this.setState({form: 0}) : null)
     .then(() => store.dispatch(logout()))
   }     

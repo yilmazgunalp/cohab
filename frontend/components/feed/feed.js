@@ -15,7 +15,7 @@ class Feed extends React.Component {
   }  
   
   componentDidMount() {
-    fetch('http://localhost:8000/event/getAll')
+    fetch('/event/getAll')
     .then(resp => resp.json()).then(data => this.setState({events: data}))
     .catch(e => console.log('couldnt get evsents',e));
   }

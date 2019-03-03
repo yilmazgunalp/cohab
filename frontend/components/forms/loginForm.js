@@ -19,7 +19,7 @@ class LoginForm  extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    fetch('http://localhost:3000/user/login',{
+    fetch('/user/login',{
           credentials: 'same-origin',
           method: 'POST',
           body: JSON.stringify({username: this.username.current.value,

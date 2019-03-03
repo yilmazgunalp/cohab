@@ -27,7 +27,7 @@ checkUser(event) {
     const value = target.value;
     const name = target.name;
     this.setState({errors: null});
-    fetch('http://localhost:8000/user/checkuser',{
+    fetch('/user/checkuser',{
           credentials: 'same-origin',
           method: 'POST',
           body: JSON.stringify({[name]: value})})
