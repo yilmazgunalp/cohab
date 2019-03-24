@@ -20,6 +20,7 @@ module.exports = {
 
     //DEV-SERVER
     devServer: {
+      publicPath: '/dist/',
         openPage: 'views/home/home.html',
         contentBase: path.join(__dirname,'frontend/'),
         open: true,
