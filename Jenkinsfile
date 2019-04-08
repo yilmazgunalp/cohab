@@ -11,7 +11,7 @@ pipeline {
       steps {
         sh 'npm install'
         sh 'npm run test'
-        sh 'echo $USER'
+        sh 'whoami'
       }
     }
   }
