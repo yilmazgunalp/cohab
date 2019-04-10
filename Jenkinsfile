@@ -26,8 +26,8 @@ pipeline {
           }
       }
   }
+}
   environment {
     HOME = '.'
   }
-}
 }
