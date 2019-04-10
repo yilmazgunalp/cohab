@@ -4,3 +4,5 @@ package-lock.json
 /frontend/components/images/
 /server/config/config.js
 SETUP.md
+.babel.json
+/.npm

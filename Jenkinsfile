@@ -14,6 +14,17 @@ pipeline {
         sh 'whoami'
       }
     }
+    stage('MergeToMaster') {
+      when {
+       not {branch 'master'} 
+       }
+      steps {
+        sh 'git pull origin master'
+        sh 'git push origin nb:event'
+        dir('cohab_master') {
+          sh 'pwd'
+          }
+      }
   }
   environment {
     HOME = '.'
