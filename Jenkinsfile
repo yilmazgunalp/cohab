@@ -11,22 +11,25 @@ pipeline {
       steps {
         sh 'npm install'
         sh 'npm run test'
-        sh 'whoami'
       }
     }
     stage('MergeToMaster') {
       when {
-       not {branch 'master'} 
-       }
+        not {
+          branch 'master'
+        }
+
+      }
       steps {
         sh 'git pull origin master'
         sh 'git push origin nb:event'
-        dir('cohab_master') {
+        dir(path: 'cohab_master') {
           sh 'pwd'
-          }
+        }
+
       }
+    }
   }
-}
   environment {
     HOME = '.'
   }
