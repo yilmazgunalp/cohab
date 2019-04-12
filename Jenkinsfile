@@ -21,7 +21,6 @@ pipeline {
       }
       steps {
         sh 'git pull origin master'
-        sh 'git push origin nb:event'
         dir(path: 'cohab_master') {
           sh 'pwd'
         }
