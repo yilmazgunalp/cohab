@@ -18,7 +18,6 @@ pipeline {
         not {
           branch 'master'
         }
-
       }
       steps {
         sh 'git pull origin master'
