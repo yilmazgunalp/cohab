@@ -25,28 +25,22 @@ pipeline {
         sh 'echo $GIT_CREDENTIALS > "${HOME}/.git-credentials"'
         sh 'git config --global credential.helper "store --file ~/.git-credentials"'
         sh 'git fetch'
-        sh 'git status'
         sh 'git checkout $BRANCH_NAME'
-        sh 'git status'
         sh 'git pull origin $BRANCH_NAME'
         sh 'git checkout master'
-        sh 'git status'
         sh 'git pull origin master'
-        sh 'git status'
-        sh 'echo  $BRANCH_NAME'
         sh 'git merge $BRANCH_NAME'
-        sh 'git status'
         sh 'git push origin master'
-        sh 'echo "where did it all go?"'
-        sh 'git status'
       }
     }
     stage('pre-deploy') {
-      agent {
-          node {
-        label 'master'
-            }
-      }
+       agent {
+    docker {
+      image 'garland/aws-cli-docker'
+      args '-v /var/lib/jenkins/workspace/aws:/data -w /data -u 0'
+    }
+
+  }
       when {
           branch 'master'
       }
