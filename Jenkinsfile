@@ -22,6 +22,8 @@ pipeline {
         sh 'git config --local --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/*'
         sh 'echo $GIT_CREDENTIALS > "${HOME}/.git-credentials"'
         sh 'git config --global credential.helper "store --file ~/.git-credentials"'
+        sh 'git status'
+        sh 'git pull'
         sh 'git checkout master'
         sh 'git status'
         sh 'git pull origin master'
