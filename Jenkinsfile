@@ -1,22 +1,24 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:10' 
-            args '-p 3000:3000 -u 0' 
-        }
+  agent {
+    docker {
+      image 'node:10'
+      args '-p 3000:3000 -u 0'
     }
-    stages {
-        stage('Build') { 
-            steps {
-                sh 'npm install' 
-                sh 'npm run test' 
-            }
-        }
-        stage('MergeToMaster') {
+
+  }
+  stages {
+    stage('Build') {
+      steps {
+        sh 'npm install'
+        sh 'npm run test'
+      }
+    }
+    stage('MergeToMaster') {
       when {
         not {
           branch 'master'
         }
+
       }
       steps {
         sh 'git config --local --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/*'
@@ -37,9 +39,15 @@ pipeline {
         sh 'echo "where did it all go?"'
         sh 'git status'
       }
+    }
+    stage('pre-deploy') {
+      agent any
+      steps {
+        sh 'which aws'
       }
     }
-     environment {
+  }
+  environment {
     HOME = '.'
   }
 }
