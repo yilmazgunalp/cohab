@@ -9,8 +9,8 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'npm install'
-        sh 'npm run test'
+        sh 'echo l'
+      
       }
     }
     stage('MergeToMaster') {
@@ -24,6 +24,7 @@ pipeline {
         sh 'git config --local --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/*'
         sh 'echo $GIT_CREDENTIALS > "${HOME}/.git-credentials"'
         sh 'git config --global credential.helper "store --file ~/.git-credentials"'
+        sh 'git fetch'
         sh 'git status'
         sh 'git checkout $BRANCH_NAME'
         sh 'git status'
@@ -41,7 +42,14 @@ pipeline {
       }
     }
     stage('pre-deploy') {
-      agent any
+      agent {
+          node {
+        label 'master'
+            }
+      }
+      when {
+          branch 'master'
+      }
       steps {
         sh 'which aws'
       }
