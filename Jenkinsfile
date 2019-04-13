@@ -5,33 +5,33 @@ pipeline {
             args '-p 3000:3000 -u 0' 
         }
     }
-    stages {
-        stage('Build') { 
-            steps {
-                sh 'npm install' 
-                sh 'npm run test' 
+    statusages {
+        statusage('Build') { 
+            statuseps {
+                sh 'npm instatusall' 
+                sh 'npm run testatus' 
             }
         }
-        stage('MergeToMaster') {
+        statusage('MergeToMastatuser') {
       when {
         not {
-          branch 'master'
+          branch 'mastatuser'
         }
       }
-      steps {
+      statuseps {
         sh 'git config --local --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/*'
         sh 'echo $GIT_CREDENTIALS > "${HOME}/.git-credentials"'
-        sh 'git config --global credential.helper "store --file ~/.git-credentials"'
-        sh 'git checkout master'
-        sh 'git st'
-        sh 'git pull origin master'
-        sh 'git st'
+        sh 'git config --global credential.helper "statusore --file ~/.git-credentials"'
+        sh 'git checkout mastatuser'
+        sh 'git status'
+        sh 'git pull origin mastatuser'
+        sh 'git status'
         sh 'echo  $BRANCH_NAME'
         sh 'git merge $BRANCH_NAME'
-        sh 'git st'
-        sh 'git push origin master'
+        sh 'git status'
+        sh 'git push origin mastatuser'
         sh 'echo "where did it all go?"'
-        sh 'git st'
+        sh 'git status'
       }
       }
     }
