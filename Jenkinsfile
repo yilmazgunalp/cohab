@@ -12,5 +12,23 @@ pipeline {
                 sh 'npm run test' 
             }
         }
+        stage('MergeToMaster') {
+      when {
+        not {
+          branch 'master'
+        }
+      }
+      steps {
+        sh 'git checkout master'
+        sh 'git pull origin master'
+        sh 'echo $HELLO > "${HOME}/.git-credentials"'
+        sh 'echo  BRANCH_NAME'
+        sh 'git merge BRANCH_NAME'
+        sh 'git push origin master'
+      }
+      }
     }
+     environment {
+    HOME = '.'
+  }
 }
