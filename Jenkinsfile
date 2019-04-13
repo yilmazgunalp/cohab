@@ -19,11 +19,12 @@ pipeline {
         }
       }
       steps {
+        sh 'git config --local --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/*'
         sh 'git checkout master'
         sh 'git pull origin master'
         sh 'echo $HELLO > "${HOME}/.git-credentials"'
-        sh 'echo  BRANCH_NAME'
-        sh 'git merge BRANCH_NAME'
+        sh 'echo  $BRANCH_NAME'
+        sh 'git merge $BRANCH_NAME'
         sh 'git push origin master'
       }
       }
