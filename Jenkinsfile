@@ -9,8 +9,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'npm install'
-        sh 'npm run test'
+        sh 'echo me'
       }
     }
     stage('MergeToMaster') {
@@ -20,10 +19,8 @@ pipeline {
         }
       }
       steps {
+        sh 'git status'
         sh 'git pull origin master'
-        dir(path: 'cohab_master') {
-          sh 'pwd'
-        }
 
       }
     }
