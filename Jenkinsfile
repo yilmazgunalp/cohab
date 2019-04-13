@@ -27,6 +27,7 @@ pipeline {
         sh 'echo  $BRANCH_NAME'
         sh 'git merge $BRANCH_NAME'
         sh 'git push origin master'
+        sh 'echo "where did it all go?"'
       }
       }
     }
