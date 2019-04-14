@@ -34,8 +34,8 @@ pipeline {
         sh 'git push origin master'
       }
     }
+}
   environment {
     HOME = '.'
   }
-}
 }
