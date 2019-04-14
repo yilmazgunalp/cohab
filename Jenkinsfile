@@ -34,23 +34,8 @@ pipeline {
         sh 'git push origin master'
       }
     }
-    stage('pre-deploy') {
-       agent {
-    docker {
-      image 'garland/aws-cli-docker'
-    }
-
-  }
-      when {
-         beforeAgent true
-          branch 'master'
-      }
-      steps {
-        sh 'which aws'
-      }
-    }
-  }
   environment {
     HOME = '.'
   }
+}
 }
