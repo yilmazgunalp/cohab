@@ -9,7 +9,8 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'echo l'
+        sh 'npm install'
+        sh 'npm run test'
       
       }
     }
@@ -37,11 +38,11 @@ pipeline {
        agent {
     docker {
       image 'garland/aws-cli-docker'
-      args '-v /var/lib/jenkins/workspace/aws:/data -w /data -u 0'
     }
 
   }
       when {
+         beforeAgent true
           branch 'master'
       }
       steps {
