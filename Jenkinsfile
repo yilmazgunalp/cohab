@@ -10,6 +10,7 @@ pipeline {
     stage('Build') {
       steps {
         sh 'npm install'
+        sh 'echo hollumoii'
         sh 'npm run test'
       
       }
