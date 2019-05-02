@@ -1,4 +1,8 @@
-FROM yilmazgunalp/nodev10:2.0
+FROM node
+
+RUN git clone https://github.com/yilmazgunalp/cohab.git
+
+RUN pwd
 
 WORKDIR /cohab
 
