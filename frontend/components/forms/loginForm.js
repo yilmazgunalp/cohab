@@ -5,6 +5,7 @@ import SignupForm from './signupForm.js';
 import ResetForm from './sendResetLinkForm.js';
 import {login,logout} from '../../redux/actions';
 import store  from '../../redux/store';
+import WS from '../../socket/websocket.js';
 require('./loginForm.css');
 
 class LoginForm  extends React.Component {
@@ -33,6 +34,8 @@ class LoginForm  extends React.Component {
       console.log(data);
     store.dispatch(login(data))
     store.dispatch({type: 'HIDE_MODAL',modal: {show: 0}});
+   const ws = new WS('ws://172.19.0.3:4040', _ => console.log('Can not initialize Websocket connection!!!'));
+    store.dispatch({type: 'CREATE_SOCKET',socket: ws})
       });
     }})
     .catch(e => console.log(e))

@@ -8,7 +8,8 @@ import WS from '../../socket/websocket.js';
 
 class App extends React.Component {
   constructor(props) {
-    super(props)   
+   super(props)   
+   new WS('ws://172.19.0.3:4040', _ => console.log('Can not initialize Websocket connection!!!'));
   }  
 
   render() {

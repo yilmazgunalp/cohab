@@ -2,7 +2,6 @@ let React = require('react');
 import {connect} from 'react-redux';
 import {login,logout,renderInbox,newMessage} from '../../redux/actions';
 import store  from '../../redux/store';
-import Socket from '../../socket/websocket.js';
 require('./header.css')
 //Imported Components
 import UserStatusBar from './userStatusBar';
@@ -15,12 +14,10 @@ class  Header extends React.Component  {
     this.state = {form: 0};
     this.handleLogout = this.handleLogout.bind(this);
     this.handleNewMessage = this.handleNewMessage.bind(this);
-    this.websocket = new Socket('ws://localhost:4040');
-
-    this.websocket.addMessageListener(this.handleNewMessage)
   }
   
   componentDidMount() {
+    this.props.websocket.addMessageListener(this.handleNewMessage)
     fetch('/user/authenticate',{credentials: 'same-origin',method: 'POST'})
     .then(resp => resp.json()).then(data => this.props.login(data))
     .catch(e => console.log('COULD NOT AUTHORIZE USER',e));
@@ -63,7 +60,7 @@ class  Header extends React.Component  {
 
 const mapStateToProps = state => {
   console.log( state.unreadMessages.size,'header')
-    return { user: state.user,unreadMessages: state.unreadMessages.size }  
+    return { user: state.user,unreadMessages: state.unreadMessages.size,websocket: state.socket }  
   }
 
 const mapDispatchToProps = {login,logout,renderInbox,newMessage}  
