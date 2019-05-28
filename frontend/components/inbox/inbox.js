@@ -1,7 +1,6 @@
 import React  from 'react';
 require('./inbox.scss');
 import MessageBox from '../messageBox/messageBox.js';
-import Socket from '../../socket/websocket.js';
 import store from '../../redux/store';
 import Message from './message.js';
 import ConversationList from './conversation.js';
@@ -13,7 +12,6 @@ class Inbox  extends React.Component {
 
   constructor(props) {
     super(props)  
-    this.websocket = new Socket('ws://localhost:4040');
   }  
 
   render() {
