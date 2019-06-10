@@ -1,0 +1,12 @@
+session_name: COHAB
+windows:
+- window_name: dev_window
+  start_directory: /home/yg/ygprojects/cohab
+  panes:
+    - shell_command:
+      - vim .
+      focus: true
+    - npm run dev
+    - docker-compose up
+  layout: main-vertical
+

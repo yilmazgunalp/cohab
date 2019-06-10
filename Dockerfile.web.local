@@ -1,0 +1,23 @@
+FROM node:12.0.0-alpine
+
+WORKDIR /cohab
+
+RUN apk upgrade --no-cache \
+  && apk add --no-cache \
+    build-base \
+    python3 \
+    git \
+  && pip3 install --no-cache-dir --upgrade pip
+
+RUN git clone https://github.com/yilmazgunalp/cohab.git .
+
+RUN npm install --production
+
+COPY ./dist/index.bundle.js dist/
+
+COPY ./dist/reset.bundle.js dist/
+
+COPY server/config/config.js server/config/
+
+CMD npm start
+
