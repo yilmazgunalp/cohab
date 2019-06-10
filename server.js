@@ -2,7 +2,8 @@ const config = require('./server/config/config');
 const app = require('./server/app');
 const mongoose = require('mongoose');
 if(process.env.NODE_ENV !== 'test'){
-mongoose.connect(config.db).catch(e => console.log('mogo failed'))
+  console.log( config.db)
+mongoose.connect(config.db).catch(e => console.log('mogo FAILED ==>', e))
 }
 
 // to run Node in Cluster Mode
