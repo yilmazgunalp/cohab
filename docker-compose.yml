@@ -4,6 +4,8 @@ services:
         image: "mongo"
         ports:
             - "27017:27017"
+        depends_on:
+            - 'web'
     web:
         image: "node"
         environment:
@@ -14,5 +16,3 @@ services:
             - "3000:3000"
         command: "npm start"
         working_dir: /cohab
-        depends_on:
-            - "mongo"
