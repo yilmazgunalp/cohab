@@ -1,36 +1,39 @@
 const config = require('./server/config/config');
 const app = require('./server/app');
-const mongoose = require('mongoose');
+const db = require('./db.js');
 
-
-const startServer = () => {
 // to run Node in Cluster Mode
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
 
 //  if master fork workers.
 if (cluster.isMaster) {
-  //seed db for development
-  if(config.seed) { require('./server/modules/seed.js')}
+
   console.log(`Master ${ process.pid} is running`);
-  for (let i = 0; i < numCPUs; i++) {
-    cluster.fork();
-  }
-  cluster.on('exit', (worker, code, signal) => {
-    console.log(`worker ${ worker.process.pid} died`);
+
+//  if not TEST env connect to db
+if(process.env.NODE_ENV !== 'test'){
+  const mng = db.dbconnect(config.db, 3000,'master')
+  .then(()=> {
+  //  seed db for development
+  if(config.seed) { require('./server/modules/seed.js')}
   });
+}
+  for (let i = 0; i < numCPUs; i++) {cluster.fork();}
+
+  cluster.on('exit', (worker, code, signal) => console.log(`worker ${ worker.process.pid} died`));
 } 
-  // else create worker servers
+  // else create worker servers and start the app on each worker
 else {
   console.log(`Worker No: ${ cluster.worker.id} with PID: ${process.pid} started a server`);
-  app.listen(config.port);
+
+  //  if not TEST env connect to db
+  if(process.env.NODE_ENV !== 'test') {
+    db.dbconnect(config.db, 3000,cluster.worker.id)
+    .then(()=> {
+      app.listen(config.port);
+      console.log(`Cohab started listening on port ${config.port} in ${config.env.toUpperCase()}`);
+    });
+  }
 }
 
-console.log(`Cohab started listening on port ${config.port} in ${config.env.toUpperCase()}`);
-}
-
-if(process.env.NODE_ENV !== 'test'){
-  console.log(config.db)
- const mng = mongoose.connect(config.db, {useNewUrlParser: true}).catch(e => console.log('mogo FAILED ==>', e));
- mng.then(startServer)
-}
