@@ -9,8 +9,10 @@ pipeline {
     stage('Build') {
       steps {
         sh 'npm install'
-        sh 'echo hollumoii'
         sh 'npm run test'
+        sh 'npm run build'
+        sh 'aws s3 cp dist/index.bundle.js s3://cohab/index.bundle.js'
+        sh 'aws s3 cp dist/reset.bundle.js s3://cohab/reset.bundle.js'
       
       }
     }
