@@ -4,7 +4,7 @@ function Logo(props) {
 
   return ( 
     <div className='logo'>
-    ParentWood
+    ParentWooddddddd
     </div>
     );
 }
