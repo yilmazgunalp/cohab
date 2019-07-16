@@ -1,5 +1,7 @@
 let path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
+const config = require('./frontend/config/config.js');
 
 module.exports = {
     entry:  {
@@ -17,6 +19,13 @@ module.exports = {
           { test: /\.(gif|png|jpe?g|svg)/i, use: [ "file-loader", { loader: "image-webpack-loader"}] }
         ]
     },
+    
+    //PLUGINS
+    plugins: [
+      new webpack.DefinePlugin({
+        __WSS__: config.wss
+      })
+    ],
 
     //DEV-SERVER
     devServer: {

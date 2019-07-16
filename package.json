@@ -4,7 +4,9 @@
     "start": "node  server.js",
     "dev": "webpack-dev-server",
     "webpack": "webpack --watch",
-    "build": "webpack"
+    "build": "webpack --config ./webpack.config.js",
+    "build:dev": "NODE_ENV=development npm run build",
+    "build:prod": "NODE_ENV=production npm run build"
   },
   "dependencies": {
     "@babel/preset-react": "7.0.0",

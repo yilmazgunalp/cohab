@@ -34,7 +34,7 @@ class LoginForm  extends React.Component {
       console.log(data);
     store.dispatch(login(data))
     store.dispatch({type: 'HIDE_MODAL',modal: {show: 0}});
-   const ws = new WS('ws://192.168.99.101:4040', _ => console.log('Can not initialize Websocket connection!!!'));
+   const ws = new WS(__WSS__, _ => console.log('Can not initialize Websocket connection!!!'));
     store.dispatch({type: 'CREATE_SOCKET',socket: ws})
       });
     }})
