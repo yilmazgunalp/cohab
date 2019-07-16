@@ -23,7 +23,7 @@ module.exports = {
     //PLUGINS
     plugins: [
       new webpack.DefinePlugin({
-        __WSS__: config.wss
+        __WSS__: JSON.stringify(config.wss)
       })
     ],
 
