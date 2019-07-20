@@ -1,12 +1,12 @@
 const assert = require('assert');
 const chai = require('chai');
-const User = require('./user');
+const User = require('../../../user/user');
 const mongoose = require('mongoose');
 
 let expect = chai.expect;
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/usertestdb');
+mongoose.connect('mongodb://mongo/usertestdb');
 
 describe('User Model tests',()=>{
 

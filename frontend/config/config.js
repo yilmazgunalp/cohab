@@ -6,7 +6,7 @@ const setupConstants = () => {
       wss = 'ws://13.210.39.214:4040';
       break;
     case 'development': 
-      wss = 'localhost:4040';
+      wss = 'ws://localhost:4040';
       break;
   }
 }

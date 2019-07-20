@@ -1,7 +1,7 @@
 const chai = require('chai');
-const Event = require('./event');
+const Event = require('../../../event/event');
 const mongoose = require('mongoose');
-const config = require('../config/config');
+const config = require('../../../config/config');
 let expect = chai.expect;
 mongoose.Promise = global.Promise;
 
@@ -9,7 +9,7 @@ describe('Event Model tests',()=>{
   let db;
 
   before(async () => {
-    db = await mongoose.createConnection('mongodb://localhost/testdb');
+    db = await mongoose.createConnection('mongodb://mongo/testdb');
   });
     
   afterEach(async () => {
