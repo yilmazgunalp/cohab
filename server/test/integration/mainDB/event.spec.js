@@ -26,7 +26,7 @@ describe('Event Model tests',()=>{
     let event = new Event({ name: 'test event', place: 'my place',
     description: 'A crazy event', startTime: new Date(), endTime: new Date(), placeID: 'somePlaceId'})
     await event.save();
-    expect(event.isNew).to.be.false;
+    expect(event.isNew).to.be.true;
     });
 
     it('validates event name exists  before saving',async()=>{
