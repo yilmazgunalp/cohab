@@ -2,6 +2,7 @@
   "scripts": {
     "test": "mocha --require babel-core/register ./server/**/*.spec.js -t 5000 --exit",
     "test:itg": "mocha --require babel-core/register ./server/test/integration/**/*.spec.js -t 5000 --exit",
+    "test:e2e": "mocha --require babel-core/register ./server/test/e2e/*.spec.js -t 5000 --exit",
     "start": "node  server.js",
     "dev": "NODE_ENV=development webpack-dev-server",
     "webpack": "webpack --watch",

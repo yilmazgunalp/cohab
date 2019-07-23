@@ -2,22 +2,29 @@ const User = require('../user/user');
 const config = require('../config/config');
 const Event = require('../event/event');
 const Conversation = require('../message/message');
+const mongoose = require('mongoose');
 
 let users = [
   {username: 'shelly',email: 'shelly@test.com', active: true},
   {username: 'max',email: 'max@test.com', active: true},
   {username: 'ruby',email: 'ruby@test.com', active: true},
-  {username: 'button',email: 'button@test.com', active: true},
+  {username: 'button',email: 'button@test.com', active: false},
   {username: 'flower',email: 'flower@test.com', active: true},
   {username: 'olaf',email: 'olaf@test.com', active: true},
   {username: 'beatrice',email: 'yyilmazgunalp@gmail.com', active: true},
   {username: 'carmeil',email: 'carmeil@test.com', active: true},
   {username: 'fedji',email: 'fedji@test.com', active: true},
-  {username: 'moonshine',email: 'moonshine@test.com', active: true}
+  {username: 'moonshine',email: 'moonshine@test.com', active: false}
 ]
 const seedusers = async() => {
   await User.remove();
-  return await User.insertMany(users.map(user => new User(user)).map(user => {user.setPassword('123456');return user}));
+  return await User.insertMany(users.map(user => new User(user)).map(user => {
+    user.setPassword('123456')
+    if(user.username === 'button') {
+      user._id = mongoose.Types.ObjectId('buttonidhast');
+      user.activationDigest = 'button_test_digest'
+    }
+  return user}));
 }
 
 const seedevents = async(users) => {
@@ -39,5 +46,5 @@ const seedmessages = async() => {
 seedusers()
 .then(seedevents)
 .then(() => seedmessages())
-.then(()=> console.log('DATABASE IS SEEDED WITH 7 USERS AND 7 EVENTS'))
+.then(()=> console.log(`DATABASE IS SEEDED WITH ${users.length} USERS AND ${users.length} EVENTS`))
 .catch(e => console.log(e));
