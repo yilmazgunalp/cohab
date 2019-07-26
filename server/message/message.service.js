@@ -2,7 +2,11 @@
 const createConversation = (Conversation) => async(message) => {
   let between = setBetweenKey(message.from,message.to);
   let convo = await Conversation.findOne({between})
-return convo ? convo.messages.push(message) : Conversation.create({between,messages: [message]}) 
+  if(convo){
+  convo.messages.push(message) 
+    return convo
+  }
+return Conversation.create({between,messages: [message]}) 
 }
 
 const getConversations = Conversation => (user) => {

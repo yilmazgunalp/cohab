@@ -14,6 +14,7 @@ getAll:        async(req,resp)=> {
 exports.POST = {
 create:        async(req,resp)=> {
                let message = await util.getBody(req).then(formdata => JSON.parse(formdata));
+                console.log( message)
                ConversationService.create(message)
                .then(message => {
                  console.log("message saved succefully",message);

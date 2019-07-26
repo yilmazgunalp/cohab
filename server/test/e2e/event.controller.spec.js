@@ -32,7 +32,7 @@ describe('Event endpoint tests', ()=>{
  context('POST event/delete endpoint test', ()=>{
    it('should return 200 and delete the event',async()=> {
      const event = await agent.get('/event/getAll')
-     .then(resp => resp.body[0])
+     .then(resp => resp.body[10])
      await agent.post('/event/delete').send(event)
      .expect(200)
    })    
