@@ -15,7 +15,7 @@ describe('Message endpoint tests', ()=>{
       let response;
     await agent.post('/message/create')
     .set('Accept', 'application/json')
-    .send(message).chai.expect(200)
+    .send(message).expect(200)
     .then(resp => response = JSON.parse(resp.text))
     chai.expect(response.messages[0].body).to.equal('hello Arlo!!!')
    }) 
@@ -23,7 +23,7 @@ describe('Message endpoint tests', ()=>{
 
  context('GET message/getall endpoint test', ()=>{
    it('should return all messages',async()=> {
-     await agent.post('/user/login').send({username: 'beatrice',password: '123456'}).then(() => agent.get('/message/getAll').chai.expect(200))
+     await agent.post('/user/login').send({username: 'beatrice',password: '123456'}).then(() => agent.get('/message/getAll').expect(200))
      .then(resp => (chai.expect(resp.body.length).to.equal(1)))
    })    
  })
