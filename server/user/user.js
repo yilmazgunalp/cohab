@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
+const config = require('../../config/config');
 
 const UserSchema = new mongoose.Schema({
     username: {type: String,unique: true},
