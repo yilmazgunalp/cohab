@@ -2,5 +2,5 @@
 /dist
 package-lock.json
 /frontend/components/images/
-/server/config/config.js
+/server/config/beta.js
 SETUP.md
