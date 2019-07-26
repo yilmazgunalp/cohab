@@ -1,5 +1,5 @@
 const sinon = require('sinon');
-import {expect} from 'chai';
+const chai = require('chai');
 const config = require('../../config/config');
 
 describe('Message endpoint tests', ()=>{
@@ -15,16 +15,16 @@ describe('Message endpoint tests', ()=>{
       let response;
     await agent.post('/message/create')
     .set('Accept', 'application/json')
-    .send(message).expect(200)
+    .send(message).chai.expect(200)
     .then(resp => response = JSON.parse(resp.text))
-    expect(response.messages[0].body).to.equal('hello Arlo!!!')
+    chai.expect(response.messages[0].body).to.equal('hello Arlo!!!')
    }) 
  })
 
  context('GET message/getall endpoint test', ()=>{
    it('should return all messages',async()=> {
-     await agent.post('/user/login').send({username: 'beatrice',password: '123456'}).then(() => agent.get('/message/getAll').expect(200))
-     .then(resp => (expect(resp.body.length).to.equal(1)))
+     await agent.post('/user/login').send({username: 'beatrice',password: '123456'}).then(() => agent.get('/message/getAll').chai.expect(200))
+     .then(resp => (chai.expect(resp.body.length).to.equal(1)))
    })    
  })
 

@@ -1,5 +1,5 @@
 const sinon = require('sinon');
-import {expect} from 'chai';
+const chai = require('chai');
 const config = require('../../config/config');
 
 
@@ -16,16 +16,16 @@ describe('Event endpoint tests', ()=>{
       let response;
     await agent.post('/event/create')
     .set('Accept', 'application/json')
-    .send(event).expect(200)
+    .send(event).chai.expect(200)
     .then(resp => response = JSON.parse(resp.text))
-    expect(response.description).to.equal('some description')
+    chai.expect(response.description).to.equal('some description')
    }) 
  })
 
  context('GET event/getall endpoint test', ()=>{
    it('should return all events',async()=> {
-     await agent.get('/event/getAll').expect(200)
-     .then(resp => (expect(resp.body.length).to.equal(11)))
+     await agent.get('/event/getAll').chai.expect(200)
+     .then(resp => (chai.expect(resp.body.length).to.equal(11)))
    })    
  })
 
@@ -34,7 +34,7 @@ describe('Event endpoint tests', ()=>{
      const event = await agent.get('/event/getAll')
      .then(resp => resp.body[0])
      await agent.post('/event/delete').send(event)
-     .expect(200)
+     .chai.expect(200)
    })    
  })    
 });
