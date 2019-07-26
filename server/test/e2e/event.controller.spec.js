@@ -2,6 +2,8 @@ const sinon = require('sinon');
 const chai = require('chai');
 const config = require('../../config/config');
 
+console.log( config)
+console.log( process.env)
 
 describe('Event endpoint tests', ()=>{
   let agent;
