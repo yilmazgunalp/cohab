@@ -4,9 +4,10 @@ const config = require('../../config/config');
 
 describe('Message endpoint tests', ()=>{
   let agent;
+  let host = "http://" + process.env.CHB_URL;
 
   before(async()=>{
-    agent = require('supertest').agent(process.env.CHB_URL);
+    agent = require('supertest').agent(host);
     })
 
   context('POST message/create endpoint test', ()=>{

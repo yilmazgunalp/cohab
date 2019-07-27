@@ -31,10 +31,8 @@ const loginUser = async ({req,resp}) => {
   console.log('calling auth.LOGINUSER')
   //get the body of the request and covert it to json
   let userObject = await util.getBody(req).then(formdata => JSON.parse(formdata));
-  console.log( 'userObject',userObject)
   //query database for user
   let user = await User.findOne({username:userObject.username});
-  console.log( 'user',user)
   //create a session for the user if user is found
   // and password is correct and user is activated
   if(user && user.validatePassword(userObject.password) && user.active) {

@@ -8,15 +8,15 @@ let expect = chai.expect;
 describe('User endpoint tests', ()=>{
   let sandbox;
   let agent;
+  let host = "http://" + process.env.CHB_URL;
 
   beforeEach(async()=>{
-    agent = require('supertest').agent(process.env.CHB_URL);
+    agent = require('supertest').agent(host);
     sandbox = sinon;
   })
 
   afterEach(async()=>{
     sinon.restore();
-    agent = null;
   })
 
   
@@ -36,7 +36,7 @@ describe('User endpoint tests', ()=>{
 
  context('GET user/logout endpoint test', ()=>{
    it('should return 200 when a signed-in user logs out \n\tand should expire cookie immediately',async()=> {
-     await agent.post('/user/login').send({username: 'ruby',password: '123456'})
+     await agent.post('/user/login').send({username: 'ruby',password: '123456'}).expect(200)
      .then(()=> agent.get('/user/logout').expect(200))
      .then(resp => expect(resp.headers['set-cookie'][0]).to.match(/Thu, 01 Jan/))
      .then(()=> agent.get('/').expect(200))
@@ -61,7 +61,7 @@ describe('User endpoint tests', ()=>{
 
  context('POST user/signup endpoint test', ()=>{
    let newUser = {username: 'signupuser',email: 'signupuseremail@mail.com',password: 'password'};
-   it.skip('should return 200 and save user to db ',async()=> {
+   it('should return 200 and save user to db ',async()=> {
      await agent.post('/user/signup').send(newUser).expect(200)
    })    
      

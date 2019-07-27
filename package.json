@@ -2,7 +2,7 @@
   "scripts": {
     "test": "mocha --require babel-core/register ./server/**/*.spec.js -t 5000 --exit",
     "test:itg": "mocha --require babel-core/register ./server/test/integration/**/*.spec.js -t 5000 --exit",
-    "test:e2e": "mocha ./server/test/e2e/user*.spec.js -t 5000 --exit",
+    "test:e2e": "mocha ./server/test/e2e/*.spec.js -t 5000 --exit",
     "start": "node  server.js",
     "dev": "NODE_ENV=development webpack-dev-server",
     "webpack": "webpack --watch",
@@ -49,7 +49,7 @@
     "sass-loader": "7.1.0",
     "sinon": "^6.1.5",
     "style-loader": "0.21.0",
-    "supertest": "^3.1.0",
+    "supertest": "^3.4.2",
     "webpack": "3.10.0",
     "webpack-cli": "2.1.5",
     "webpack-dev-server": "2.9.7",
