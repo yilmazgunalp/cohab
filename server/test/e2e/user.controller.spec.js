@@ -16,6 +16,7 @@ describe('User endpoint tests', ()=>{
 
   afterEach(async()=>{
     sinon.restore();
+    agent = null;
   })
 
   

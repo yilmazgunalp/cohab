@@ -7,6 +7,7 @@ const UserService = require('./user.service')(User);
 exports.GET = {
 logout:        (req,resp)=> {
                //get the seesion_id from the req.cookies
+                console.log( 'REQUEST HEADERS',req.headers)
                let session_id = req.headers.cookie ? util.cookiesToJson(req.headers.cookie).session_id : null
                //if session_id exists set expire session
                //else send 409(Conflict) response
