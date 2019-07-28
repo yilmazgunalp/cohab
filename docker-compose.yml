@@ -8,8 +8,6 @@ services:
             - 'web'
     web:
         image: "node"
-        environment:
-          - NODE_ENV
         volumes:
             - ".:/cohab"
         ports:
