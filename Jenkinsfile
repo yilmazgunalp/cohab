@@ -11,7 +11,7 @@ pipeline {
       steps {
         sh 'npm install'
         sh 'npm run test'
-        sh 'npm run build:prod'
+        sh 'npm run build:beta'
       }
     }
     stage('CopyToS3') {

@@ -12,5 +12,7 @@ services:
             - ".:/cohab"
         ports:
             - "3000:3000"
+        environment:
+            - NODE_ENV
         command: "npm start"
         working_dir: /cohab

@@ -2,10 +2,10 @@ let wss;
 
 const setupConstants = () => {
   switch(process.env.NODE_ENV) {
-    case 'production': 
+    case 'beta': 
       wss = 'ws://13.210.39.214:4040';
       break;
-    case 'development': 
+    case 'dev': 
       wss = 'ws://localhost:4040';
       break;
   }
