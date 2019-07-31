@@ -4,7 +4,7 @@
     "test:itg": "mocha --require babel-core/register ./server/test/integration/**/*.spec.js -t 5000 --exit",
     "test:e2e": "mocha ./server/test/e2e/*.spec.js -t 5000 --exit",
     "start": "node  server.js",
-    "dev": "NODE_ENV=development webpack-dev-server",
+    "dev": "NODE_ENV=dev webpack-dev-server",
     "webpack": "webpack --watch",
     "build": "webpack --config ./webpack.config.js",
     "build:dev": "NODE_ENV=dev npm run build",
