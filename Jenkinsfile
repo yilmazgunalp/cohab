@@ -14,7 +14,7 @@ pipeline {
         sh 'npm run build:beta'
       }
     }
-    stage('CopyToS3') {
+    stage('Copy-to-S3') {
       agent any
       steps {
         sh 'aws s3 cp dist/index.bundle.js s3://cohab/index.bundle.js'
