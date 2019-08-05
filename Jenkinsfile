@@ -27,6 +27,7 @@ pipeline {
   }
       
     }
+    }
   environment {
     HOME = '.'
   }
