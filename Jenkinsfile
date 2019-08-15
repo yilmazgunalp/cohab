@@ -19,8 +19,8 @@ pipeline {
             DEPLOY_ENV = 'beta'
             }
         }
-      }
         sh "npm run build:${DEPLOY_ENV}"
+      }
     }
     stage('Copy-to-S3') {
       agent any
