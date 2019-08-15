@@ -13,13 +13,14 @@ pipeline {
         sh 'npm install'
         sh 'npm run test'
         script {
-          if (${branch_name} == 'prod') 
+          if (${branch_name} == 'prod') { 
             DEPLOY_ENV = 'prod'
           } else {
             DEPLOY_ENV = 'beta'
             }
-        sh "npm run build:${DEPLOY_ENV}"
+        }
       }
+        sh "npm run build:${DEPLOY_ENV}"
     }
     stage('Copy-to-S3') {
       agent any
