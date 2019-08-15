@@ -1,3 +1,4 @@
+DEPLOY_ENV = "place_holder"
 pipeline {
   agent none
   stages {
@@ -11,7 +12,13 @@ pipeline {
       steps {
         sh 'npm install'
         sh 'npm run test'
-        sh 'npm run build:beta'
+        script {
+          if (${branch_name} == 'prod') 
+            DEPLOY_ENV = 'prod'
+          } else {
+            DEPLOY_ENV = 'beta'
+            }
+        sh "npm run build:${DEPLOY_ENV}"
       }
     }
     stage('Copy-to-S3') {
