@@ -13,7 +13,7 @@ pipeline {
         sh 'npm install'
         sh 'npm run test'
         script {
-          if (${branch_name} == 'prod') { 
+          if (env.BRANCH_NAME == 'prod') { 
             DEPLOY_ENV = 'prod'
           } else {
             DEPLOY_ENV = 'beta'
