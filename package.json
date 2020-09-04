@@ -45,7 +45,7 @@
     "file-loader": "1.1.11",
     "image-webpack-loader": "4.3.0",
     "mocha": "^5.1.1",
-    "node-sass": "4.9.4",
+    "node-sass": "4.14.1",
     "nodemon": "1.17.3",
     "sass-loader": "7.1.0",
     "sinon": "^6.1.5",
